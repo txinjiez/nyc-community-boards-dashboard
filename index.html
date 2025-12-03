@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Community Boards Research Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --accent-soft: #ff6b6b;
+            --bg: #f8f9fa;
+            --text: #0f3460;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --card-bg: #ffffff;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --civic-blue: #2563eb;
+            --civic-teal: #0891b2;
+            --grid: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .header-subtitle {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.875rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: slideDown 0.6s ease-out 0.1s both;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            animation: slideDown 0.6s ease-out 0.2s both;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: 6px 6px 0 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: var(--bg);
+            color: var(--text);
+            border-bottom-color: var(--bg);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--grid);
+        }
+
+        .card-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--civic-blue) 0%, var(--civic-teal) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.2);
+            animation: slideUp 0.6s ease-out backwards;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* Heatmap */
+        .heatmap {
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: 150px repeat(7, 80px);
+            gap: 2px;
+            font-size: 0.75rem;
+            min-width: 800px;
+        }
+
+        .heatmap-cell {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .heatmap-header {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .heatmap-row-label {
+            background: var(--grid);
+            font-weight: 600;
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        .heatmap-cell.score-high {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            font-weight: 600;
+        }
+
+        .heatmap-cell.score-medium {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            font-weight: 600;
+        }
+
+        .heatmap-cell.score-low {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-weight: 600;
+        }
+
+        .heatmap-cell.score-none {
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+
+        /* CB Explorer */
+        .cb-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .cb-selector select,
+        .cb-selector input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Public Sans', sans-serif;
+            background: white;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .cb-selector select:focus,
+        .cb-selector input:focus {
+            outline: none;
+            border-color: var(--civic-blue);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .cb-profile {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .cb-profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .cb-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3rem;
+            font-weight: 400;
+        }
+
+        .cb-borough {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .score-badges {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .score-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .score-badge-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .score-badge-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cb-about {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.95;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Committee Tags */
+        .committee-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .committee-tag {
+            background: var(--grid);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .committee-tag:hover {
+            background: var(--civic-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* List Styles */
+        .ranked-list {
+            list-style: none;
+        }
+
+        .ranked-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease-out backwards;
+        }
+
+        .ranked-item:hover {
+            background: var(--grid);
+            transform: translateX(5px);
+        }
+
+        .ranked-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--accent);
+            width: 60px;
+            font-weight: 400;
+        }
+
+        .rank-info {
+            flex: 1;
+        }
+
+        .rank-cb {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .rank-borough {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .rank-score {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--civic-blue);
+        }
+
+        /* Topic Clusters */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .topic-card:hover {
+            border-color: var(--civic-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.15);
+        }
+
+        .topic-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            text-transform: capitalize;
+        }
+
+        .topic-count {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .topic-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .keyword-tag {
+            background: var(--grid);
+            color: var(--text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .cb-profile-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .score-badges {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+
+        /* Staggered animation delays */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        .ranked-item:nth-child(1) { animation-delay: 0.1s; }
+        .ranked-item:nth-child(2) { animation-delay: 0.15s; }
+        .ranked-item:nth-child(3) { animation-delay: 0.2s; }
+        .ranked-item:nth-child(4) { animation-delay: 0.25s; }
+        .ranked-item:nth-child(5) { animation-delay: 0.3s; }
+
+        .topic-card:nth-child(1) { animation-delay: 0.1s; }
+        .topic-card:nth-child(2) { animation-delay: 0.15s; }
+        .topic-card:nth-child(3) { animation-delay: 0.2s; }
+        .topic-card:nth-child(4) { animation-delay: 0.25s; }
+        .topic-card:nth-child(5) { animation-delay: 0.3s; }
+        .topic-card:nth-child(6) { animation-delay: 0.35s; }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Footer note */
+        .research-note {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .research-note strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>From Minutes to Metrics</h1>
+            <div class="header-subtitle">NYC Community Boards AI-Driven Analysis Dashboard</div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="showPage('overview')">Citywide Overview</button>
+                <button class="nav-tab" onclick="showPage('explorer')">CB Explorer</button>
+                <button class="nav-tab" onclick="showPage('insights')">AI Insights</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Research Note -->
+        <div class="research-note">
+            <strong>⚠️ Research in Progress:</strong> This dashboard displays placeholder data for visualization purposes. All metrics, scores, and insights shown are simulated examples based on the research methodology outlined in "From Minutes to Metrics: Evaluating New York City's Community Boards through AI-Driven Analysis." Actual data collection and analysis are ongoing.
+        </div>
+
+        <!-- Page 1: Citywide Overview -->
+        <div id="overview" class="page active">
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">59</div>
+                    <div class="stat-label">Community Boards</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">47</div>
+                    <div class="stat-label">With Active Websites</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">284</div>
+                    <div class="stat-label">Total Committees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">62%</div>
+                    <div class="stat-label">Avg Transparency Score</div>
+                </div>
+            </div>
+
+            <!-- Transparency Scorecard -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        ⭐️ Transparency Scorecard
+                        <span class="card-badge">Centerpiece</span>
+                    </div>
+                </div>
+                <div class="heatmap">
+                    <div class="heatmap-grid">
+                        <!-- Headers -->
+                        <div class="heatmap-cell heatmap-header">Community Board</div>
+                        <div class="heatmap-cell heatmap-header">Calendar</div>
+                        <div class="heatmap-cell heatmap-header">Minutes</div>
+                        <div class="heatmap-cell heatmap-header">Agendas</div>
+                        <div class="heatmap-cell heatmap-header">Resolutions</div>
+                        <div class="heatmap-cell heatmap-header">Committees</div>
+                        <div class="heatmap-cell heatmap-header">Contact</div>
+                        <div class="heatmap-cell heatmap-header">Social Media</div>
+                        
+                        <!-- Sample rows (placeholder data) -->
+                        <div class="heatmap-cell heatmap-row-label">Manhattan CB1</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+
+                        <div class="heatmap-cell heatmap-row-label">Manhattan CB2</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+
+                        <div class="heatmap-cell heatmap-row-label">Brooklyn CB1</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-low">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+
+                        <div class="heatmap-cell heatmap-row-label">Queens CB3</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+
+                        <div class="heatmap-cell heatmap-row-label">Bronx CB7</div>
+                        <div class="heatmap-cell score-low">✓</div>
+                        <div class="heatmap-cell score-low">✓</div>
+                        <div class="heatmap-cell score-low">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-low">✓</div>
+                        <div class="heatmap-cell score-none">—</div>
+
+                        <div class="heatmap-cell heatmap-row-label">Staten Island CB2</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                        <div class="heatmap-cell score-high">✓</div>
+                        <div class="heatmap-cell score-medium">✓</div>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #10b981, #059669);"></div>
+                        <span>Complete & Current</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);"></div>
+                        <span>Partial or Outdated</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #dc2626);"></div>
+                        <span>Minimal Content</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f3f4f6;"></div>
+                        <span>Not Available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top/Bottom Performers -->
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🏆 Most Transparent Boards</div>
+                    </div>
+                    <ul class="ranked-list">
+                        <li class="ranked-item">
+                            <div class="rank-number">1</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Manhattan CB1</div>
+                                <div class="rank-borough">Financial District, Battery Park City</div>
+                            </div>
+                            <div class="rank-score">96%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">2</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Brooklyn CB6</div>
+                                <div class="rank-borough">Park Slope, Carroll Gardens</div>
+                            </div>
+                            <div class="rank-score">94%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">3</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Queens CB7</div>
+                                <div class="rank-borough">Flushing, Whitestone</div>
+                            </div>
+                            <div class="rank-score">92%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">4</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Manhattan CB3</div>
+                                <div class="rank-borough">East Village, Lower East Side</div>
+                            </div>
+                            <div class="rank-score">89%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">5</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Brooklyn CB2</div>
+                                <div class="rank-borough">Fort Greene, Brooklyn Heights</div>
+                            </div>
+                            <div class="rank-score">87%</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">📊 Needs Improvement</div>
+                    </div>
+                    <ul class="ranked-list">
+                        <li class="ranked-item">
+                            <div class="rank-number">55</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Bronx CB9</div>
+                                <div class="rank-borough">Parkchester, Castle Hill</div>
+                            </div>
+                            <div class="rank-score">38%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">56</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Queens CB12</div>
+                                <div class="rank-borough">Jamaica, Hollis</div>
+                            </div>
+                            <div class="rank-score">35%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">57</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Brooklyn CB18</div>
+                                <div class="rank-borough">Canarsie, Flatlands</div>
+                            </div>
+                            <div class="rank-score">31%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">58</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Bronx CB12</div>
+                                <div class="rank-borough">Wakefield, Williamsbridge</div>
+                            </div>
+                            <div class="rank-score">28%</div>
+                        </li>
+                        <li class="ranked-item">
+                            <div class="rank-number">59</div>
+                            <div class="rank-info">
+                                <div class="rank-cb">Queens CB10</div>
+                                <div class="rank-borough">Howard Beach, Ozone Park</div>
+                            </div>
+                            <div class="rank-score">24%</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Committee Structure & Accessibility -->
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🏛️ Committee Structure</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="committeeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">♿ Accessibility Index</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="accessibilityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: CB Explorer -->
+        <div id="explorer" class="page">
+            <div class="cb-selector">
+                <select id="cbSelect" onchange="updateCBProfile()">
+                    <option value="">Select a Community Board...</option>
+                    <option value="manhattan-1">Manhattan CB1 - Financial District, Battery Park City</option>
+                    <option value="manhattan-3">Manhattan CB3 - East Village, Lower East Side</option>
+                    <option value="brooklyn-6">Brooklyn CB6 - Park Slope, Carroll Gardens</option>
+                    <option value="queens-7">Queens CB7 - Flushing, Whitestone</option>
+                    <option value="bronx-9">Bronx CB9 - Parkchester, Castle Hill</option>
+                    <option value="staten-island-2">Staten Island CB2 - South Beach, Stapleton</option>
+                </select>
+                <input type="text" placeholder="Search by keyword..." id="cbSearch">
+            </div>
+
+            <div id="cbProfileContainer"></div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">📋 Committees</div>
+                    </div>
+                    <div id="committeeList" class="committee-grid">
+                        <div class="committee-tag">Land Use</div>
+                        <div class="committee-tag">Transportation</div>
+                        <div class="committee-tag">Public Safety</div>
+                        <div class="committee-tag">Youth & Education</div>
+                        <div class="committee-tag">Parks & Recreation</div>
+                        <div class="committee-tag">Housing</div>
+                        <div class="committee-tag">Environmental Protection</div>
+                        <div class="committee-tag">Health & Human Services</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">📊 Key Metrics</div>
+                    </div>
+                    <div id="cbMetrics">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 600; color: var(--text-light); font-size: 0.875rem; margin-bottom: 0.5rem;">MEETING FREQUENCY</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--civic-blue);">Monthly</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 600; color: var(--text-light); font-size: 0.875rem; margin-bottom: 0.5rem;">AVG ATTENDANCE</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--civic-blue);">127 people</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-light); font-size: 0.875rem; margin-bottom: 0.5rem;">RESOLUTIONS (2024)</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--civic-blue);">42</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🌐 Resources</div>
+                    </div>
+                    <div id="cbResources" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <a href="#" style="color: var(--civic-blue); text-decoration: none; font-weight: 500; padding: 0.75rem; background: var(--grid); border-radius: 6px; transition: all 0.3s ease;" onmouseover="this.style.background='var(--civic-blue)'; this.style.color='white';" onmouseout="this.style.background='var(--grid)'; this.style.color='var(--civic-blue)';">🔗 Official Website</a>
+                        <a href="#" style="color: var(--civic-blue); text-decoration: none; font-weight: 500; padding: 0.75rem; background: var(--grid); border-radius: 6px; transition: all 0.3s ease;" onmouseover="this.style.background='var(--civic-blue)'; this.style.color='white';" onmouseout="this.style.background='var(--grid)'; this.style.color='var(--civic-blue)';">📅 Meeting Calendar</a>
+                        <a href="#" style="color: var(--civic-blue); text-decoration: none; font-weight: 500; padding: 0.75rem; background: var(--grid); border-radius: 6px; transition: all 0.3s ease;" onmouseover="this.style.background='var(--civic-blue)'; this.style.color='white';" onmouseout="this.style.background='var(--grid)'; this.style.color='var(--civic-blue)';">📧 Contact Board</a>
+                        <a href="#" style="color: var(--civic-blue); text-decoration: none; font-weight: 500; padding: 0.75rem; background: var(--grid); border-radius: 6px; transition: all 0.3s ease;" onmouseover="this.style.background='var(--civic-blue)'; this.style.color='white';" onmouseout="this.style.background='var(--grid)'; this.style.color='var(--civic-blue)';">🗣️ Public Testimonies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: AI Insights -->
+        <div id="insights" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        🤖 AI-Powered Topic Analysis
+                        <span class="card-badge">LLM-Generated</span>
+                    </div>
+                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--text-light);">
+                    Natural language processing reveals the dominant themes across Community Board discussions, extracted from meeting minutes, resolutions, and public testimony.
+                </p>
+                <div class="topic-grid">
+                    <div class="topic-card">
+                        <div class="topic-name">🏠 Housing & Development</div>
+                        <div class="topic-count">Mentioned in 54 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">affordable housing</span>
+                            <span class="keyword-tag">rezoning</span>
+                            <span class="keyword-tag">rent stabilization</span>
+                            <span class="keyword-tag">development</span>
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-name">🚦 Traffic & Transportation</div>
+                        <div class="topic-count">Mentioned in 48 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">bike lanes</span>
+                            <span class="keyword-tag">pedestrian safety</span>
+                            <span class="keyword-tag">congestion</span>
+                            <span class="keyword-tag">parking</span>
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-name">🏞️ Parks & Recreation</div>
+                        <div class="topic-count">Mentioned in 42 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">park maintenance</span>
+                            <span class="keyword-tag">playgrounds</span>
+                            <span class="keyword-tag">green space</span>
+                            <span class="keyword-tag">community gardens</span>
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-name">🚨 Public Safety</div>
+                        <div class="topic-count">Mentioned in 39 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">crime prevention</span>
+                            <span class="keyword-tag">police relations</span>
+                            <span class="keyword-tag">street lighting</span>
+                            <span class="keyword-tag">911 response</span>
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-name">🎓 Education & Youth</div>
+                        <div class="topic-count">Mentioned in 35 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">school overcrowding</span>
+                            <span class="keyword-tag">after-school programs</span>
+                            <span class="keyword-tag">youth services</span>
+                            <span class="keyword-tag">libraries</span>
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-name">♻️ Environment & Sanitation</div>
+                        <div class="topic-count">Mentioned in 31 CBs</div>
+                        <div class="topic-keywords">
+                            <span class="keyword-tag">composting</span>
+                            <span class="keyword-tag">recycling</span>
+                            <span class="keyword-tag">air quality</span>
+                            <span class="keyword-tag">street cleanliness</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">💬 Discourse Quality Analysis</div>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--text-light);">
+                        Sentiment analysis of meeting transcripts reveals the emotional tone and civility of CB deliberations.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🌍 Language Accessibility</div>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--text-light);">
+                        Multilingual detection shows which CBs provide translated materials and interpretation services.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="languageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🔍 Key Findings & Recommendations</div>
+                </div>
+                <div style="display: grid; gap: 1.5rem;">
+                    <div style="border-left: 4px solid var(--success); padding-left: 1.5rem;">
+                        <h3 style="color: var(--success); margin-bottom: 0.5rem; font-size: 1.1rem;">Transparency Leaders</h3>
+                        <p style="color: var(--text-light);">Manhattan and Brooklyn CBs show the highest transparency scores, with consistent posting of meeting materials and active social media engagement. These boards serve as models for best practices.</p>
+                    </div>
+                    <div style="border-left: 4px solid var(--warning); padding-left: 1.5rem;">
+                        <h3 style="color: var(--warning); margin-bottom: 0.5rem; font-size: 1.1rem;">Resource Disparities</h3>
+                        <p style="color: var(--text-light);">Significant variation in digital capacity correlates with board funding and staff support. Boards in under-resourced districts struggle with website maintenance and document accessibility.</p>
+                    </div>
+                    <div style="border-left: 4px solid var(--civic-blue); padding-left: 1.5rem;">
+                        <h3 style="color: var(--civic-blue); margin-bottom: 0.5rem; font-size: 1.1rem;">Hybrid Meeting Success</h3>
+                        <p style="color: var(--text-light);">Boards that maintained hybrid meeting formats post-pandemic show 23% higher public participation than those that returned fully to in-person meetings.</p>
+                    </div>
+                    <div style="border-left: 4px solid var(--danger); padding-left: 1.5rem;">
+                        <h3 style="color: var(--danger); margin-bottom: 0.5rem; font-size: 1.1rem;">Language Access Gaps</h3>
+                        <p style="color: var(--text-light);">Only 19 of 59 boards provide any translated materials. Given NYC's linguistic diversity, this represents a significant barrier to equitable participation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Set active tab
+            event.target.classList.add('active');
+        }
+
+        // CB Profile Update
+        function updateCBProfile() {
+            const select = document.getElementById('cbSelect');
+            const container = document.getElementById('cbProfileContainer');
+            
+            if (!select.value) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const profiles = {
+                'manhattan-1': {
+                    number: 'CB1',
+                    borough: 'Manhattan',
+                    area: 'Financial District, Battery Park City',
+                    transparency: 96,
+                    accessibility: 92,
+                    about: 'Serving the heart of Lower Manhattan, CB1 has adapted effectively to post-pandemic governance challenges. The board demonstrates exceptional transparency through comprehensive digital records and active community engagement.'
+                },
+                'manhattan-3': {
+                    number: 'CB3',
+                    borough: 'Manhattan',
+                    area: 'East Village, Lower East Side',
+                    transparency: 89,
+                    accessibility: 85,
+                    about: 'CB3 serves one of NYC\'s most diverse and culturally vibrant neighborhoods. The board actively addresses housing affordability, nightlife regulation, and preservation of community character.'
+                },
+                'brooklyn-6': {
+                    number: 'CB6',
+                    borough: 'Brooklyn',
+                    area: 'Park Slope, Carroll Gardens',
+                    transparency: 94,
+                    accessibility: 88,
+                    about: 'Known for high civic engagement, CB6 maintains robust digital infrastructure and consistently posts detailed meeting records. The board prioritizes transportation safety and green space preservation.'
+                },
+                'queens-7': {
+                    number: 'CB7',
+                    borough: 'Queens',
+                    area: 'Flushing, Whitestone',
+                    transparency: 92,
+                    accessibility: 79,
+                    about: 'Serving Queens\' most diverse community district, CB7 has made significant strides in multilingual accessibility. The board actively engages with the area\'s large Asian American population.'
+                },
+                'bronx-9': {
+                    number: 'CB9',
+                    borough: 'Bronx',
+                    area: 'Parkchester, Castle Hill',
+                    transparency: 38,
+                    accessibility: 42,
+                    about: 'CB9 faces resource challenges that impact digital presence. Despite limitations, board members demonstrate commitment to addressing community concerns around safety, transit access, and youth services.'
+                },
+                'staten-island-2': {
+                    number: 'CB2',
+                    borough: 'Staten Island',
+                    area: 'South Beach, Stapleton',
+                    transparency: 78,
+                    accessibility: 71,
+                    about: 'CB2 has modernized its digital outreach in recent years, improving accessibility to meeting materials. The board focuses on coastal resilience, transit connectivity, and local business development.'
+                }
+            };
+
+            const profile = profiles[select.value];
+            
+            container.innerHTML = `
+                <div class="cb-profile">
+                    <div class="cb-profile-header">
+                        <div>
+                            <div class="cb-number">${profile.number}</div>
+                            <div class="cb-borough">${profile.borough} · ${profile.area}</div>
+                        </div>
+                        <div class="score-badges">
+                            <div class="score-badge">
+                                <div class="score-badge-value">${profile.transparency}%</div>
+                                <div class="score-badge-label">Transparency</div>
+                            </div>
+                            <div class="score-badge">
+                                <div class="score-badge-value">${profile.accessibility}%</div>
+                                <div class="score-badge-label">Accessibility</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cb-about">${profile.about}</div>
+                </div>
+            `;
+        }
+
+        // Initialize Charts
+        window.addEventListener('DOMContentLoaded', function() {
+            // Committee Distribution Chart
+            const committeeCtx = document.getElementById('committeeChart').getContext('2d');
+            new Chart(committeeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Land Use', 'Transportation', 'Public Safety', 'Parks', 'Housing', 'Youth & Education', 'Environment', 'Health'],
+                    datasets: [{
+                        label: 'Number of CBs',
+                        data: [58, 52, 47, 45, 43, 38, 35, 31],
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)',
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 60
+                        }
+                    }
+                }
+            });
+
+            // Accessibility Chart
+            const accessCtx = document.getElementById('accessibilityChart').getContext('2d');
+            new Chart(accessCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High Accessibility', 'Medium Accessibility', 'Low Accessibility'],
+                    datasets: [{
+                        data: [23, 28, 8],
+                        backgroundColor: [
+                            'rgba(5, 150, 105, 0.8)',
+                            'rgba(251, 191, 36, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Sentiment Analysis Chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            new Chart(sentimentCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Civility', 'Constructiveness', 'Inclusiveness', 'Responsiveness', 'Engagement'],
+                    datasets: [{
+                        label: 'High Performers',
+                        data: [8.5, 8.2, 7.9, 8.7, 8.4],
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Average',
+                        data: [6.3, 6.8, 5.9, 6.2, 6.5],
+                        backgroundColor: 'rgba(251, 191, 36, 0.2)',
+                        borderColor: 'rgba(251, 191, 36, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            // Language Accessibility Chart
+            const languageCtx = document.getElementById('languageChart').getContext('2d');
+            new Chart(languageCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Spanish', 'Chinese', 'Bengali', 'Korean', 'Russian', 'Arabic', 'Other'],
+                    datasets: [{
+                        label: 'CBs Offering Translation',
+                        data: [19, 12, 7, 6, 5, 4, 8],
+                        backgroundColor: 'rgba(8, 145, 178, 0.8)',
+                        borderColor: 'rgba(8, 145, 178, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 25
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
