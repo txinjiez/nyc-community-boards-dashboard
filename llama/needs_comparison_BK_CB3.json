@@ -1,0 +1,31 @@
+{
+  "community_board": "3",
+  "summary_table": {
+    "FY2024": "The FY2024 document primarily focused on traffic and congestion issues, with repeated mentions of Bed Stuy's notorious traffic problems.",
+    "FY2025": "The FY2025 document built upon the FY2024 narrative by adding more specific requests for infrastructure improvements, such as 'Raymond Bush Lights' and 'Traffic Signals'.",
+    "FY2026": "The FY2026 document continued to emphasize the need for traffic reform, but also highlighted new concerns about pedestrian safety and the importance of redesigning key intersections."
+  },
+  "narrative_comparison": {
+    "policy_changes": "While the policy priorities remained relatively consistent across sections, there was a notable shift towards more specific and targeted requests for infrastructure improvements. This suggests that the community's concerns are becoming more nuanced and detailed over time.",
+    "agency_response_evolution": "The agencies' responses to the community's needs also evolved over the years. In particular, the DOT's response grew more focused on traffic safety and pedestrian concerns, while the NYCTA's response remained relatively consistent in its emphasis on general transportation issues.",
+    "emphasis_shifts": "One notable theme that emerged across the documents is the growing concern about pedestrian safety and accessibility. This issue became increasingly prominent as the years went by, suggesting a recognition of the need to prioritize vulnerable users. Conversely, concerns about traffic congestion and emergency vehicle access remained relatively stable over time.",
+    "structural_changes": "The format and structure of the sections remained largely consistent across the three years, with each document organized into a similar pattern of agency requests and community concerns."
+  },
+  "notable_quotes": [
+    {
+      "year": "FY2024",
+      "quote": "\"Bed Stuy often interrupting emergency vehicles and public transportation at Bedford and Dekalb.\"", 
+      "significance": "This quote highlights the persistent traffic problems in Bed Stuy and sets a tone for the community's concerns throughout the FY2024 document."
+    },
+    {
+      "year": "FY2025",
+      "quote": "\"Congestion continues to be a traffic issue that hinders the movement of traffic through Bed Stuy often interrupting emergency vehicles and public transportation at Tompkins and Myrtle.\"", 
+      "significance": "This quote demonstrates how the community's concerns about traffic congestion have become more specific and detailed over time, reflecting a growing recognition of the need for targeted solutions."
+    },
+    {
+      "year": "FY2026",
+      "quote": "\"Congestion continues to be a traffic issue that hinders the movement of traffic through Bed Stuy often interrupting emergency vehicles and public transportation at Tompkins & Myrtle Avenue.\"", 
+      "significance": "This quote represents the current state of the community's concerns, highlighting the ongoing need for traffic reform and pedestrian safety measures."
+    }
+  ],
+  "final_interpretation": "The most significant story of change from FY2024 to FY2026 is the growing recognition of the need for targeted solutions to address Bed Stuy's notorious traffic problems. While policy priorities have remained relatively consistent, the community's concerns have become more nuanced and detailed over time, reflecting a deeper understanding of the complex issues at play."

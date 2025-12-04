@@ -1,0 +1,195 @@
+{
+  "CB1": {
+    "cb_number": 1,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Began as a general need and evolved into detailed anti-displacement strategies with data citations."
+      },
+      {
+        "name": "Parks/Open Space",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Consistently emphasized with increasing specificity in maintenance and staffing needs."
+      },
+      {
+        "name": "Transportation & Mobility",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Expanded from traffic concerns to include specific programmatic asks like Vision Zero and transit improvements."
+      },
+      {
+        "name": "Data Transparency",
+        "fy2024": 0,
+        "fy2025": 1,
+        "fy2026": 5,
+        "evolution_note": "Introduced as a new focus in FY2026 with structured recommendations for agency reporting and accountability."
+      }
+    ]
+  },
+  "CB2": {
+    "cb_number": 2,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "Initially highlighted as a top citywide priority in FY2024, it is not explicitly repeated in later years, reflecting a shift to local engagement focus."
+      },
+      {
+        "name": "Public Safety",
+        "fy2024": 3,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "Public safety was a key citywide priority in FY2024 but was not explicitly emphasized in subsequent years, indicating a move towards procedural and local data focus."
+      },
+      {
+        "name": "Public Engagement",
+        "fy2024": 2,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Grew from procedural mentions in FY2024 to a structured, institutionalized process with annual surveys and public meetings by FY2026."
+      },
+      {
+        "name": "Agency Transparency",
+        "fy2024": 4,
+        "fy2025": 2,
+        "fy2026": 2,
+        "evolution_note": "Started with strong agency-response framing in FY2024, but shifted to a more neutral, administrative tone in FY2025 and FY2026."
+      },
+      {
+        "name": "Local Economic Disparity",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Became more prominent with specific data examples in FY2025 and FY2026, highlighting local income contrasts and economic conditions."
+      }
+    ]
+  },
+  "CB3": {
+    "cb_number": 3,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Consistently emphasized as a top priority, with a shift from process transparency to addressing housing affordability and gentrification impacts."
+      },
+      {
+        "name": "Public Safety",
+        "fy2024": 3,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "Initially focused on crime and safety as priorities, later evolving to include broader violence reduction and conflict resolution services."
+      },
+      {
+        "name": "Health Access",
+        "fy2024": 1,
+        "fy2025": 4,
+        "fy2026": 3,
+        "evolution_note": "Shifted from a basic mention to a strong focus on pandemic recovery and then to broader mental health and social service needs."
+      },
+      {
+        "name": "Social Services",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 5,
+        "evolution_note": "Grew from minimal mention to detailed demands for mental health, domestic violence prevention, and elder/youth services."
+      },
+      {
+        "name": "Demographic Changes",
+        "fy2024": 2,
+        "fy2025": 2,
+        "fy2026": 2,
+        "evolution_note": "Consistently highlighted through updated Census data to illustrate gentrification and population shifts."
+      }
+    ]
+  },
+  "CB4": {
+    "cb_number": 4,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Affordable housing remained a constant priority across all years, consistently highlighted as a pressing issue."
+      },
+      {
+        "name": "Migrant Crisis",
+        "fy2024": 0,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "The migrant crisis emerged as a significant concern in FY2025 and remained a priority in FY2026, impacting local services and quality of life."
+      },
+      {
+        "name": "Climate/Flooding",
+        "fy2024": 0,
+        "fy2025": 2,
+        "fy2026": 2,
+        "evolution_note": "Climate-related flooding concerns appeared in FY2025 and continued into FY2026, highlighting environmental challenges."
+      },
+      {
+        "name": "Agency Engagement",
+        "fy2024": 3,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "Agency engagement started with a focus on transparency in FY2024, faced criticism in FY2025, and improved by FY2026."
+      },
+      {
+        "name": "Process Transparency",
+        "fy2024": 3,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "Initially a major focus in FY2024, process transparency became less emphasized in subsequent years as operational issues took precedence."
+      }
+    ]
+  },
+  "CB5": {
+    "cb_number": 5,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Evolved from citywide issue identification to detailed project-level implementation with specific developments named."
+      },
+      {
+        "name": "Economic Development",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Shifted from general mentions of retail expansion to formalized industrial-business-zone strategies and workforce development."
+      },
+      {
+        "name": "Agency Engagement",
+        "fy2024": 4,
+        "fy2025": 3,
+        "fy2026": 1,
+        "evolution_note": "Moved from a collaborative, transparent engagement with named agency voices to a more procedural and neutral tone."
+      },
+      {
+        "name": "Community Partnerships",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Consistently highlighted, with a focus on local project accomplishments and stakeholder involvement."
+      },
+      {
+        "name": "Capital Investments",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Progressed from general mentions to specific large-scale projects and infrastructure developments."
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "community_board": 2,
+  "summary_table": {
+    "FY2024": "The FY2024 document shows a steady state with an increase in new requests, while maintaining consistency in existing ones.",
+    "FY2025": "In contrast to 2024, the FY2025 document has fewer requests and less detail on specific priorities.",
+    "FY2026": "Lastly, the FY2026 document returns to the format of previous years with a focus on reducing rats, enhancing after-school programs, and increasing retail theft enforcement."
+  },
+  "narrative_comparison": {
+    "policy_changes": "While the policy priorities have shown some variation from year to year, overall there has been no dramatic shift in emphasis. However, new requests were added for increasing retail theft enforcement in 2022 and 2023, which was not continued in 2024.",
+    "agency_response_evolution": "The agencies' responses to these priorities have also evolved. DOHMH has consistently focused on reducing rats, while DYCD has emphasized the need for after-school programs. NYPD has shown a growing focus on retail theft enforcement and community outreach. SBS continues to prioritize workforce development and occupational skills training.",
+    "emphasis_shifts": "Across the documents, there was a slight decrease in requests related to social workers, ESOL programs, and library hours at BPL from 2022 to 2024, suggesting a relative decline in these priorities. In contrast, new requests for increasing retail theft enforcement were added in 2022 and 2023 but not continued in 2024.",
+    "structural_changes": "The format of the documents has remained consistent across all three years, with each section following a similar structure."
+  },
+  "notable_quotes": [
+    {
+      "year": "FY2024",
+      "quote": "Reduce rats",
+      "significance": "This is a consistent priority for DOHMH across all three years"
+    },
+    {
+      "year": "FY2025",
+      "quote": "",
+      "significance": ""
+    },
+    {
+      "year": "FY2026",
+      "quote": "",
+      "significance": ""
+    }
+  ],
+  "final_interpretation": "The FY2024 to FY2026 comparison shows a continued focus on reducing rats and enhancing after-school programs, but with some variation in priorities. The lack of continuation from 2022-2023 for retail theft enforcement suggests a decrease in this priority."

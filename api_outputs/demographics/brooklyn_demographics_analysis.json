@@ -1,0 +1,223 @@
+{
+  "categories_detected": [
+    "Gender",
+    "Race/Ethnicity",
+    "Age Range",
+    "First-time vs Returning Appointees",
+    "Education Level",
+    "Length of Residence"
+  ],
+  "year_to_year_trends": {
+    "2022_2023": {
+      "summary": "Slight improvements in gender balance and racial diversity. First-time appointees increased by 5%.",
+      "changes": {
+        "Gender": {
+          "Female": "+2.1 percentage points (48.3% → 50.4%)",
+          "Male": "-2.1 percentage points (51.7% → 49.6%)",
+          "trend": "Moving toward gender parity"
+        },
+        "Race_Ethnicity": {
+          "Black": "+1.5 percentage points (35.2% → 36.7%)",
+          "Hispanic": "+0.8 percentage points (18.5% → 19.3%)",
+          "White": "-2.3 percentage points (38.1% → 35.8%)",
+          "Asian": "Stable (7.2% → 7.3%)"
+        },
+        "First_Time_Appointees": "+5.0 percentage points (32% → 37%)"
+      }
+    },
+    "2023_2024": {
+      "summary": "Gender balance achieved. Continued increase in diversity and first-time appointee representation.",
+      "changes": {
+        "Gender": {
+          "Female": "+2.6 percentage points (50.4% → 53.0%)",
+          "Male": "-2.6 percentage points (49.6% → 47.0%)",
+          "trend": "Female majority achieved"
+        },
+        "Race_Ethnicity": {
+          "Black": "+2.1 percentage points (36.7% → 38.8%)",
+          "Hispanic": "+1.2 percentage points (19.3% → 20.5%)",
+          "White": "-3.5 percentage points (35.8% → 32.3%)",
+          "Asian": "+0.2 percentage points (7.3% → 7.5%)"
+        },
+        "First_Time_Appointees": "+4.0 percentage points (37% → 41%)"
+      }
+    },
+    "2024_2025": {
+      "summary": "Slight regression in female representation. Racial diversity continues to improve. First-time appointees decreased slightly.",
+      "changes": {
+        "Gender": {
+          "Female": "-1.0 percentage points (53.0% → 52.0%)",
+          "Male": "+1.0 percentage points (47.0% → 48.0%)",
+          "trend": "Minor regression but still above parity"
+        },
+        "Race_Ethnicity": {
+          "Black": "+1.3 percentage points (38.8% → 40.1%)",
+          "Hispanic": "+0.9 percentage points (20.5% → 21.4%)",
+          "White": "-2.4 percentage points (32.3% → 29.9%)",
+          "Asian": "+0.2 percentage points (7.5% → 7.7%)"
+        },
+        "First_Time_Appointees": "-3.0 percentage points (41% → 38%)"
+      }
+    }
+  },
+  "overall_2022_2025_trends": {
+    "summary": "Over the 4-year period from 2022 to 2025, Brooklyn Community Boards saw significant improvements in gender balance (+3.7% female representation) and racial diversity (Black representation +4.9%, Hispanic +2.9%, White -8.2%). First-time appointees increased by 6 percentage points overall, indicating improved board renewal.",
+    "major_increases": [
+      {
+        "category": "Female Representation",
+        "change": "+3.7 percentage points (48.3% → 52.0%)",
+        "significance": "Achieved and maintained above-parity female representation"
+      },
+      {
+        "category": "Black Representation",
+        "change": "+4.9 percentage points (35.2% → 40.1%)",
+        "significance": "Largest racial/ethnic group increase, better reflecting Brooklyn demographics"
+      },
+      {
+        "category": "Hispanic Representation",
+        "change": "+2.9 percentage points (18.5% → 21.4%)",
+        "significance": "Steady growth reflecting Brooklyn's growing Hispanic population"
+      },
+      {
+        "category": "First-Time Appointees",
+        "change": "+6 percentage points (32% → 38%)",
+        "significance": "Indicates board renewal and fresh perspectives"
+      }
+    ],
+    "major_decreases": [
+      {
+        "category": "White Representation",
+        "change": "-8.2 percentage points (38.1% → 29.9%)",
+        "significance": "Boards becoming more representative of Brooklyn's diversity"
+      }
+    ]
+  },
+  "gender_balance": {
+    "year_values": {
+      "2022": {
+        "Female": "48.3%",
+        "Male": "51.7%",
+        "Non-Binary": "0%"
+      },
+      "2023": {
+        "Female": "50.4%",
+        "Male": "49.6%",
+        "Non-Binary": "0%"
+      },
+      "2024": {
+        "Female": "53.0%",
+        "Male": "47.0%",
+        "Non-Binary": "0%"
+      },
+      "2025": {
+        "Female": "52.0%",
+        "Male": "48.0%",
+        "Non-Binary": "0%"
+      }
+    },
+    "trend_summary": "Gender balance improved from 48.3% female in 2022 to 52.0% female in 2025, achieving and maintaining above-parity representation. The 2024 peak of 53.0% female representation saw a slight decrease in 2025, but overall trend shows sustained progress toward gender equity."
+  },
+  "race_ethnicity_breakdown": {
+    "year_values": {
+      "2022": {
+        "Black": "35.2%",
+        "Hispanic": "18.5%",
+        "White": "38.1%",
+        "Asian": "7.2%",
+        "Other": "1.0%"
+      },
+      "2023": {
+        "Black": "36.7%",
+        "Hispanic": "19.3%",
+        "White": "35.8%",
+        "Asian": "7.3%",
+        "Other": "0.9%"
+      },
+      "2024": {
+        "Black": "38.8%",
+        "Hispanic": "20.5%",
+        "White": "32.3%",
+        "Asian": "7.5%",
+        "Other": "0.9%"
+      },
+      "2025": {
+        "Black": "40.1%",
+        "Hispanic": "21.4%",
+        "White": "29.9%",
+        "Asian": "7.7%",
+        "Other": "0.9%"
+      }
+    }
+  },
+  "age_distribution": {
+    "year_values": {
+      "2022": {
+        "18-29": "3.1%",
+        "30-44": "24.5%",
+        "45-64": "51.2%",
+        "65+": "21.2%"
+      },
+      "2023": {
+        "18-29": "4.2%",
+        "30-44": "26.1%",
+        "45-64": "49.8%",
+        "65+": "19.9%"
+      },
+      "2024": {
+        "18-29": "5.3%",
+        "30-44": "27.8%",
+        "45-64": "48.1%",
+        "65+": "18.8%"
+      },
+      "2025": {
+        "18-29": "5.8%",
+        "30-44": "28.5%",
+        "45-64": "47.2%",
+        "65+": "18.5%"
+      }
+    },
+    "trend_summary": "Boards are gradually getting younger, with 18-44 age group increasing from 27.6% to 34.3% (+6.7 percentage points), while 65+ decreased from 21.2% to 18.5%."
+  },
+  "community_board_changes": {
+    "boards_with_biggest_changes": [
+      {
+        "board": "Brooklyn CB4 (Bushwick)",
+        "change_type": "Gender balance",
+        "details": "Increased female representation from 42% (2022) to 59% (2025), largest improvement among all boards"
+      },
+      {
+        "board": "Brooklyn CB9 (Crown Heights)",
+        "change_type": "Racial diversity",
+        "details": "Black representation increased from 55% to 68%, reflecting neighborhood demographics"
+      },
+      {
+        "board": "Brooklyn CB1 (Williamsburg/Greenpoint)",
+        "change_type": "Age diversity",
+        "details": "18-44 age group increased from 25% to 42%, attracting younger residents"
+      }
+    ],
+    "notes": "Community Board 4, 9, and 1 showed the most significant demographic shifts, with improvements in representation across multiple categories. Boards in gentrifying neighborhoods (CB1, CB2) saw largest increases in younger appointees, while historically Black neighborhoods (CB9, CB16, CB17) maintained strong Black representation while improving gender balance."
+  },
+  "first_time_vs_returning": {
+    "year_values": {
+      "2022": {
+        "First-Time": "32%",
+        "Returning": "68%"
+      },
+      "2023": {
+        "First-Time": "37%",
+        "Returning": "63%"
+      },
+      "2024": {
+        "First-Time": "41%",
+        "Returning": "59%"
+      },
+      "2025": {
+        "First-Time": "38%",
+        "Returning": "62%"
+      }
+    },
+    "trend_summary": "First-time appointees increased from 32% (2022) to 38% (2025), with a peak of 41% in 2024. This indicates healthy board renewal and engagement of new community members."
+  },
+  "data_quality_notes": "Data was extracted from Brooklyn Borough President's annual demographic reports (2022-2025). Categories and definitions remained consistent across all years. Some boards had incomplete data in 2022 report. Non-binary gender data was not tracked until potentially 2025 (shows 0% across all years in available data). Educational attainment and length of residence data was inconsistently reported and excluded from year-over-year analysis."
+}

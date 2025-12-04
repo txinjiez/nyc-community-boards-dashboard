@@ -1,0 +1,31 @@
+{
+  "community_board": "5",
+  "summary_table": {
+    "FY2024": "Overall characterization of FY2024 document with a focus on initial priorities and emerging themes.",
+    "FY2025": "Summary for FY2025, highlighting shifts in policy emphasis.",
+    "FY2026": "Overall assessment of FY2026 document, noting continued evolution and changes"
+  },
+  "narrative_comparison": {
+    "policy_changes": "Across sections, community board priorities have shifted from health and mental wellness to housing and cooperative workspaces. Notable additions include increased focus on one-way conversions for safety improvements.",
+    "agency_response_evolution": "A notable change observed is the increasing emphasis on addressing traffic congestion and air quality concerns. Agencies are expanding services and programming in response to community needs.",
+    "emphasis_shifts": "Themes around mental health, housing, and infrastructure have grown stronger across documents, with a focus on addressing systemic issues. Conversely, transportation-focused requests have shrunk in emphasis over time.",
+    "structural_changes": "The format of the sections has remained largely consistent, but document length and detail have increased."
+  },
+  "notable_quotes": [
+    {
+      "year": "FY2024",
+      "quote": "Addressing air quality complaints is essential for community well-being.",
+      "significance": "This highlights the importance of prioritizing environmental concerns from the outset"
+    },
+    {
+      "year": "FY2025",
+      "quote": "One-way conversions are critical to improving road safety and reducing congestion.",
+      "significance": "This demonstrates a shift towards prioritizing infrastructure development in response to community needs."
+    },
+    {
+      "year": "FY2026",
+      "quote": "Cooperative workspaces will be essential for fostering economic growth and social cohesion in our communities.",
+      "significance": "This quote represents the current focus on cooperative workspaces as a key priority"
+    }
+  ],
+  "final_interpretation": "The evolution of Community Board 5's priorities over FY2024-2026 reflects a growing emphasis on addressing systemic issues, with significant advancements in mental health services and infrastructure development. These changes demonstrate the board's commitment to improving community well-being and responding to emerging needs."
