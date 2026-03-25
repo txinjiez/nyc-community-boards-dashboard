@@ -861,11 +861,11 @@
                     <div style="margin-top: 1rem;">
                         <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
                         <select id="boroughSelect" onchange="updateTransparencyScorecard()" style="padding: 0.5rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
-                            <option value="brooklyn">Brooklyn (Current Data)</option>
-                            <option value="manhattan">Manhattan (Coming Soon)</option>
-                            <option value="queens">Queens (Coming Soon)</option>
-                            <option value="bronx">Bronx (Coming Soon)</option>
-                            <option value="staten-island">Staten Island (Coming Soon)</option>
+                            <option value="brooklyn">Brooklyn</option>
+                            <option value="manhattan">Manhattan</option>
+                            <option value="queens">Queens</option>
+                            <option value="bronx">Bronx</option>
+                            <option value="staten_island">Staten Island</option>
                         </select>
                     </div>
                 </div>
@@ -1167,19 +1167,18 @@
                 <div class="legend">
                     <div class="legend-item">
                         <div class="legend-color" style="background: var(--success);"></div>
-                        <span>Complete & Current</span>
+                        <span>✓ Present on site</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: var(--warning);"></div>
-                        <span>Partial or Outdated</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: var(--danger);"></div>
-                        <span>Minimal Content</span>
+                        <span>~ Exists but not linked on site <em>(social media only)</em></span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: var(--grid);"></div>
-                        <span>Not Available</span>
+                        <span>— Not found</span>
+                    </div>
+                    <div class="legend-item" style="margin-left: 1.5rem; opacity: 0.8;">
+                        <span style="font-size: 0.85rem; color: var(--text-light);">★ on green/orange = confirmed active in past year</span>
                     </div>
                 </div>
             </div>
@@ -1596,14 +1595,7 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
         function updateTransparencyScorecard() {
             const select = document.getElementById('boroughSelect');
             const borough = select.value;
-
-            if (borough !== 'brooklyn') {
-                // Show message for other boroughs
-                const boroughName = select.options[select.selectedIndex].text;
-                alert('Data for ' + boroughName + ' is coming soon! Currently only Brooklyn data is available.');
-                select.value = 'brooklyn'; // Reset to Brooklyn
-            }
-            // Brooklyn is currently displayed, no action needed
+            loadTransparencyData(borough);
         }
 
         // Demographics Report Functions
@@ -1990,21 +1982,21 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
             { key: 'Agendas', label: 'Agendas' },
             { key: 'Resolutions', label: 'Resolutions' },
             { key: 'Contact', label: 'Contact' },
-            { key: 'Instagram', label: 'Instagram' },
-            { key: 'X', label: 'X' },
-            { key: 'Facebook', label: 'Facebook' },
-            { key: 'Youtube', label: 'Youtube' },
+            { key: 'Instagram', label: 'Instagram', social: true },
+            { key: 'X', label: 'X', social: true },
+            { key: 'Facebook', label: 'Facebook', social: true },
+            { key: 'Youtube', label: 'Youtube', social: true },
             { key: 'Newsletters', label: 'Newsletters' },
             { key: 'By-Laws', label: 'By-Laws' },
             {
                 key: 'NewsEvents',
                 label: 'News/Events',
-                resolver: (f) => Boolean(f['News'] || f['Events'])
+                resolver: (f) => f['News'] || f['Events'] || null
             },
             { key: 'Permits and Licenses', label: 'Permits & Licenses' }
         ];
 
-        function renderTransparencyGrid(results) {
+        function renderTransparencyGrid(results, boroughDisplay) {
             const grid = document.getElementById('transparencyGrid');
             if (!grid) return;
 
@@ -2022,10 +2014,11 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
                 .sort((a, b) => Number(a.cb_number) - Number(b.cb_number))
                 .map(row => {
                     const features = row.features || {};
+                    const cbLabel = `${boroughDisplay} CB${row.cb_number}`;
                     const rowLabel = `
                         <div class="heatmap-cell heatmap-row-label">
-                            <a href="${row.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">
-                                Brooklyn CB${row.cb_number}
+                            <a href="${row.url}" target="_blank" rel="noopener" title="Click to open ${cbLabel} website" style="color: inherit; text-decoration: underline;">
+                                ${cbLabel}
                             </a>
                             ${row.status !== 'ok' ? ' ⚠️' : ''}
                         </div>
@@ -2036,10 +2029,35 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
                             const title = row.error ? row.error : 'Unable to fetch site';
                             return `<div class="heatmap-cell score-low" title="${title}">!</div>`;
                         }
-                        const present = col.resolver ? col.resolver(features) : Boolean(features[col.key]);
-                        const cls = present ? 'score-high' : 'score-none';
-                        const value = present ? '✓' : '—';
-                        return `<div class="heatmap-cell ${cls}" title="${col.label}">${value}</div>`;
+
+                        // Social media: value is {url, on_site, active} or null
+                        if (col.social) {
+                            const social = features[col.key];
+                            if (!social || !social.url) {
+                                return `<div class="heatmap-cell score-none" title="No ${col.label} found for ${cbLabel}">—</div>`;
+                            }
+                            const activeMarker = social.active === true ? ' ★' : '';
+                            if (social.on_site) {
+                                const tip = `Click to open ${cbLabel} ${col.label}${social.active === true ? ' (active in past year)' : ''}`;
+                                return `<div class="heatmap-cell score-high" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓${activeMarker}</a></div>`;
+                            } else {
+                                const tip = `Click to open ${cbLabel} ${col.label} — exists but not linked on their website${social.active === true ? ' (active in past year)' : ''}`;
+                                return `<div class="heatmap-cell score-medium" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">~${activeMarker}</a></div>`;
+                            }
+                        }
+
+                        // Non-social: value is a URL string (present+linkable), or null (absent)
+                        const val = col.resolver ? col.resolver(features) : features[col.key];
+                        const pageUrl = typeof val === 'string' ? val : null;
+                        const present = Boolean(val);
+                        if (!present) {
+                            return `<div class="heatmap-cell score-none" title="No ${col.label} found for ${cbLabel}">—</div>`;
+                        }
+                        if (pageUrl) {
+                            const tip = `Click to view ${col.label} for ${cbLabel}`;
+                            return `<div class="heatmap-cell score-high" title="${tip}"><a href="${pageUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓</a></div>`;
+                        }
+                        return `<div class="heatmap-cell score-high" title="${col.label}">✓</div>`;
                     });
 
                     return rowLabel + cells.join('');
@@ -2048,11 +2066,29 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
             grid.innerHTML = headerCells.join('') + rows.join('');
         }
 
-        async function loadTransparencyData() {
+        const BOROUGH_DISPLAY_NAMES = {
+            'brooklyn': 'Brooklyn',
+            'manhattan': 'Manhattan',
+            'queens': 'Queens',
+            'bronx': 'Bronx',
+            'staten_island': 'Staten Island',
+        };
+        const BOROUGH_JSON_FILES = {
+            'brooklyn': 'api_outputs/cb_site_audit.json',
+            'manhattan': 'api_outputs/cb_site_audit_manhattan.json',
+            'queens': 'api_outputs/cb_site_audit_queens.json',
+            'bronx': 'api_outputs/cb_site_audit_bronx.json',
+            'staten_island': 'api_outputs/cb_site_audit_staten_island.json',
+        };
+
+        async function loadTransparencyData(borough) {
+            borough = borough || 'brooklyn';
+            const jsonFile = BOROUGH_JSON_FILES[borough] || BOROUGH_JSON_FILES['brooklyn'];
+            const displayName = BOROUGH_DISPLAY_NAMES[borough] || 'Brooklyn';
             try {
-                const resp = await fetch('api_outputs/cb_site_audit.json');
+                const resp = await fetch(jsonFile);
                 const data = await resp.json();
-                renderTransparencyGrid(data.results || []);
+                renderTransparencyGrid(data.results || [], displayName);
             } catch (err) {
                 console.error('Failed to load transparency data', err);
             }
@@ -2146,7 +2182,7 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
 
         // Initialize Charts
         window.addEventListener('DOMContentLoaded', function() {
-            loadTransparencyData();
+            loadTransparencyData('brooklyn');
 
             // Committee Distribution Chart
             const committeeCtx = document.getElementById('committeeChart').getContext('2d');

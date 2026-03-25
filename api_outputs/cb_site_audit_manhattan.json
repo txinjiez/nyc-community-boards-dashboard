@@ -1,0 +1,402 @@
+{
+  "borough": "manhattan",
+  "display": "Manhattan",
+  "results": [
+    {
+      "cb_number": "1",
+      "url": "https://manhattancb1.cityofnewyork.us/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://manhattancb1.cityofnewyork.us/meetings/calendar/",
+        "Minutes": "https://manhattancb1.cityofnewyork.us/meetings/",
+        "Agendas": "https://manhattancb1.cityofnewyork.us/meetings/calendar/",
+        "Resolutions": "https://manhattancb1.cityofnewyork.us/board-actions/resolutions/",
+        "Contact": "https://www1.nyc.gov/home/contact-us.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": "https://manhattancb1.cityofnewyork.us/board-actions/liquor-licenses/",
+        "Facebook": {
+          "url": "https://www.facebook.com/ManhattanCommunityBoard1/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/manhattancb1/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCem-EVlcjv8dPUETrVMt2yQ",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    },
+    {
+      "cb_number": "2",
+      "url": "https://cbmanhattan.cityofnewyork.us/cb2/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbmanhattan.cityofnewyork.us/cb2/events/month/",
+        "Minutes": "https://cbmanhattan.cityofnewyork.us/cb2/minutes/",
+        "Agendas": null,
+        "Resolutions": "https://cbmanhattan.cityofnewyork.us/cb2/minutes/",
+        "Contact": "https://cbmanhattan.cityofnewyork.us/cb2/contact/",
+        "Newsletters": "https://cbmanhattan.cityofnewyork.us/cb2/items-of-interest-from-the-september-5-2025-eblast/",
+        "By-Laws": null,
+        "News": "https://cbmanhattan.cityofnewyork.us/cb2/bulletin-board/news/",
+        "Events": "https://www1.nyc.gov/events/index.html",
+        "Permits and Licenses": "https://sla.ny.gov/public-license-query",
+        "Facebook": {
+          "url": "https://www.facebook.com/CB2Manhattan",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/mancb2/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UC3kEY0n-RPRYE6rOlfstFDQ",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/CB2_Manhattan",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "3",
+      "url": "https://www.nyc.gov/site/manhattancb3/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/manhattancb3/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/manhattancb3/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/manhattancb3/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/manhattancb3/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/manhattancb3/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/manhattancb3/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": null,
+        "X": {
+          "url": "https://www.twitter.com/ManhattanCB3/",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "4",
+      "url": "https://cbmanhattan.cityofnewyork.us/cb4/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbmanhattan.cityofnewyork.us/cb4/calendar/",
+        "Minutes": null,
+        "Agendas": "https://www.dropbox.com/sh/zxhfq6flo8kjye5/AACQYyfqlZ0hoNwi9Y4z2dRxa?dl=0",
+        "Resolutions": "https://cbmanhattan.cityofnewyork.us/cb4/cb4/archives/",
+        "Contact": "https://cbmanhattan.cityofnewyork.us/cb4/contact/",
+        "Newsletters": "http://oi.vresp.com/?fid=4a6baae8ff",
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/manhattancb4/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/manhattancb4/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCVuHwITcFASNggyVX847NNg",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    },
+    {
+      "cb_number": "5",
+      "url": "http://www.cb5.org",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cb5.org/events/",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": "https://cb5.org/cb5-resolutions-related-to-penn-station/",
+        "Contact": "https://cb5.org/contact-us/",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": "https://cb5.org/state-licenses-and-permits/",
+        "Facebook": {
+          "url": "https://www.facebook.com/ManhattanCommunityBoard5/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/mancb5/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/@manhattancommunityboardfiv1421/streams",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/ManhattanCB5",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "6",
+      "url": "http://cbsix.org",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbsix.org/meetings-calendar/",
+        "Minutes": "https://airtable.com/shrBzfHDWat4YMTHL/tblpioBcj0BVp5hBw",
+        "Agendas": null,
+        "Resolutions": "https://airtable.com/appgK5bKw7rWMRJEh/shrWAftbFbdof6dxZ",
+        "Contact": "https://cbsix.org/get-help/",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": "https://cbsix.org/resources/newsstand-license-applicants/",
+        "Events": "https://cbsix.org/community-events/",
+        "Permits and Licenses": "https://cbsix.org/resources/liquor-licenses/",
+        "Facebook": {
+          "url": "https://www.facebook.com/manhattancommunityboard6/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/manhattancb6/?hl=en",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCVn0y_oPVdX0vvRFl70YAig/videos",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/cbsix?ref_src=twsrc%5Etfw",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "7",
+      "url": "https://www.nyc.gov/site/manhattancb7/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/manhattancb7/meetings/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/manhattancb7/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/manhattancb7/meetings/agendas.page",
+        "Resolutions": "https://www.nyc.gov/site/manhattancb7/meetings/resolutions.page",
+        "Contact": "https://www.nyc.gov/site/manhattancb7/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/manhattancb7/about/bylaws.page",
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/MCB7NYC/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/mcb7nyc/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": {
+          "url": "https://x.com/mcb7nyc",
+          "on_site": false,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "8",
+      "url": "http://www.cb8m.com/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.cb8m.com/calendar/",
+        "Minutes": null,
+        "Agendas": "https://www.cb8m.com/whats-new/news-bulletin/",
+        "Resolutions": null,
+        "Contact": "https://www.cb8m.com/overview/contact-us/",
+        "Newsletters": "https://www.cb8m.com/get-involved/newsletter-signup/",
+        "By-Laws": "https://www.cb8m.com/overview/by-laws/",
+        "News": "https://www.cb8m.com/whats-new/weekly-news-roundup/",
+        "Events": "https://www.cb8m.com/whats-new/community-announcements-events/",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/CB8Manhattan/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/cb8manhattan/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": null,
+        "X": {
+          "url": "https://twitter.com/CB8M",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "9",
+      "url": "http://www.cb9m.org",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.cb9m.org/cal_events",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.cb9m.org/contact",
+        "Newsletters": "https://www.cb9m.org/monthly-newsletters",
+        "By-Laws": "https://www.cb9m.org/by-laws",
+        "News": "https://www.cb9m.org/monthly-newsletters",
+        "Events": null,
+        "Permits and Licenses": "https://www.nyc.gov/site/cecm/permitting/permit-types.page",
+        "Facebook": {
+          "url": "http://www.facebook.com/CB9Manhattan",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": {
+          "url": "http://twitter.com/CB9Manhattan",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "10",
+      "url": "https://cbmanhattan.cityofnewyork.us/cb10/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbmanhattan.cityofnewyork.us/cb10/events/",
+        "Minutes": "https://cbmanhattan.cityofnewyork.us/cb10/meetings/",
+        "Agendas": "https://cbmanhattan.cityofnewyork.us/cb10/meetings/",
+        "Resolutions": "https://cbmanhattan.cityofnewyork.us/cb10/resolutions/",
+        "Contact": "https://cbmanhattan.cityofnewyork.us/cb10/contact/",
+        "Newsletters": null,
+        "By-Laws": "https://cbmanhattan.cityofnewyork.us/cb10/about/",
+        "News": null,
+        "Events": "https://cbmanhattan.cityofnewyork.us/cb10/events/",
+        "Permits and Licenses": null,
+        "Instagram": {
+          "url": "https://www.instagram.com/mancb10/",
+          "on_site": false,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/mancb10?lang=en",
+          "on_site": true,
+          "active": null
+        },
+        "Facebook": {
+          "url": "https://www.facebook.com/ManhattanCommunityBoard10/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null
+      }
+    },
+    {
+      "cb_number": "11",
+      "url": "http://www.cb11m.org/",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": "https://airtable.com/shrJ150rk13A8HfPK/tblNt0o4xr7gTHHoY",
+        "Agendas": null,
+        "Resolutions": "https://airtable.com/shrt6Zu21qwvTszCV/tblHp2NL5Kq3ecluP",
+        "Contact": "https://www.cb11m.org/contact-us/",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.cb11m.org/events/",
+        "Permits and Licenses": "https://www.cb11m.org/licenses-permits/",
+        "Facebook": {
+          "url": "https://www.facebook.com/communityboard11?ref=aymt_homepage_panel",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCu2Zu9zJxmVAxBwk5JeuQgA",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/ManhattanCB11",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "12",
+      "url": "https://cbmanhattan.cityofnewyork.us/cb12/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbmanhattan.cityofnewyork.us/cb12/meeting-schedule-overview/",
+        "Minutes": "https://airtable.com/appgDhS8pYkjG8LVz/shrQLNkneKkrO3ZvC",
+        "Agendas": "https://airtable.com/appgDhS8pYkjG8LVz/shrQLNkneKkrO3ZvC",
+        "Resolutions": "https://airtable.com/appxI1MELbX5aHzrx/shrRTQVArx5O8JQXk",
+        "Contact": "https://cbmanhattan.cityofnewyork.us/cb12/contact/",
+        "Newsletters": "https://cbmanhattan.cityofnewyork.us/cb12/contact/",
+        "By-Laws": null,
+        "News": "https://cbmanhattan.cityofnewyork.us/cb12/category/news/",
+        "Events": "https://cbmanhattan.cityofnewyork.us/cb12/meetings/upcoming-events/",
+        "Permits and Licenses": "https://www1.nyc.gov/site/cecm/about/sapo.page",
+        "Facebook": null,
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCVRLEz9wPxgc9PxMj31Zk4Q",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    }
+  ]
+}

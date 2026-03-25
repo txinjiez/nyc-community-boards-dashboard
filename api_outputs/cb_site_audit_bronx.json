@@ -1,0 +1,362 @@
+{
+  "borough": "bronx",
+  "display": "Bronx",
+  "results": [
+    {
+      "cb_number": "1",
+      "url": "https://www.nyc.gov/site/bronxcb1/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb1/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb1/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb1/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCommunityBoard1/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb1/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/@BronxCB1",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://x.com/BronxCb1",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "2",
+      "url": "https://www.nyc.gov/site/bronxcb2/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb2/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/bronxcb2/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/bronxcb2/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb2/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/bronxcb2/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb2/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": null,
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCRfzp2GSHg6CIjALtX73JGw",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    },
+    {
+      "cb_number": "3",
+      "url": "https://www.nyc.gov/site/bronxcb3/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb3/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/bronxcb3/minutes/board-meeting-minutes.page",
+        "Agendas": "https://www.nyc.gov/site/bronxcb3/minutes/board-meeting-agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb3/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb3/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCommunityBoard3/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb3/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "4",
+      "url": "https://www.nyc.gov/site/bronxcb4/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb4/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/bronxcb4/meetings/board-meeting-minutes.page",
+        "Agendas": "https://www.nyc.gov/site/bronxcb4/meetings/board-meeting-agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb4/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb4/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCB4/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb4/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "5",
+      "url": "https://www.nyc.gov/site/bronxcb5/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb5/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb5/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb5/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCB5/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb5/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": null,
+        "X": {
+          "url": "https://twitter.com/Bronxcb5",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "6",
+      "url": "https://cbbronx.cityofnewyork.us/cb6/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbbronx.cityofnewyork.us/cb6/calendar/",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://cbbronx.cityofnewyork.us/cb6/contact/",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": "https://cbbronx.cityofnewyork.us/cb6/news/",
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCommunityBoard6/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb6/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "7",
+      "url": "https://www.nyc.gov/site/bronxcb7/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb7/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb7/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb7/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/bronxcommunityboard7",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "8",
+      "url": "https://cbbronx.cityofnewyork.us/cb8/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://cbbronx.cityofnewyork.us/cb8/calendar/",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": "https://cbbronx.cityofnewyork.us/cb8/wp-content/uploads/sites/3/2022/11/Approved-Resolution-Hybrid-Meeting-Model-May-2022.pdf",
+        "Contact": "https://cbbronx.cityofnewyork.us/cb8/about/contact/",
+        "Newsletters": "https://cbbronx.cityofnewyork.us/cb8/about/newsletters/",
+        "By-Laws": "https://cbbronx.cityofnewyork.us/cb8/about/bylaws/",
+        "News": "https://cbbronx.cityofnewyork.us/cb8/about/newsletters/",
+        "Events": null,
+        "Permits and Licenses": "https://www1.nyc.gov/site/cecm/about/sapo.page",
+        "Facebook": {
+          "url": "https://www.facebook.com/bxcommunityboard8",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/cb8bx/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCEm3xVrRmJvdbweX-JPYRjQ",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/BXCB8",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "9",
+      "url": "https://www.nyc.gov/site/bronxcb9/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb9/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb9/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb9/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCommunityBoard9/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "10",
+      "url": "https://www.nyc.gov/site/bronxcb10/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb10/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb10/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb10/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/bronxcommunityboard10/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/BronxCB10/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": null,
+        "X": {
+          "url": "https://twitter.com/BronxCB10",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "11",
+      "url": "https://www.nyc.gov/site/bronxcb11/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb11/meetings/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/bronxcb11/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/bronxcb11/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb11/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/BronxCommunityBoard11/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/bronxcb11/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "12",
+      "url": "https://www.nyc.gov/site/bronxcb12/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/bronxcb12/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/bronxcb12/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/bronxcb12/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/bronxcb12/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": null,
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://www.youtube.com/@communityboard12thebronx60",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    }
+  ]
+}

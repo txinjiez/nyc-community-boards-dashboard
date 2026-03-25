@@ -1,0 +1,93 @@
+{
+  "borough": "staten_island",
+  "display": "Staten Island",
+  "results": [
+    {
+      "cb_number": "1",
+      "url": "https://www.nyc.gov/site/statenislandcb1/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": "https://www.nyc.gov/site/statenislandcb1/meetings/minutes.page",
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/statenislandcb1/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/statenislandcb1/about/by-laws.page",
+        "News": "https://www.nyc.gov/site/statenislandcb1/news/news.page",
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/StatenIslandCB1/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/statenislandcb1/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "2",
+      "url": "https://www.nyc.gov/site/statenislandcb2/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/statenislandcb2/meetings/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/statenislandcb2/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/cb2si",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": {
+          "url": "https://twitter.com/cb2si",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "3",
+      "url": "https://www.nyc.gov/site/statenislandcb3/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/statenislandcb3/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/cb3ofstatenisland",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/statenislandcb3/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "borough": "queens",
+  "display": "Queens",
+  "results": [
+    {
+      "cb_number": "1",
+      "url": "https://www.nyc.gov/site/queenscb1/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb1/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb1/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb1/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/communityboard1?ref=aymt_homepage_panel",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/cb1queens/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/playlist?list=UUU7eHMXuvqtsAzGxvP6FXRQ",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/Cb1Queens",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "2",
+      "url": "https://www.nyc.gov/site/queenscb2/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb2/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb2/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb2/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb2/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://facebook.com/Queenscb2",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UC_EHc2NP3nNr18zsOxYqwww",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/QueensCB2",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "3",
+      "url": "https://queenscb3.cityofnewyork.us/",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://queenscb3.cityofnewyork.us/calendar/",
+        "Minutes": "https://queenscb3.cityofnewyork.us/board-meeting-minutes/",
+        "Agendas": "https://queenscb3.cityofnewyork.us/agendas-and-reports/",
+        "Resolutions": null,
+        "Contact": "https://queenscb3.cityofnewyork.us/contact-us/",
+        "Newsletters": null,
+        "By-Laws": "https://queenscb3.cityofnewyork.us/bylaws/",
+        "News": null,
+        "Events": "https://queenscb3.cityofnewyork.us/community-events/",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/communityboard3",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/communityboard3/",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/channel/UCUD7E8dGGz0kGqAPOAL-cBQ",
+          "on_site": true,
+          "active": null
+        },
+        "X": {
+          "url": "https://twitter.com/communityboard3",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "4",
+      "url": "https://www.nyc.gov/site/queenscb4/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb4/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb4/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb4/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb4/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb4/about/by-laws.page",
+        "News": "https://www.nyc.gov/site/queenscb4/news/news.page",
+        "Events": "https://www.nyc.gov/site/queenscb4/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/queenscb4/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/queenscb4nyc/",
+          "on_site": false,
+          "active": null
+        },
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "5",
+      "url": "https://www.nyc.gov/site/queenscb5/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb5/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb5/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb5/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb5/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb5/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": null,
+        "Instagram": null,
+        "Youtube": {
+          "url": "https://youtube.com/live/NT72C8pM_2g",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    },
+    {
+      "cb_number": "6",
+      "url": "https://www.nyc.gov/site/queenscb6/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb6/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": "https://www.nyc.gov/site/queenscb6/meetings/resolutions.page",
+        "Contact": "https://www.nyc.gov/site/queenscb6/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb6/about/by-laws.page",
+        "News": "https://www.nyc.gov/site/queenscb6/news/news.page",
+        "Events": "https://www.nyc.gov/site/queenscb6/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/pages/category/Community-Service/Queens-Community-Board-6-109278217267208/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": {
+          "url": "https://twitter.com/queenscb6?lang=en",
+          "on_site": true,
+          "active": null
+        }
+      }
+    },
+    {
+      "cb_number": "7",
+      "url": "https://www.nyc.gov/site/queenscb7/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": "https://www.nyc.gov/site/queenscb7/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb7/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb7/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/QueensCB7/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "8",
+      "url": "https://www.nyc.gov/site/queenscb8/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb8/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb8/meetings/board-meeting-minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb8/meetings/board-meeting-agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb8/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb8/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb8/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/CB8Queens",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "9",
+      "url": "https://www.nyc.gov/site/queenscb9/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb9/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb9/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb9/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb9/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": "https://www.nyc.gov/site/queenscb9/news/press-releases.page",
+        "Events": "https://www.nyc.gov/site/queenscb9/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/CommunityBoard9/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "10",
+      "url": "https://www.nyc.gov/site/queenscb10/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb10/contact/contact.page",
+        "Newsletters": null,
+        "By-Laws": null,
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/QueensCommunityBoard10/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "11",
+      "url": "https://www.nyc.gov/site/queenscb11/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": null,
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb11/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb11/about/by-laws.page",
+        "News": null,
+        "Events": null,
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/queenscommunityboard11/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "12",
+      "url": "https://www.nyc.gov/site/queenscb12/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb12/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb12/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb12/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb12/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb12/about/by-laws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb12/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/QCB12/",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "13",
+      "url": "https://www.nyc.gov/site/queenscb13/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb13/calendar/calendar.page",
+        "Minutes": "https://www.nyc.gov/site/queenscb13/meetings/minutes.page",
+        "Agendas": "https://www.nyc.gov/site/queenscb13/meetings/agendas.page",
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb13/about/contact.page",
+        "Newsletters": null,
+        "By-Laws": "https://www.nyc.gov/site/queenscb13/about/bylaws.page",
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb13/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/QueensCommunityBoard13/",
+          "on_site": false,
+          "active": null
+        },
+        "Instagram": null,
+        "Youtube": null,
+        "X": null
+      }
+    },
+    {
+      "cb_number": "14",
+      "url": "https://www.nyc.gov/site/queenscb14/index.page",
+      "status": "ok",
+      "features": {
+        "Calendar": "https://www.nyc.gov/site/queenscb14/calendar/calendar.page",
+        "Minutes": null,
+        "Agendas": null,
+        "Resolutions": null,
+        "Contact": "https://www.nyc.gov/site/queenscb14/about/contact.page",
+        "Newsletters": "https://www.nyc.gov/site/queenscb14/about/newsletters.page",
+        "By-Laws": null,
+        "News": null,
+        "Events": "https://www.nyc.gov/site/queenscb14/calendar/calendar.page",
+        "Permits and Licenses": null,
+        "Facebook": {
+          "url": "https://www.facebook.com/profile.php?id=100067484873856",
+          "on_site": true,
+          "active": null
+        },
+        "Instagram": {
+          "url": "https://www.instagram.com/queenscb14?igsh=cTRsbTF0aTVmZmpt",
+          "on_site": true,
+          "active": null
+        },
+        "Youtube": {
+          "url": "https://www.youtube.com/@CommunityBoard14Q",
+          "on_site": true,
+          "active": null
+        },
+        "X": null
+      }
+    }
+  ]
+}
