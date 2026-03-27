@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NYC Community Boards Dashboard</title>
+    <title>Digital Records Scorecard — NYC Community Boards</title>
     <link rel="icon" type="image/png" href="media/cb-pigeons.png">
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fredoka:wght@300;400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -798,7 +798,6 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <!-- Decorative pigeons -->
             <svg class="pigeon-left" width="60" height="60" viewBox="0 0 100 100" style="display: none;">
                 <ellipse cx="50" cy="65" rx="20" ry="12" fill="#6b8e9d"/>
                 <ellipse cx="50" cy="40" rx="18" ry="22" fill="#a8a8a8"/>
@@ -815,321 +814,88 @@
                 <img src="media/pigeons-dashboard.png" alt="Pigeon Building Dashboard" style="width: 80px; height: 80px; object-fit: contain;">
             </div>
             <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="showPage('about')">About</button>
-                <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">About</a>
+                <a href="digital_records.html" class="nav-tab active" style="text-decoration:none;">Digital Records</a>
                 <a href="demographics.html" class="nav-tab" style="text-decoration:none;">Demographics Report</a>
                 <a href="needs_assessment.html" class="nav-tab" style="text-decoration:none;">Needs Assessment</a>
-                <button class="nav-tab" onclick="showPage('process')">Process & Methodology</button>
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <!-- Research Note -->
-        <!-- <div class="research-note">
-            <strong>⚠️ Research in Progress:</strong> Certain parts of the dashboard are displaying placeholder data for visualization purposes. Actual data collection and analysis are ongoing.
-        </div> -->
-
-        <!-- Landing Page -->
-        <div id="overview" class="page active">
-            <!-- Intro text -->
-            <div class="card" style="margin-bottom: 2rem; text-align: center;">
-                <div class="card-content" style="padding: 1.5rem;">
-                    <p style="font-size: 1.15rem; line-height: 1.8; max-width: 800px; margin: 0 auto;">
-                        An interactive civic tech tool that visualizes trends in Community Board transparency, demographics, and policy priorities across New York City. Explore the three dashboards below.
-                    </p>
-                </div>
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">59</div>
+                <div class="stat-label">Community Boards</div>
             </div>
-
-            <!-- Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">59</div>
-                    <div class="stat-label">Community Boards Citywide</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">175</div>
-                    <div class="stat-label">Needs Statement PDFs Collected</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">16</div>
-                    <div class="stat-label">Brooklyn CBs with 3-Year Analysis</div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-value">18</div>
+                <div class="stat-label">Currently Examining Brooklyn CBs</div>
             </div>
-
-            <!-- Dashboard links -->
-            <div class="grid grid-3" style="margin-bottom: 2rem;">
-                <a href="digital_records.html" style="text-decoration: none;">
-                    <div class="card" style="text-align: center; cursor: pointer; transition: all 0.3s; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
-                        <div style="font-size: 3.5rem;">📋</div>
-                        <div class="card-title" style="font-size: 2.2rem;">Digital Records</div>
-                        <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6; max-width: 280px;">
-                            Scorecard tracking calendars, minutes, agendas, social media, and more for all 59 CBs across 5 boroughs.
-                        </p>
-                        <span style="background: var(--accent); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; border: 2px solid var(--primary);">Explore →</span>
-                    </div>
-                </a>
-                <a href="needs_assessment.html" style="text-decoration: none;">
-                    <div class="card" style="text-align: center; cursor: pointer; transition: all 0.3s; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
-                        <div style="font-size: 3.5rem;">📄</div>
-                        <div class="card-title" style="font-size: 2.2rem;">Needs Assessment</div>
-                        <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6; max-width: 280px;">
-                            AI-powered year-over-year analysis of Brooklyn CB needs statements (FY2024–FY2026), tracking how policy priorities evolve.
-                        </p>
-                        <span style="background: var(--accent); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; border: 2px solid var(--primary);">Explore →</span>
-                    </div>
-                </a>
-                <a href="demographics.html" style="text-decoration: none;">
-                    <div class="card" style="text-align: center; cursor: pointer; transition: all 0.3s; min-height: 260px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
-                        <div style="font-size: 3.5rem;">👥</div>
-                        <div class="card-title" style="font-size: 2.2rem;">Demographics Report</div>
-                        <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6; max-width: 280px;">
-                            Trends in gender balance, age, race/ethnicity, and first-time appointees across Brooklyn CBs from 2022–2025.
-                        </p>
-                        <span style="background: var(--accent); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; border: 2px solid var(--primary);">Explore →</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- About section inline on landing page -->
-            <div class="card" style="margin-bottom: 1.5rem; margin-top: 1rem;">
-                <div class="card-header">
-                    <div class="card-title">ℹ️ About the Dashboard</div>
-                </div>
-                <div class="card-content" style="display: grid; gap: 1rem;">
-                    <p>
-                        The NYC Community Boards Dashboard is an interactive civic tech tool that visualizes trends in Community Board representation, priorities, and governance across New York City. It uses demographic reports, District Needs Statements, and policy themes to provide an accessible overview of how community boards reflect and respond to their neighborhoods. The dashboard empowers residents, advocates, researchers, and policymakers to explore patterns over time and gain insight into equity, engagement, and local decision-making. Get curious about local democracy!
-                    </p>
-                    <p>
-                        This project is heavily enabled by AI. The website and analysis pipeline were generated by Claude Code and ChatGPT/Codex (vibecoding is so powerful!!). The initial results have been verified and validated, and the work is ongoing. The illustrations of the pigeons are generated by DALL·E 3.
-                    </p>
-                    <p>
-                        This is an open-source project under the MIT License on GitHub:
-                        <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">github.com/txinjiez/nyc-community-boards-dashboard</a>.
-                    </p>
-                    <p>
-                        Contributions and feedback are warmly welcomed—feel free to reach out to Tina at
-                        <a href="mailto:tina.zeng@yale.edu" style="color: var(--accent); font-weight: 600;">tina.zeng@yale.edu</a>.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <div class="card-title">👤 About the Creator</div>
-                </div>
-                <div class="card-content" style="display: grid; gap: 1rem;">
-                    <p>
-                        Tina Zeng is a student at Yale studying Global Affairs + Computing, Culture & Society at Yale. With her passions in civic and public interest technology, democratic innovation and social entrepreneurship, she hopes to leverage technologies like AI for social impact. Tina's experience serving on Brooklyn Community Board 11 (2023–2024) strengthened her commitment to participatory governance and motivated her to explore ways to make civic institutions more engaging, responsive and equitable.
-                    </p>
-                    <p>
-                        This research project and dashboard originated as part of her class project in AI for Social Science Methods, taught by Daniel Karrell. Through the
-                        <a href="https://isps.yale.edu/programs/isps-fellowships/dahl-research-scholars" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">Dahl Research Fellowship</a>
-                        at Yale's Institute for Social and Policy Studies, she continues to research Community Boards and expand this dashboard.
-                    </p>
-                    <p>
-                        She is anticipating submitting a proposal to present at the
-                        <a href="https://schoolofdata.nyc" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">2026 School of Data</a>,
-                        organized by <a href="https://www.beta.nyc" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">BetaNYC</a>,
-                        where she's an Associate Board Member
-                        (<a href="https://www.beta.nyc/tina-zeng/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">profile</a>).
-                    </p>
-                    <p>
-                        Feel free to reach out to <a href="mailto:tina.zeng@yale.edu" style="color: var(--accent); font-weight: 600;">tina.zeng@yale.edu</a> or
-                        <a href="https://www.linkedin.com/in/xinjie-tina-zeng/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">connect on LinkedIn</a>!
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Page 3: Process & Methodology -->
-        <div id="process" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🔬 Dashboard Creation Process</div>
-                </div>
-                <div class="card-content">
-                    <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">
-                        This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
-                    </p>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Collection Pipeline</h3>
-                    <ol style="margin-bottom: 2rem; line-height: 2; padding-left: 1.5rem;">
-                        <li><strong>PDF Scraping:</strong> Automated collection of Department of City Planning (DCP) needs statements for Brooklyn Community Boards (FY2024-2026)</li>
-                        <li><strong>Text Extraction:</strong> Using <code>pdfplumber</code> to extract text from 52 Brooklyn PDF documents</li>
-                        <li><strong>Database Storage:</strong> SQLite database (<code>dns_data.db</code>) storing extracted text with metadata</li>
-                        <li><strong>Year-Over-Year Comparison:</strong> GPT-4 analysis comparing how priorities evolved across 3 fiscal years</li>
-                        <li><strong>Theme Extraction:</strong> Secondary LLM pipeline to automatically identify 4-6 major themes per community board</li>
-                    </ol>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">LLM Analysis System Prompts</h3>
-                    <p style="margin-bottom: 1rem;">The AI-powered analysis uses carefully designed prompts to ensure accurate theme extraction and comparison:</p>
-
-                    <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--accent);">
-                        <h4 style="margin-bottom: 0.5rem;">Year-Over-Year Comparison Prompt</h4>
-                        <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                            Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
-                        </p>
-                        <ul style="padding-left: 1.5rem; line-height: 1.8;">
-                            <li>Policy Changes: What priorities appeared, disappeared, or shifted</li>
-                            <li>Agency Response Evolution: How city agency tone/engagement changed</li>
-                            <li>Emphasis Shifts: Which themes grew stronger or faded</li>
-                            <li>Structural Changes: Document format and organization differences</li>
-                        </ul>
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">View Full Prompt →</summary>
-                            <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-CRITICAL INSTRUCTIONS: You MUST compare THREE different years of documents.
-DO NOT extract or summarize a single document. You are doing COMPARATIVE ANALYSIS ONLY.
-
-Brooklyn Community Board {cb_number} - YEAR-OVER-YEAR COMPARISON
-
-YOU HAVE THREE DOCUMENTS BELOW:
-- Document 1: FY2024 needs statement
-- Document 2: FY2025 needs statement
-- Document 3: FY2026 needs statement
-
-YOUR JOB: Compare how things CHANGED from 2024 → 2025 → 2026.
-
-[Full prompt includes detailed JSON output structure requirements]
-                            </pre>
-                        </details>
-                    </div>
-
-                    <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--success);">
-                        <h4 style="margin-bottom: 0.5rem;">Theme Extraction Prompt</h4>
-                        <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                            Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
-                        </p>
-                        <ul style="padding-left: 1.5rem; line-height: 1.8;">
-                            <li>0 = Not mentioned</li>
-                            <li>1 = Basic mention only</li>
-                            <li>2 = Mentioned with examples</li>
-                            <li>3 = Policy asks or commitments requested</li>
-                            <li>4 = Data/evidence cited</li>
-                            <li>5 = Structured recommendations or frameworks proposed</li>
-                        </ul>
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; font-weight: 600; color: var(--success);">View Full Prompt →</summary>
-                            <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-Analyze this 3-year community board needs comparison and extract the KEY THEMES.
-
-INSTRUCTIONS:
-1. Identify 4-6 major policy themes that appear across FY2024, FY2025, and FY2026
-2. For each theme, assign a "depth score" (0-5) for each fiscal year
-3. Provide a SHORT label for each theme (2-4 words max)
-
-IMPORTANT RULES:
-- Extract themes from actual narrative text, NOT generic categories
-- Score based on depth of discussion in policy_changes and emphasis_shifts
-- Look for themes that EVOLVED across years
-
-OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
-                            </pre>
-                        </details>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Technology Stack</h3>
-                    <div class="grid grid-2" style="margin-bottom: 2rem;">
-                        <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
-                            <h4 style="margin-bottom: 0.75rem;">Backend</h4>
-                            <ul style="padding-left: 1.5rem; line-height: 2;">
-                                <li>Python 3.10</li>
-                                <li>OpenAI GPT-4 API</li>
-                                <li>PDFPlumber for text extraction</li>
-                                <li>SQLite database</li>
-                                <li>Requests library</li>
-                            </ul>
-                        </div>
-                        <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
-                            <h4 style="margin-bottom: 0.75rem;">Frontend</h4>
-                            <ul style="padding-left: 1.5rem; line-height: 2;">
-                                <li>Vanilla JavaScript</li>
-                                <li>D3.js for visualizations</li>
-                                <li>Chart.js for charts</li>
-                                <li>D3-Sankey for flow diagrams</li>
-                                <li>Custom CSS with playful design</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Scope</h3>
-                    <div style="background: var(--grid); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
-                        <ul style="padding-left: 1.5rem; line-height: 2;">
-                            <li><strong>Borough:</strong> Brooklyn (18 Community Boards)</li>
-                            <li><strong>Fiscal Years:</strong> 2024, 2025, 2026</li>
-                            <li><strong>CBs with complete 3-year data:</strong> CB1, CB2, CB3, CB4, CB5 (5 boards)</li>
-                            <li><strong>Total PDFs analyzed:</strong> 52 documents</li>
-                            <li><strong>Themes extracted:</strong> 4-6 per community board, dynamically identified</li>
-                        </ul>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Future Development</h3>
-                    <p style="line-height: 1.8;">
-                        Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
-                    </p>
-                </div>
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">CBs with 3-Year Comparison</div>
             </div>
         </div>
 
-        <!-- Page 5: About -->
-        <div id="about" class="page">
-            <div class="card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <div class="card-title">ℹ️ About the Dashboard</div>
+        <!-- Digital Records Scorecard -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Digital Records Scorecard
                 </div>
-                <div class="card-content" style="display: grid; gap: 1rem;">
-                    <p>
-                        The NYC Community Boards Dashboard is an interactive civic tech tool that visualizes trends in Community Board representation, priorities, and governance across New York City. It uses demographic reports, District Needs Statements, and policy themes to provide an accessible overview of how community boards reflect and respond to their neighborhoods. The dashboard empowers residents, advocates, researchers, and policymakers to explore patterns over time and gain insight into equity, engagement, and local decision-making. Get curious about local democracy!
-                    </p>
-                    <p>
-                        This project is heavily enabled by AI. The website and analysis pipeline were generated by Claude Code and ChatGPT/Codex (vibecoding is so powerful!!). The initial results have very verified and validated, and the work is ongoing. The illustrations of the pigeons are generated by DALL·E 3.
-                    </p>
-                    <p>
-                        This is an open-source project under the MIT License on GitHub:</p>
-                    <p>
-                        <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">
-                            github.com/txinjiez/nyc-community-boards-dashboard
-                        </a>.
-                    </p>
-                    <p>
-                        Contributions and feedback are warmly welcomed—feel free to reach out to Tina at
-                        <a href="mailto:tina.zeng@yale.edu" style="color: var(--accent); font-weight: 600;">tina.zeng@yale.edu</a>.
-                    </p>
+                <div style="margin-top: 1rem;">
+                    <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
+                    <select id="boroughSelect" onchange="updateTransparencyScorecard()" style="padding: 0.5rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                        <option value="brooklyn">Brooklyn</option>
+                        <option value="manhattan">Manhattan</option>
+                        <option value="queens">Queens</option>
+                        <option value="bronx">Bronx</option>
+                        <option value="staten_island">Staten Island</option>
+                    </select>
                 </div>
             </div>
-
-            <div class="card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <div class="card-title">👤 About the Creator</div>
+            <div class="heatmap">
+                <div class="heatmap-grid" id="transparencyGrid">
+                    <!-- Headers -->
+                    <div class="heatmap-cell heatmap-header">Community Board</div>
+                    <div class="heatmap-cell heatmap-header">Calendar</div>
+                    <div class="heatmap-cell heatmap-header">Minutes</div>
+                    <div class="heatmap-cell heatmap-header">Agendas</div>
+                    <div class="heatmap-cell heatmap-header">Resolutions</div>
+                    <div class="heatmap-cell heatmap-header">Contact</div>
+                    <div class="heatmap-cell heatmap-header">Instagram</div>
+                    <div class="heatmap-cell heatmap-header">X</div>
+                    <div class="heatmap-cell heatmap-header">Facebook</div>
+                    <div class="heatmap-cell heatmap-header">Youtube</div>
+                    <div class="heatmap-cell heatmap-header">Newsletters</div>
+                    <div class="heatmap-cell heatmap-header">By-Laws</div>
+                    <div class="heatmap-cell heatmap-header">News/Events</div>
+                    <div class="heatmap-cell heatmap-header">
+                        Permits &amp; Licenses
+                        <span class="tooltip-icon">?
+                            <span class="tooltip-text">For Cannabis, Liquor, Special Permit, Landmark, Street Co Naming, Block Parties</span>
+                        </span>
+                    </div>
                 </div>
-                <div class="card-content" style="display: grid; gap: 1rem;">
-                    <p>
-                        Tina Zeng is a student at Yale studying Global Affairs + Computing, Culture & Society at Yale. With her passions in civic and public interest technology, democratic innovation and social entrepreneurship, she hopes to leverage technologies like AI for social impact. Tina’s experience serving on Brooklyn Community Board 11 (2023–2024) strengthened her commitment to participatory governance and motivated her to explore ways to make civic institutions more engaging, responsive and equitable.
-                    </p>
-                    <p>
-                        This research project and dashboard originated as part of her class project in AI for Social Science Methods, taught by Daniel Karrell. Through the
-                        <a href="https://isps.yale.edu/programs/isps-fellowships/dahl-research-scholars" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">Dahl Research Fellowship</a>
-                        at Yale’s Institute for Social and Policy Studies, she continues to research Community Boards and expand this dashboard.
-                    </p>
-                    <p>
-                        She is anticipating submitting a proposal to present at the
-                        <a href="https://schoolofdata.nyc" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">2026 School of Data</a>,
-                        organized by
-                        <a href="https://www.beta.nyc" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">BetaNYC</a>,
-                        where she’s an Associate Board Member
-                        (<a href="https://www.beta.nyc/tina-zeng/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">profile</a>).
-                        The presentation will be a demo of the dashboard and an explanation of the methodology and development process.
-                    </p>
-                    <p>
-                        Feel free to reach out to
-                        <a href="mailto:tina.zeng@yale.edu" style="color: var(--accent); font-weight: 600;">tina.zeng@yale.edu</a>
-                        if you’re interested in chatting!
-                    </p>
-                    <p>
-                        <a href="https://www.linkedin.com/in/xinjie-tina-zeng/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">Connect with her on Linkedin!</a>
-                    </p>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--success);"></div>
+                    <span>✓ Present on site</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--warning);"></div>
+                    <span>~ Exists but not linked on site <em>(social media only)</em></span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--grid);"></div>
+                    <span>— Not found</span>
+                </div>
+                <div class="legend-item" style="margin-left: 1.5rem; opacity: 0.8;">
+                    <span style="font-size: 0.85rem; color: var(--text-light);">★ on green/orange = confirmed active in past year</span>
                 </div>
             </div>
         </div>
@@ -1150,25 +916,133 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
     </footer>
 
     <script>
-        // Navigation
-        function showPage(pageName) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Remove active from all tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageName).classList.add('active');
-            
-            // Set active tab
-            event.target.classList.add('active');
+        const transparencyColumns = [
+            { key: 'Calendar', label: 'Calendar' },
+            { key: 'Minutes', label: 'Minutes' },
+            { key: 'Agendas', label: 'Agendas' },
+            { key: 'Resolutions', label: 'Resolutions' },
+            { key: 'Contact', label: 'Contact' },
+            { key: 'Instagram', label: 'Instagram', social: true },
+            { key: 'X', label: 'X', social: true },
+            { key: 'Facebook', label: 'Facebook', social: true },
+            { key: 'Youtube', label: 'Youtube', social: true },
+            { key: 'Newsletters', label: 'Newsletters' },
+            { key: 'By-Laws', label: 'By-Laws' },
+            {
+                key: 'NewsEvents',
+                label: 'News/Events',
+                resolver: (f) => f['News'] || f['Events'] || null
+            },
+            { key: 'Permits and Licenses', label: 'Permits & Licenses' }
+        ];
+
+        function updateTransparencyScorecard() {
+            const select = document.getElementById('boroughSelect');
+            const borough = select.value;
+            loadTransparencyData(borough);
         }
 
+        function renderTransparencyGrid(results, boroughDisplay) {
+            const grid = document.getElementById('transparencyGrid');
+            if (!grid) return;
+
+            const headerCells = [
+                '<div class="heatmap-cell heatmap-header">Community Board</div>',
+                ...transparencyColumns.map(col => {
+                    if (col.label === 'Permits & Licenses') {
+                        return `<div class="heatmap-cell heatmap-header">Permits & Licenses <span class="tooltip-icon">?<span class="tooltip-text">For Cannabis, Liquor, Special Permit, Landmark, Street Co Naming, Block Parties</span></span></div>`;
+                    }
+                    return `<div class="heatmap-cell heatmap-header">${col.label}</div>`;
+                })
+            ];
+
+            const rows = results
+                .sort((a, b) => Number(a.cb_number) - Number(b.cb_number))
+                .map(row => {
+                    const features = row.features || {};
+                    const cbLabel = `${boroughDisplay} CB${row.cb_number}`;
+                    const rowLabel = `
+                        <div class="heatmap-cell heatmap-row-label">
+                            <a href="${row.url}" target="_blank" rel="noopener" title="Click to open ${cbLabel} website" style="color: inherit; text-decoration: underline;">
+                                ${cbLabel}
+                            </a>
+                            ${row.status !== 'ok' ? ' ⚠️' : ''}
+                        </div>
+                    `;
+
+                    const cells = transparencyColumns.map(col => {
+                        if (row.status !== 'ok') {
+                            const title = row.error ? row.error : 'Unable to fetch site';
+                            return `<div class="heatmap-cell score-low" title="${title}">!</div>`;
+                        }
+
+                        // Social media: value is {url, on_site, active} or null
+                        if (col.social) {
+                            const social = features[col.key];
+                            if (!social || !social.url) {
+                                return `<div class="heatmap-cell score-none" title="No ${col.label} found for ${cbLabel}">—</div>`;
+                            }
+                            const activeMarker = social.active === true ? ' ★' : '';
+                            if (social.on_site) {
+                                const tip = `Click to open ${cbLabel} ${col.label}${social.active === true ? ' (active in past year)' : ''}`;
+                                return `<div class="heatmap-cell score-high" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓${activeMarker}</a></div>`;
+                            } else {
+                                const tip = `Click to open ${cbLabel} ${col.label} — exists but not linked on their website${social.active === true ? ' (active in past year)' : ''}`;
+                                return `<div class="heatmap-cell score-medium" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">~${activeMarker}</a></div>`;
+                            }
+                        }
+
+                        // Non-social: value is a URL string (present+linkable), or null (absent)
+                        const val = col.resolver ? col.resolver(features) : features[col.key];
+                        const pageUrl = typeof val === 'string' ? val : null;
+                        const present = Boolean(val);
+                        if (!present) {
+                            return `<div class="heatmap-cell score-none" title="No ${col.label} found for ${cbLabel}">—</div>`;
+                        }
+                        if (pageUrl) {
+                            const tip = `Click to view ${col.label} for ${cbLabel}`;
+                            return `<div class="heatmap-cell score-high" title="${tip}"><a href="${pageUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓</a></div>`;
+                        }
+                        return `<div class="heatmap-cell score-high" title="${col.label}">✓</div>`;
+                    });
+
+                    return rowLabel + cells.join('');
+                });
+
+            grid.innerHTML = headerCells.join('') + rows.join('');
+        }
+
+        const BOROUGH_DISPLAY_NAMES = {
+            'brooklyn': 'Brooklyn',
+            'manhattan': 'Manhattan',
+            'queens': 'Queens',
+            'bronx': 'Bronx',
+            'staten_island': 'Staten Island',
+        };
+        const BOROUGH_JSON_FILES = {
+            'brooklyn': 'api_outputs/cb_site_audit.json',
+            'manhattan': 'api_outputs/cb_site_audit_manhattan.json',
+            'queens': 'api_outputs/cb_site_audit_queens.json',
+            'bronx': 'api_outputs/cb_site_audit_bronx.json',
+            'staten_island': 'api_outputs/cb_site_audit_staten_island.json',
+        };
+
+        async function loadTransparencyData(borough) {
+            borough = borough || 'brooklyn';
+            const jsonFile = BOROUGH_JSON_FILES[borough] || BOROUGH_JSON_FILES['brooklyn'];
+            const displayName = BOROUGH_DISPLAY_NAMES[borough] || 'Brooklyn';
+            try {
+                const resp = await fetch(jsonFile);
+                const data = await resp.json();
+                renderTransparencyGrid(data.results || [], displayName);
+            } catch (err) {
+                console.error('Failed to load transparency data', err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            loadTransparencyData('brooklyn');
+        });
     </script>
 </body>
 </html>

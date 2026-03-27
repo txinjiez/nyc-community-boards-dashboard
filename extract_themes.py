@@ -70,11 +70,27 @@ Return ONLY valid JSON, no other text."""
     return result
 
 def main():
-    """Extract themes for all 5 Brooklyn CBs"""
+    """Extract themes for all 18 Brooklyn CBs (skips if JSON doesn't exist yet)"""
     all_themes = {}
 
-    for cb_num in range(1, 6):
+    # Load existing themes if present
+    output_file = "api_outputs/openai/themes_extracted.json"
+    if os.path.exists(output_file):
+        with open(output_file, 'r') as f:
+            all_themes = json.load(f)
+
+    for cb_num in range(1, 19):
         print(f"\n🔍 Extracting themes for Brooklyn CB{cb_num}...")
+
+        # Skip if analysis JSON doesn't exist yet
+        input_file = f"api_outputs/openai/needs_comparison_BK_CB{cb_num}.json"
+        if not os.path.exists(input_file):
+            print(f"  Skipping CB{cb_num} — no analysis JSON yet.")
+            continue
+        # Skip if already done
+        if f"CB{cb_num}" in all_themes and "error" not in all_themes[f"CB{cb_num}"]:
+            print(f"  CB{cb_num} already done, skipping.")
+            continue
 
         try:
             themes_data = extract_themes_for_cb(cb_num)
@@ -90,7 +106,6 @@ def main():
             all_themes[f"CB{cb_num}"] = {"error": str(e)}
 
     # Save to file
-    output_file = "api_outputs/openai/themes_extracted.json"
     with open(output_file, 'w') as f:
         json.dump(all_themes, f, indent=2)
 

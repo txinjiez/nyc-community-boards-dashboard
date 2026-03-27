@@ -191,5 +191,438 @@
         "evolution_note": "Progressed from general mentions to specific large-scale projects and infrastructure developments."
       }
     ]
+  },
+  "CB7": {
+    "cb_number": 7,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 5,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Initially the most pressing issue, it remains important but is increasingly contextualized within broader equity discussions."
+      },
+      {
+        "name": "Public Safety",
+        "fy2024": 4,
+        "fy2025": 2,
+        "fy2026": 1,
+        "evolution_note": "Starts as a key issue but diminishes in focus as economic and industrial themes gain prominence."
+      },
+      {
+        "name": "Economic Development",
+        "fy2024": 2,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Grows from a secondary concern to a central theme, especially with industrial and green energy projects."
+      },
+      {
+        "name": "Equity & Disparities",
+        "fy2024": 3,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Evolves from implicit mentions to explicit critiques of resource distribution and agency responsiveness."
+      },
+      {
+        "name": "Green Energy",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Emerges as a significant focus, particularly with Sunset Park's role in the green energy sector."
+      },
+      {
+        "name": "Infrastructure Needs",
+        "fy2024": 3,
+        "fy2025": 4,
+        "fy2026": 4,
+        "evolution_note": "Consistently highlighted but increasingly tied to industrial growth and equity issues."
+      }
+    ]
+  },
+  "CB8": {
+    "cb_number": 8,
+    "themes": [
+      {
+        "name": "Housing Affordability",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "The focus shifted from general affordability concerns to specific critiques of luxury development and eviction data."
+      },
+      {
+        "name": "Gentrification & Displacement",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Initially described as a fear, it evolved into a critique of policy solutions and cited eviction statistics."
+      },
+      {
+        "name": "Mental Health Services",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "From a mention of pandemic effects to a distinct policy theme with calls for specific programs."
+      },
+      {
+        "name": "Government Accountability",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "The tone shifted from partnership to frustration and a demand for accountability and inclusivity."
+      },
+      {
+        "name": "Youth & Elderly Services",
+        "fy2024": 2,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "The theme remained consistent but became more urgent, described as 'critical' by FY2026."
+      }
+    ]
+  },
+  "CB9": {
+    "cb_number": 9,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 1,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Evolved from a basic mention to detailed, data-driven calls for context-sensitive zoning and true affordability."
+      },
+      {
+        "name": "Infrastructure Resiliency",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Shifted from general complaints to specific resiliency needs like flooding and transit, with calls for holistic planning."
+      },
+      {
+        "name": "Agency Accountability",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Progressed from neutral mentions to explicit demands for accountability and responsiveness from city agencies."
+      },
+      {
+        "name": "Community Engagement",
+        "fy2024": 0,
+        "fy2025": 2,
+        "fy2026": 4,
+        "evolution_note": "Grew from no mention to a significant focus on participatory processes and stakeholder involvement in planning."
+      }
+    ]
+  },
+  "CB10": {
+    "cb_number": 10,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 5,
+        "fy2025": 2,
+        "fy2026": 1,
+        "evolution_note": "Initially a top priority, the focus on affordable housing lessens as other issues gain prominence."
+      },
+      {
+        "name": "School Capacity",
+        "fy2024": 1,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "School overcrowding becomes a major concern, evolving from a noted issue to a focus on new school openings."
+      },
+      {
+        "name": "Senior Services",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Senior services grow from a minor mention to a significant focus with expanded facilities and services."
+      },
+      {
+        "name": "Crime/Public Safety",
+        "fy2024": 5,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "Initially a top concern, the emphasis on crime and public safety diminishes over time."
+      },
+      {
+        "name": "Parks/Open Space",
+        "fy2024": 5,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "While initially prioritized, parks and open space receive less attention in subsequent years."
+      }
+    ]
+  },
+  "CB11": {
+    "cb_number": 11,
+    "themes": [
+      {
+        "name": "Housing & Development",
+        "fy2024": 3,
+        "fy2025": 1,
+        "fy2026": 1,
+        "evolution_note": "Initially a major focus with specific development projects, it becomes less emphasized as climate issues take precedence."
+      },
+      {
+        "name": "Climate Resilience",
+        "fy2024": 1,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Starts with basic mentions and evolves into a sophisticated advocacy with data-driven evidence and structured recommendations."
+      },
+      {
+        "name": "Environmental Justice",
+        "fy2024": 0,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Introduced in FY2025 with a focus on stormwater impacts, it gains prominence with explicit identification of affected areas."
+      },
+      {
+        "name": "Quality of Life",
+        "fy2024": 1,
+        "fy2025": 1,
+        "fy2026": 3,
+        "evolution_note": "Initially a minor concern, it expands in FY2026 to include street-level regulatory issues like vending."
+      },
+      {
+        "name": "Infrastructure Adaptation",
+        "fy2024": 2,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Moves from general infrastructure needs to a focus on adaptation for climate resilience, with detailed policy asks."
+      }
+    ]
+  },
+  "CB13": {
+    "cb_number": 13,
+    "themes": [
+      {
+        "name": "Shoreline Resiliency",
+        "fy2024": 5,
+        "fy2025": 5,
+        "fy2026": 5,
+        "evolution_note": "Consistently prioritized with increasing focus on innovative solutions and funding strategies."
+      },
+      {
+        "name": "Senior Services",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Evolved from general mentions to specific demographic data and structured policy requests."
+      },
+      {
+        "name": "Immigrant Integration",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Shifted from general needs to specific ESOL and rights services with demographic emphasis."
+      },
+      {
+        "name": "Infrastructure Development",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Progressed from general mentions to detailed concerns about overdevelopment and infrastructure strain."
+      },
+      {
+        "name": "Trauma Center Needs",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Advanced from basic mention to a specific, urgent classification request."
+      }
+    ]
+  },
+  "CB14": {
+    "cb_number": 14,
+    "themes": [
+      {
+        "name": "Infrastructure Resiliency",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Consistently highlighted with calls for action, but frustration grew over lack of progress."
+      },
+      {
+        "name": "Agency Accountability",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Shifted from procedural critiques to urgent demands for systemic overhaul and accountability."
+      },
+      {
+        "name": "Sanitation Services",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 4,
+        "evolution_note": "Gained prominence as a symbol of systemic neglect, with detailed critiques by FY2026."
+      },
+      {
+        "name": "Housing Security",
+        "fy2024": 0,
+        "fy2025": 1,
+        "fy2026": 4,
+        "evolution_note": "Emerged as a critical issue by FY2026, with specific policy recommendations and urgency."
+      },
+      {
+        "name": "Zoning and Policy Impact",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 3,
+        "evolution_note": "Grew from a mention to a major critique of citywide policies lacking local impact assessments."
+      }
+    ]
+  },
+  "CB15": {
+    "cb_number": 15,
+    "themes": [
+      {
+        "name": "Public Safety",
+        "fy2024": 3,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Public safety evolved from focusing on police staffing shortages to more detailed policy asks and systemic quality-of-life enforcement issues."
+      },
+      {
+        "name": "Traffic & Parking",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Traffic concerns expanded from basic mentions to detailed complaints and specific enforcement needs, highlighting illegal activities and systemic gaps."
+      },
+      {
+        "name": "Sanitation & Cleanliness",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Sanitation issues grew from general service delivery concerns to more specific examples and calls for targeted agency action."
+      },
+      {
+        "name": "Housing & Economic Stress",
+        "fy2024": 0,
+        "fy2025": 1,
+        "fy2026": 3,
+        "evolution_note": "Housing and economic stress emerged in FY2026, linking demographic data with service needs and broadening the advocacy scope."
+      }
+    ]
+  },
+  "CB16": {
+    "cb_number": 16,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Evolved from general mention of need to specific demands for permanent housing solutions."
+      },
+      {
+        "name": "Health Disparities",
+        "fy2024": 2,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Shifted from highlighting access issues to emphasizing systemic health inequities exacerbated by COVID-19."
+      },
+      {
+        "name": "Economic Instability",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Began with unemployment and poverty, moving towards interconnected economic challenges."
+      },
+      {
+        "name": "Multi-Sector Collaboration",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Initial calls for collaboration became structured demands for integrated government and private sector actions."
+      },
+      {
+        "name": "Infrastructure Investment",
+        "fy2024": 1,
+        "fy2025": 2,
+        "fy2026": 5,
+        "evolution_note": "Transitioned from minimal mention to a central demand for systemic infrastructure funding."
+      }
+    ]
+  },
+  "CB17": {
+    "cb_number": 17,
+    "themes": [
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 5,
+        "evolution_note": "Evolved from preservation and creation to include regulatory measures like anti-warehousing and short-term rental regulation."
+      },
+      {
+        "name": "Displacement Threats",
+        "fy2024": 3,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Expanded from luxury development threats to systemic issues like ERAP abuse and broader anti-displacement strategies."
+      },
+      {
+        "name": "Tenant and Landlord Support",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Shifted from basic mentions to detailed policy mechanisms and legal support, addressing both tenant and landlord perspectives."
+      },
+      {
+        "name": "Infrastructure Alignment",
+        "fy2024": 0,
+        "fy2025": 1,
+        "fy2026": 3,
+        "evolution_note": "Introduced in FY2026 as a necessary component of housing development, linking infrastructure needs to housing growth."
+      },
+      {
+        "name": "Street Conditions and Safety",
+        "fy2024": 0,
+        "fy2025": 0,
+        "fy2026": 3,
+        "evolution_note": "Became a new priority in FY2026, highlighting traffic safety and urban quality-of-life improvements."
+      }
+    ]
+  },
+  "CB18": {
+    "cb_number": 18,
+    "themes": [
+      {
+        "name": "NYCHA Modernization",
+        "fy2024": 5,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Started with detailed inspection demands, maintained as a consistent priority with less emphasis as climate issues rose."
+      },
+      {
+        "name": "Affordable Housing",
+        "fy2024": 3,
+        "fy2025": 3,
+        "fy2026": 3,
+        "evolution_note": "Remained a steady priority without significant change in emphasis or depth across the years."
+      },
+      {
+        "name": "Climate Resiliency",
+        "fy2024": 1,
+        "fy2025": 4,
+        "fy2026": 5,
+        "evolution_note": "Grew from a basic mention to a major focus with structured calls for action and intergovernmental partnerships."
+      },
+      {
+        "name": "Transportation Infrastructure",
+        "fy2024": 1,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Evolved from minimal mention to a focus on ferry service and economic recovery, linked to climate adaptation."
+      },
+      {
+        "name": "Agency Accountability",
+        "fy2024": 2,
+        "fy2025": 3,
+        "fy2026": 4,
+        "evolution_note": "Shifted from neutral transparency efforts to critical demands for faster agency response and accountability."
+      }
+    ]
   }
 }

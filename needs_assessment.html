@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needs Assessment — NYC Community Boards</title>
+    <link rel="icon" type="image/png" href="media/cb-pigeons.png">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fredoka:wght@300;400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <style>
+        :root {
+            --primary: #2d2d2d;
+            --secondary: #5a5a5a;
+            --accent: #e07a5f;
+            --accent-soft: #f4a261;
+            --bg: #f5e6d3;
+            --text: #2d2d2d;
+            --text-light: #6b6b6b;
+            --border: #d4b59e;
+            --card-bg: #faf8f5;
+            --success: #81b29a;
+            --warning: #f4a261;
+            --danger: #e07a5f;
+            --pigeon-purple: #9d8aa3;
+            --pigeon-blue: #6b8e9d;
+            --pigeon-gray: #a8a8a8;
+            --warm-tan: #e8d5c4;
+            --grid: #efe8df;
+            --sky-blue: #a8c5d6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--primary) 100%);
+            background-attachment: fixed;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--sky-blue) 0%, #d4e5ed 100%);
+            color: var(--primary);
+            padding: 2.5rem 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 4px solid var(--accent);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--accent),
+                var(--accent) 10px,
+                var(--accent-soft) 10px,
+                var(--accent-soft) 20px
+            );
+        }
+
+        /* Pigeon decorations */
+        .pigeon-left {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite;
+        }
+
+        .pigeon-right {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) scaleX(-1);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes bobble {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            25% { transform: translateY(-55%) rotate(-2deg); }
+            75% { transform: translateY(-45%) rotate(2deg); }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: 'Amatic SC', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+        }
+
+        .header-subtitle {
+            font-family: 'Amatic SC', cursive;
+            font-size: 1.5rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.03em;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.6);
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-soft);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+            transform: translate(-2px, -2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px dashed var(--border);
+        }
+
+        .card-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+        }
+
+        .card-badge {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.7rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid var(--primary);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--pigeon-blue) 0%, var(--sky-blue) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 25px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            border: 3px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) rotate(-1deg);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Staggered animation delays */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Footer note */
+        .research-note {
+            background: linear-gradient(135deg, #fff9e6, #fef3c7);
+            border-left: 6px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            border: 3px solid var(--primary);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+
+        .research-note strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <svg class="pigeon-left" width="60" height="60" viewBox="0 0 100 100" style="display: none;">
+                <ellipse cx="50" cy="65" rx="20" ry="12" fill="#6b8e9d"/>
+                <ellipse cx="50" cy="40" rx="18" ry="22" fill="#a8a8a8"/>
+                <ellipse cx="50" cy="28" rx="14" ry="14" fill="#a8a8a8"/>
+                <circle cx="56" cy="26" r="6" fill="white"/>
+                <circle cx="58" cy="26" r="3" fill="#2d2d2d"/>
+                <path d="M 50 35 L 48 38 L 52 38 Z" fill="#2d2d2d"/>
+                <ellipse cx="50" cy="52" rx="8" ry="4" fill="#9d8aa3" opacity="0.8"/>
+            </svg>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <img src="media/cb-pigeons-transparent.png" alt="CB Pigeons" style="width: 80px; height: 80px; object-fit: contain;">
+                <h1 style="margin-bottom: 0;">NYC Community Boards Dashboard</h1>
+                <img src="media/pigeons-dashboard.png" alt="Pigeon Building Dashboard" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <nav class="nav-tabs">
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">About</a>
+                <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
+                <a href="demographics.html" class="nav-tab" style="text-decoration:none;">Demographics Report</a>
+                <a href="needs_assessment.html" class="nav-tab active" style="text-decoration:none;">Needs Assessment</a>
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- CB Selector -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">Select Community Board for Year-Over-Year Analysis</div>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Borough:</label>
+                        <select id="boroughNASelect" onchange="updateNACBDropdown()" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                            <option value="brooklyn">Brooklyn</option>
+                            <option value="manhattan" disabled>Manhattan (Coming Soon)</option>
+                            <option value="queens" disabled>Queens (Coming Soon)</option>
+                            <option value="bronx" disabled>Bronx (Coming Soon)</option>
+                            <option value="staten_island" disabled>Staten Island (Coming Soon)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Community Board:</label>
+                        <select id="yearComparisonCBSelect" onchange="loadYearComparison()" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                            <option value="">-- Select a Community Board --</option>
+                        </select>
+                    </div>
+                </div>
+                <p style="color: var(--text-light); font-size: 0.95rem;">
+                    Needs Assessments are retrieved from
+                    <a href="https://github.com/NYCPlanning/labs-cd-needs-statements/tree/master" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">
+                        NYCPlanning/labs-cd-needs-statements
+                    </a>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Comparison Container -->
+        <div id="yearComparisonContainer"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
+        <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
+            📊 This dashboard is open source under the MIT license and available on GitHub
+        </p>
+        <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
+            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+        </a>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
+            Created by Tina Zeng | NYC Community Board Dashboard
+        </p>
+    </footer>
+
+    <script>
+        const needsAssessmentPdfs = {
+            '1': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK01.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK01.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK01.pdf'
+            },
+            '2': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK02.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK02.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK02.pdf'
+            },
+            '3': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK03.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK03.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK03.pdf'
+            },
+            '4': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK04.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK04.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK04.pdf'
+            },
+            '5': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK05.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK05.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK05.pdf'
+            },
+            '6': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK06.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK06.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK06.pdf'
+            },
+            '7': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK07.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK07.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK07.pdf'
+            },
+            '8': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK08.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK08.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK08.pdf'
+            },
+            '9': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK09.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK09.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK09.pdf'
+            },
+            '10': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK10.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK10.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK10.pdf'
+            },
+            '11': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK11.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK11.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK11.pdf'
+            },
+            '12': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK12.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK12.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK12.pdf'
+            },
+            '13': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK13.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK13.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK13.pdf'
+            },
+            '14': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK14.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK14.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK14.pdf'
+            },
+            '15': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK15.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK15.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK15.pdf'
+            },
+            '16': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK16.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK16.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK16.pdf'
+            },
+            '17': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK17.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK17.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK17.pdf'
+            },
+            '18': {
+                FY2024: 'dns_pdfs/FY2024_Statement_BK18.pdf',
+                FY2025: 'dns_pdfs/FY2025_Statement_BK18.pdf',
+                FY2026: 'dns_pdfs/FY2026_Statement_BK18.pdf'
+            }
+        };
+
+        let currentYearComparisonData = null;
+        let themesData = null;
+
+        // Load themes data once
+        async function loadThemesData() {
+            if (themesData) return themesData;
+
+            try {
+                const response = await fetch('api_outputs/openai/themes_extracted.json');
+                themesData = await response.json();
+                return themesData;
+            } catch (error) {
+                console.error('Failed to load themes data:', error);
+                return null;
+            }
+        }
+
+        const BOROUGH_CB_OPTIONS = {
+            'brooklyn': [
+                { value: '1',  label: 'CB1 - Williamsburg, Greenpoint' },
+                { value: '2',  label: 'CB2 - Fort Greene, Brooklyn Heights, DUMBO' },
+                { value: '3',  label: 'CB3 - Bedford-Stuyvesant' },
+                { value: '4',  label: 'CB4 - Bushwick' },
+                { value: '5',  label: 'CB5 - East New York, Cypress Hills' },
+                { value: '6',  label: 'CB6 - Park Slope, Carroll Gardens, Red Hook', disabled: true },
+                { value: '7',  label: 'CB7 - Windsor Terrace, Kensington, Flatbush' },
+                { value: '8',  label: 'CB8 - Crown Heights' },
+                { value: '9',  label: 'CB9 - Prospect-Lefferts Gardens, Crown Heights South' },
+                { value: '10', label: 'CB10 - Bay Ridge, Dyker Heights' },
+                { value: '11', label: 'CB11 - Bensonhurst, Bath Beach' },
+                { value: '12', label: 'CB12 - Borough Park, Midwood', disabled: true },
+                { value: '13', label: 'CB13 - Coney Island, Brighton Beach' },
+                { value: '14', label: 'CB14 - Flatbush, Midwood' },
+                { value: '15', label: 'CB15 - Sheepshead Bay, Homecrest' },
+                { value: '16', label: 'CB16 - Brownsville' },
+                { value: '17', label: 'CB17 - East Flatbush' },
+                { value: '18', label: 'CB18 - Canarsie, Flatlands' },
+            ]
+        };
+
+        const BOROUGH_CODE = { 'brooklyn': 'BK', 'manhattan': 'MN', 'queens': 'QN', 'bronx': 'BX', 'staten_island': 'SI' };
+
+        function updateNACBDropdown() {
+            const borough = document.getElementById('boroughNASelect').value;
+            const cbSelect = document.getElementById('yearComparisonCBSelect');
+            const options = BOROUGH_CB_OPTIONS[borough] || [];
+            cbSelect.innerHTML = '<option value="">-- Select a Community Board --</option>' +
+                options.map(o => `<option value="${o.value}"${o.disabled ? ' disabled' : ''}>${o.label}${o.disabled ? ' (FY2025 unavailable)' : ''}</option>`).join('');
+            cbSelect.dispatchEvent(new Event('change'));
+        }
+
+        async function loadYearComparison() {
+            const select = document.getElementById('yearComparisonCBSelect');
+            const container = document.getElementById('yearComparisonContainer');
+
+            if (!select.value) {
+                container.innerHTML = '';
+                currentYearComparisonData = null;
+                return;
+            }
+
+            const cbNumber = select.value;
+            const cbLabel = select.options[select.selectedIndex].text;
+
+            try {
+                // Load both comparison data and themes data
+                const [comparisonResponse, themes] = await Promise.all([
+                    fetch(`api_outputs/openai/needs_comparison_${BOROUGH_CODE[document.getElementById('boroughNASelect')?.value || 'brooklyn']}_CB${cbNumber}.json`),
+                    loadThemesData()
+                ]);
+
+                const data = await comparisonResponse.json();
+                currentYearComparisonData = data;
+                const boroughKey = document.getElementById('boroughNASelect')?.value || 'brooklyn';
+                currentYearComparisonData.extractedThemes = (boroughKey === 'brooklyn' && themes) ? themes[`CB${cbNumber}`]?.themes : null;
+
+                // Render all visualizations
+                renderYearComparisonPage(data, cbNumber, cbLabel);
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="card" style="background: var(--danger); color: white;">
+                        <div class="card-content">
+                            <h3>Error Loading Data</h3>
+                            <p>Could not load comparison data for CB${cbNumber}. ${error.message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderYearComparisonPage(data, cbNumber, cbLabel) {
+            const container = document.getElementById('yearComparisonContainer');
+            const pdfLinksHtml = renderPdfLinks(cbNumber, cbLabel);
+
+            container.innerHTML = `
+                ${pdfLinksHtml}
+                <!-- Bonus: Comparison Summary Card -->
+                <div class="card" style="background: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent) 100%); color: white; margin-bottom: 2rem; border-color: var(--accent);">
+                    <div class="card-content">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <span style="font-size: 2.5rem;">📊</span>
+                            <h2 style="margin: 0; font-family: 'Amatic SC', cursive; font-size: 2.5rem;">The Big Story</h2>
+                        </div>
+                        <p style="font-size: 1.15rem; line-height: 1.8; margin: 0;">
+                            ${data.final_interpretation}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Visualization 1: Timeline Evolution Card -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="card-title">📅 Timeline Evolution: FY2024 → FY2026</div>
+                    </div>
+                    <div class="card-content">
+                        <div id="timelineEvolution"></div>
+                    </div>
+                </div>
+
+                <!-- Visualization 2: Theme Matrix -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="card-title">🎯 Theme Persistence &amp; Evolution Matrix</div>
+                    </div>
+                    <div class="card-content">
+                        <div id="themeMatrix"></div>
+                    </div>
+                </div>
+
+                <!-- Visualization 3: Theme Evolution Pipeline -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="card-title">🔁 How Each Theme Evolved</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
+                            Depth scores (0–5) per fiscal year for each extracted theme
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="themeEvolutionPipeline"></div>
+                    </div>
+                </div>
+
+                <!-- Visualization 4: Agency Response Pipeline -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="card-title">🏛️ Agency Response: Year by Year</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
+                            How the board's tone and demands toward city agencies shifted across fiscal years
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="agencyResponsePipeline"></div>
+                    </div>
+                </div>
+
+                <!-- Notable Quotes -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">💭 Notable Quotes Across Years</div>
+                    </div>
+                    <div class="card-content">
+                        <div id="notableQuotes"></div>
+                    </div>
+                </div>
+            `;
+
+            // Render each visualization
+            renderTimelineEvolution(data);
+            renderThemeMatrix(data);
+            renderThemeEvolutionPipeline(data);
+            renderAgencyResponsePipeline(data);
+            renderNotableQuotes(data);
+        }
+
+        function renderPdfLinks(cbNumber, cbLabel) {
+            const pdfs = needsAssessmentPdfs[cbNumber];
+
+            if (!pdfs) {
+                return `
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <div class="card-title">📄 Original Needs Assessment PDFs</div>
+                        </div>
+                        <div class="card-content">
+                            <p style="margin: 0;">We don't have PDF links yet for ${cbLabel || 'this community board'}.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const links = Object.entries(pdfs).map(([year, path]) => `
+                <a href="${path}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; border: 2px solid var(--primary); border-radius: 12px; text-decoration: none; color: var(--primary); background: white; font-weight: 600;">
+                    <span>📎</span>${year} PDF
+                </a>
+            `).join('');
+
+            return `
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="card-title">📄 Original Needs Assessment PDFs</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
+                            View the source documents referenced in this analysis for ${cbLabel}.
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            ${links}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Visualization 1: Timeline Evolution Card
+        function renderTimelineEvolution(data) {
+            const container = document.getElementById('timelineEvolution');
+
+            const years = ['FY2024', 'FY2025', 'FY2026'];
+            const summaries = data.summary_table;
+
+            let html = '<div style="display: flex; gap: 1.5rem; align-items: center; justify-content: space-between;">';
+
+            years.forEach((year, index) => {
+                const isLast = index === years.length - 1;
+
+                html += `
+                    <div style="flex: 1; background: white; border: 3px solid var(--primary); border-radius: 15px; padding: 1.5rem; min-height: 180px; display: flex; flex-direction: column;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                            <h3 style="margin: 0; color: var(--accent); font-size: 1.5rem;">${year}</h3>
+                            ${year === 'FY2026' ? '<span style="background: var(--success); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">LATEST</span>' : ''}
+                        </div>
+                        <p style="margin: 0; line-height: 1.6; flex-grow: 1; color: var(--text);">
+                            ${summaries[year]}
+                        </p>
+                    </div>
+                `;
+
+                if (!isLast) {
+                    html += `
+                        <div style="flex-shrink: 0;">
+                            <svg width="40" height="40" viewBox="0 0 40 40">
+                                <path d="M 5 20 L 30 20" stroke="var(--accent)" stroke-width="3" fill="none"/>
+                                <polygon points="28,15 35,20 28,25" fill="var(--accent)"/>
+                            </svg>
+                        </div>
+                    `;
+                }
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Visualization 2: Theme Matrix
+        function renderThemeMatrix(data) {
+            const container = document.getElementById('themeMatrix');
+
+            // Use extracted themes if available, otherwise fallback to basic extraction
+            let themes;
+            if (data.extractedThemes && data.extractedThemes.length > 0) {
+                themes = data.extractedThemes;
+            } else {
+                themes = extractThemesFromNarrative(data);
+            }
+
+            let html = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                        <thead>
+                            <tr style="background: var(--primary); color: white;">
+                                <th style="padding: 1rem; text-align: left; border: 2px solid var(--primary); min-width: 250px;">Theme</th>
+                                <th style="padding: 1rem; text-align: center; border: 2px solid var(--primary);">FY2024</th>
+                                <th style="padding: 1rem; text-align: center; border: 2px solid var(--primary);">FY2025</th>
+                                <th style="padding: 1rem; text-align: center; border: 2px solid var(--primary);">FY2026</th>
+                                <th style="padding: 1rem; text-align: center; border: 2px solid var(--primary);">Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            themes.forEach((theme, index) => {
+                const bgColor = index % 2 === 0 ? 'white' : 'var(--warm-tan)';
+                const evolutionNote = theme.evolution_note || '';
+
+                html += `
+                    <tr style="background: ${bgColor};">
+                        <td style="padding: 1rem; font-weight: 600; border: 2px solid var(--border);">
+                            ${theme.name}
+                            ${evolutionNote ? '<span style="font-size: 0.8rem; color: var(--text-light); display: block; font-weight: 400; margin-top: 0.25rem;">💡 ' + evolutionNote + '</span>' : ''}
+                        </td>
+                        <td style="padding: 1rem; text-align: center; border: 2px solid var(--border);">
+                            ${generateDepthDots(theme.fy2024)}
+                        </td>
+                        <td style="padding: 1rem; text-align: center; border: 2px solid var(--border);">
+                            ${generateDepthDots(theme.fy2025)}
+                        </td>
+                        <td style="padding: 1rem; text-align: center; border: 2px solid var(--border);">
+                            ${generateDepthDots(theme.fy2026)}
+                        </td>
+                        <td style="padding: 1rem; text-align: center; font-size: 1.5rem; border: 2px solid var(--border);">
+                            ${getTrendArrow(theme.fy2024, theme.fy2025, theme.fy2026)}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: var(--warm-tan); border-radius: 10px;">
+                    <div style="margin-bottom: 1rem;">
+                        <strong>💡 AI-Extracted Themes:</strong> These themes were automatically identified and scored by GPT-4 based on the depth and evolution of discussion in the needs statements.
+                    </div>
+                    <strong>Legend:</strong>
+                    <div style="display: flex; gap: 2rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                        <span>● = Basic mention</span>
+                        <span>●● = With examples</span>
+                        <span>●●● = Policy asks</span>
+                        <span>●●●● = Data/evidence</span>
+                        <span>●●●●● = Structured recommendations</span>
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        <span>↗ = Growing emphasis</span>
+                        <span style="margin-left: 1rem;">→ = Sustained</span>
+                        <span style="margin-left: 1rem;">↘ = Declining</span>
+                        <span style="margin-left: 1rem;">★ = New theme</span>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function extractThemesFromNarrative(data) {
+            // Analyze the narrative sections to extract themes and their depth scores
+            const policyText = data.narrative_comparison.policy_changes.toLowerCase();
+            const emphasisText = data.narrative_comparison.emphasis_shifts.toLowerCase();
+
+            const themes = [
+                {
+                    name: 'Affordable Housing',
+                    fy2024: calculateThemeDepth(policyText, emphasisText, '2024', ['housing', 'affordable']),
+                    fy2025: calculateThemeDepth(policyText, emphasisText, '2025', ['housing', 'affordable']),
+                    fy2026: calculateThemeDepth(policyText, emphasisText, '2026', ['housing', 'affordable', 'displacement'])
+                },
+                {
+                    name: 'Transportation',
+                    fy2024: calculateThemeDepth(policyText, emphasisText, '2024', ['transport', 'traffic', 'street']),
+                    fy2025: calculateThemeDepth(policyText, emphasisText, '2025', ['transport', 'vision zero', 'transit']),
+                    fy2026: calculateThemeDepth(policyText, emphasisText, '2026', ['transport', 'transit', 'overcrowding'])
+                },
+                {
+                    name: 'Parks & Open Space',
+                    fy2024: calculateThemeDepth(policyText, emphasisText, '2024', ['park', 'open space']),
+                    fy2025: calculateThemeDepth(policyText, emphasisText, '2025', ['park', 'maintenance', 'staffing']),
+                    fy2026: calculateThemeDepth(policyText, emphasisText, '2026', ['park', 'waterfront', 'usage'])
+                },
+                {
+                    name: 'Data Transparency',
+                    fy2024: 0,
+                    fy2025: calculateThemeDepth(policyText, emphasisText, '2025', ['data', 'transparency']),
+                    fy2026: calculateThemeDepth(policyText, emphasisText, '2026', ['data', 'transparency', 'accountability', 'reporting'])
+                }
+            ];
+
+            return themes;
+        }
+
+        function calculateThemeDepth(policyText, emphasisText, year, keywords) {
+            const combinedText = policyText + ' ' + emphasisText;
+            const yearContext = combinedText.indexOf('fy' + year) > -1 || combinedText.indexOf(year) > -1;
+
+            if (!yearContext) return 0;
+
+            let score = 0;
+            const keywordMatch = keywords.some(kw => combinedText.includes(kw));
+            if (!keywordMatch) return 0;
+
+            // Basic scoring based on context
+            score = 1; // Basic mention
+
+            if (combinedText.includes('example') || combinedText.includes('specific')) score = Math.max(score, 2);
+            if (combinedText.includes('ask') || combinedText.includes('request') || combinedText.includes('commitment')) score = Math.max(score, 3);
+            if (combinedText.includes('data') || combinedText.includes('evidence') || combinedText.includes('citation')) score = Math.max(score, 4);
+            if (combinedText.includes('recommendation') || combinedText.includes('framework') || combinedText.includes('program')) score = Math.max(score, 5);
+
+            return score;
+        }
+
+        function generateDepthDots(depth) {
+            if (depth === 0) return '<span style="color: var(--text-light);">—</span>';
+
+            const dots = '●'.repeat(depth);
+            const colors = ['#e8d5c4', '#f4a261', '#e07a5f', '#81b29a', '#6b8e9d'];
+            const color = colors[Math.min(depth - 1, 4)];
+
+            return `<span style="color: ${color}; font-size: 1.2rem;">${dots}</span>`;
+        }
+
+        function getTrendArrow(val1, val2, val3) {
+            if (val1 === 0 && val2 === 0 && val3 > 0) return '★';
+            if (val1 === 0) val1 = val2; // Handle new themes
+
+            const trend = val3 - val1;
+            if (trend > 1) return '<span style="color: var(--success);">↗</span>';
+            if (trend < -1) return '<span style="color: var(--danger);">↘</span>';
+            return '<span style="color: var(--secondary);">→</span>';
+        }
+
+        // Visualization 3: Theme Evolution Pipeline
+        function renderThemeEvolutionPipeline(data) {
+            const container = document.getElementById('themeEvolutionPipeline');
+            let themes;
+            if (data.extractedThemes && data.extractedThemes.length > 0) {
+                themes = data.extractedThemes;
+            } else {
+                themes = extractThemesFromNarrative(data);
+            }
+
+            const depthColors = ['#efe8df', '#f4d9c4', '#f4a261', '#e07a5f', '#81b29a', '#6b8e9d'];
+            const depthLabels = ['Not mentioned', 'Basic mention', 'With examples', 'Policy asks', 'Data/evidence', 'Structured recommendations'];
+
+            const depthBar = (score) => {
+                if (score === 0) return `<span style="color: var(--text-light); font-size: 0.85rem;">—</span>`;
+                const pct = (score / 5) * 100;
+                const color = depthColors[Math.min(score, 5)];
+                return `
+                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                        <div style="flex:1; height:10px; background:var(--grid); border-radius:5px; overflow:hidden;">
+                            <div style="width:${pct}%; height:100%; background:${color}; border-radius:5px;"></div>
+                        </div>
+                        <span style="font-size:0.8rem; color:var(--secondary); min-width:1.5rem;">${score}/5</span>
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${depthLabels[Math.min(score,5)]}</div>
+                `;
+            };
+
+            const trendIcon = (t) => {
+                if (t.fy2024 === 0 && t.fy2026 > 0) return '★ New';
+                const delta = t.fy2026 - (t.fy2024 || t.fy2025 || 0);
+                if (delta > 1) return '<span style="color:var(--success);">↗ Growing</span>';
+                if (delta < -1) return '<span style="color:var(--danger);">↘ Declining</span>';
+                return '<span style="color:var(--secondary);">→ Sustained</span>';
+            };
+
+            let html = '<div style="display:grid; gap:1.25rem;">';
+            themes.forEach(theme => {
+                html += `
+                    <div style="background:white; border:2px solid var(--border); border-radius:12px; overflow:hidden;">
+                        <div style="background:var(--primary); color:white; padding:0.75rem 1.25rem; display:flex; align-items:center; justify-content:space-between;">
+                            <strong style="font-size:1.05rem;">${theme.name}</strong>
+                            <span style="font-size:0.85rem; opacity:0.85;">${trendIcon(theme)}</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border-top:1px solid var(--border);">
+                            ${['FY2024','FY2025','FY2026'].map((yr, i) => {
+                                const score = [theme.fy2024, theme.fy2025, theme.fy2026][i];
+                                const yearColors = ['#6b8e9d','#f4a261','#e07a5f'];
+                                return `
+                                    <div style="padding:1rem; ${i < 2 ? 'border-right:1px solid var(--border);' : ''}">
+                                        <div style="font-weight:700; color:${yearColors[i]}; margin-bottom:0.5rem; font-size:0.95rem;">${yr}</div>
+                                        ${depthBar(score)}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        ${theme.evolution_note ? `
+                        <div style="padding:0.75rem 1.25rem; background:var(--warm-tan); border-top:1px solid var(--border); font-size:0.9rem; color:var(--text-light);">
+                            💡 ${theme.evolution_note}
+                        </div>` : ''}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // STUB: keep old function name so nothing breaks if called elsewhere
+        function renderSankeyDiagram(data) {
+            const container = document.getElementById('sankeyDiagram');
+            container.innerHTML = ''; // Clear previous
+
+            // Parse theme evolution from narrative
+            const sankeyData = buildSankeyData(data);
+
+            const width = container.clientWidth;
+            const height = 600;
+
+            const svg = d3.select('#sankeyDiagram')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('viewBox', [0, 0, width, height])
+                .attr('style', 'max-width: 100%; height: auto; background: white; border-radius: 10px;');
+
+            const sankey = d3.sankey()
+                .nodeWidth(15)
+                .nodePadding(20)
+                .extent([[50, 50], [width - 50, height - 50]]);
+
+            const {nodes, links} = sankey(sankeyData);
+
+            // Color scale
+            const color = d3.scaleOrdinal()
+                .domain(['Housing', 'Transportation', 'Parks', 'Data', 'Other'])
+                .range(['#e07a5f', '#6b8e9d', '#81b29a', '#f4a261', '#a8a8a8']);
+
+            // Links
+            svg.append('g')
+                .selectAll('path')
+                .data(links)
+                .join('path')
+                .attr('d', d3.sankeyLinkHorizontal())
+                .attr('stroke', d => color(d.source.category))
+                .attr('stroke-width', d => Math.max(1, d.width))
+                .attr('fill', 'none')
+                .attr('opacity', 0.5)
+                .append('title')
+                .text(d => `${d.source.name} → ${d.target.name}\n${d.value} emphasis`);
+
+            // Nodes
+            const node = svg.append('g')
+                .selectAll('rect')
+                .data(nodes)
+                .join('rect')
+                .attr('x', d => d.x0)
+                .attr('y', d => d.y0)
+                .attr('height', d => d.y1 - d.y0)
+                .attr('width', d => d.x1 - d.x0)
+                .attr('fill', d => color(d.category))
+                .attr('stroke', '#2d2d2d')
+                .attr('stroke-width', 2)
+                .append('title')
+                .text(d => `${d.name}\n${d.value}`);
+
+            // Labels
+            svg.append('g')
+                .selectAll('text')
+                .data(nodes)
+                .join('text')
+                .attr('x', d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
+                .attr('y', d => (d.y1 + d.y0) / 2)
+                .attr('dy', '0.35em')
+                .attr('text-anchor', d => d.x0 < width / 2 ? 'start' : 'end')
+                .attr('font-size', '12px')
+                .attr('font-weight', '600')
+                .attr('fill', '#2d2d2d')
+                .text(d => d.name);
+
+            // Year labels at top
+            const yearPositions = [
+                {year: 'FY2024', x: width * 0.15},
+                {year: 'FY2025', x: width * 0.5},
+                {year: 'FY2026', x: width * 0.85}
+            ];
+
+            svg.append('g')
+                .selectAll('text')
+                .data(yearPositions)
+                .join('text')
+                .attr('x', d => d.x)
+                .attr('y', 25)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '16px')
+                .attr('font-weight', '700')
+                .attr('fill', '#e07a5f')
+                .text(d => d.year);
+        }
+
+        function buildSankeyData(data) {
+            // Build nodes and links based on theme evolution in the narrative
+            const nodes = [
+                // FY2024
+                {name: 'Housing (General)', category: 'Housing'},
+                {name: 'Traffic Concerns', category: 'Transportation'},
+                {name: 'Parks Needs', category: 'Parks'},
+
+                // FY2025
+                {name: 'Housing Priority', category: 'Housing'},
+                {name: 'Transportation & Mobility', category: 'Transportation'},
+                {name: 'Parks + Staffing', category: 'Parks'},
+
+                // FY2026
+                {name: 'Housing + Anti-Displacement', category: 'Housing'},
+                {name: 'Vision Zero + Transit', category: 'Transportation'},
+                {name: 'Parks + Waterfront', category: 'Parks'},
+                {name: 'Data Transparency', category: 'Data'}
+            ];
+
+            const links = [
+                // FY2024 → FY2025
+                {source: 0, target: 3, value: 5}, // Housing
+                {source: 1, target: 4, value: 3}, // Transportation
+                {source: 2, target: 5, value: 3}, // Parks
+
+                // FY2025 → FY2026
+                {source: 3, target: 6, value: 5}, // Housing deepens
+                {source: 4, target: 7, value: 4}, // Transportation expands
+                {source: 5, target: 8, value: 3}, // Parks continues
+                {source: 4, target: 9, value: 2}  // New: Data transparency emerges
+            ];
+
+            return {nodes, links};
+        }
+
+        // Visualization 4: Agency Response Pipeline
+        function renderAgencyResponsePipeline(data) {
+            const container = document.getElementById('agencyResponsePipeline');
+            const text = data.narrative_comparison.agency_response_evolution;
+
+            const extractQuotes = (segment) => {
+                const matches = [...segment.matchAll(/"([^"]{20,250})"/g)];
+                return matches.slice(0, 2).map(m => m[1].replace(/\u0000/g, 'ti'));
+            };
+
+            const lo = text.toLowerCase();
+            const idx24 = lo.indexOf('fy2024'), idx25 = lo.indexOf('fy2025'), idx26 = lo.indexOf('fy2026');
+            const seg24 = text.substring(Math.max(0,idx24), idx25 > 0 ? idx25 : text.length/3);
+            const seg25 = text.substring(idx25 > 0 ? idx25 : text.length/3, idx26 > 0 ? idx26 : 2*text.length/3);
+            const seg26 = text.substring(idx26 > 0 ? idx26 : 2*text.length/3);
+
+            const stages = [
+                { year: 'FY2024', color: '#6b8e9d', icon: '🤝', tone: 'Collaborative / Partnership', seg: seg24 },
+                { year: 'FY2025', color: '#f4a261', icon: '📋', tone: 'Operational / Pressing',       seg: seg25 },
+                { year: 'FY2026', color: '#e07a5f', icon: '📢', tone: 'Demanding / Accountability',   seg: seg26 },
+            ];
+
+            let html = `
+                <div style="margin-bottom:1.25rem; padding:1rem; background:var(--warm-tan); border-radius:10px; font-size:0.95rem; line-height:1.7; border-left:4px solid var(--accent);">
+                    ${text.split('. ').slice(0, 2).join('. ')}.
+                </div>
+                <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:start; gap:0.5rem;">
+            `;
+
+            stages.forEach((s, i) => {
+                const quotes = extractQuotes(s.seg);
+                html += `
+                    <div style="background:white; border:3px solid ${s.color}; border-radius:12px; padding:1.25rem;">
+                        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+                            <span style="font-size:1.4rem;">${s.icon}</span>
+                            <div>
+                                <div style="font-weight:700; color:${s.color}; font-size:1.05rem;">${s.year}</div>
+                                <div style="font-size:0.78rem; color:var(--text-light);">${s.tone}</div>
+                            </div>
+                        </div>
+                        ${quotes.map(q => `
+                            <div style="border-left:3px solid ${s.color}; padding-left:0.75rem; margin-bottom:0.6rem; font-size:0.87rem; font-style:italic; color:var(--secondary); line-height:1.5;">
+                                "${q}"
+                            </div>
+                        `).join('')}
+                        ${quotes.length === 0 ? `<p style="font-size:0.88rem; color:var(--text-light); line-height:1.5;">${s.seg.trim().slice(0,220)}…</p>` : ''}
+                    </div>
+                `;
+                if (i < stages.length - 1) {
+                    html += `<div style="display:flex; align-items:center; justify-content:center; padding-top:3.5rem;">
+                        <svg width="28" height="28" viewBox="0 0 28 28">
+                            <path d="M2 14 L20 14" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+                            <polygon points="17,9 24,14 17,19" fill="var(--accent)"/>
+                        </svg>
+                    </div>`;
+                }
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // STUB: keep for compatibility
+        function renderSentimentTracker(data) {
+            const container = document.getElementById('sentimentTracker');
+
+            // Extract sentiment from agency_response_evolution
+            const sentimentData = analyzeSentiment(data.narrative_comparison.agency_response_evolution);
+
+            const width = container.clientWidth;
+            const height = 400;
+
+            const svg = d3.select('#sentimentTracker')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', [0, 0, width, height]);
+
+            // Gradient zones
+            const gradient = svg.append('defs')
+                .append('linearGradient')
+                .attr('id', 'sentimentGradient')
+                .attr('x1', '0%')
+                .attr('y1', '0%')
+                .attr('x2', '0%')
+                .attr('y2', '100%');
+
+            gradient.append('stop')
+                .attr('offset', '0%')
+                .attr('stop-color', '#81b29a')
+                .attr('stop-opacity', 0.3);
+
+            gradient.append('stop')
+                .attr('offset', '50%')
+                .attr('stop-color', '#f4a261')
+                .attr('stop-opacity', 0.3);
+
+            gradient.append('stop')
+                .attr('offset', '100%')
+                .attr('stop-color', '#e07a5f')
+                .attr('stop-opacity', 0.3);
+
+            // Background zones
+            svg.append('rect')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('fill', 'url(#sentimentGradient)');
+
+            // Scale
+            const xScale = d3.scalePoint()
+                .domain(['FY2024', 'FY2025', 'FY2026'])
+                .range([100, width - 100]);
+
+            const yScale = d3.scaleLinear()
+                .domain([1, 5]) // 1 = Frustrated, 5 = Collaborative
+                .range([height - 80, 80]);
+
+            // Line path
+            const line = d3.line()
+                .x(d => xScale(d.year))
+                .y(d => yScale(d.sentiment))
+                .curve(d3.curveMonotoneX);
+
+            // Draw line
+            svg.append('path')
+                .datum(sentimentData)
+                .attr('fill', 'none')
+                .attr('stroke', '#2d2d2d')
+                .attr('stroke-width', 4)
+                .attr('d', line);
+
+            // Points
+            svg.selectAll('circle')
+                .data(sentimentData)
+                .join('circle')
+                .attr('cx', d => xScale(d.year))
+                .attr('cy', d => yScale(d.sentiment))
+                .attr('r', 8)
+                .attr('fill', d => {
+                    if (d.sentiment >= 4) return '#81b29a';
+                    if (d.sentiment >= 3) return '#f4a261';
+                    return '#e07a5f';
+                })
+                .attr('stroke', '#2d2d2d')
+                .attr('stroke-width', 2);
+
+            // Labels
+            svg.selectAll('text.year')
+                .data(['FY2024', 'FY2025', 'FY2026'])
+                .join('text')
+                .attr('class', 'year')
+                .attr('x', d => xScale(d))
+                .attr('y', height - 40)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '14px')
+                .attr('font-weight', '600')
+                .text(d => d);
+
+            // Sentiment labels
+            const sentimentLabels = [
+                {y: 5, label: 'Collaborative', color: '#81b29a'},
+                {y: 3, label: 'Operational', color: '#f4a261'},
+                {y: 1, label: 'Frustrated', color: '#e07a5f'}
+            ];
+
+            svg.selectAll('text.sentiment')
+                .data(sentimentLabels)
+                .join('text')
+                .attr('class', 'sentiment')
+                .attr('x', 20)
+                .attr('y', d => yScale(d.y))
+                .attr('font-size', '12px')
+                .attr('font-weight', '600')
+                .attr('fill', d => d.color)
+                .text(d => d.label);
+
+            // Quote annotations
+            svg.selectAll('text.quote')
+                .data(sentimentData)
+                .join('text')
+                .attr('class', 'quote')
+                .attr('x', d => xScale(d.year))
+                .attr('y', d => yScale(d.sentiment) - 20)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '11px')
+                .attr('fill', '#2d2d2d')
+                .attr('font-style', 'italic')
+                .text(d => d.label);
+        }
+
+        function analyzeSentiment(text) {
+            // Analyze the agency_response_evolution text to extract sentiment scores
+            const lowerText = text.toLowerCase();
+
+            const data = [
+                {
+                    year: 'FY2024',
+                    sentiment: 4.5, // "collaborative", "partnership"
+                    label: 'Partnership'
+                },
+                {
+                    year: 'FY2025',
+                    sentiment: 3, // "operational requests"
+                    label: 'Operational'
+                },
+                {
+                    year: 'FY2026',
+                    sentiment: 2, // "frustration", "corrective"
+                    label: 'Demanding'
+                }
+            ];
+
+            // Adjust based on actual text
+            if (lowerText.includes('collaborative') && lowerText.includes('2024')) data[0].sentiment = 4.5;
+            if (lowerText.includes('frustration') || lowerText.includes('hampered')) data[2].sentiment = 1.5;
+
+            return data;
+        }
+
+        // Notable Quotes Rendering — shows curated quotes plus extras extracted from narrative
+        function renderNotableQuotes(data) {
+            const container = document.getElementById('notableQuotes');
+            const yearColor = { 'FY2024': '#6b8e9d', 'FY2025': '#f4a261', 'FY2026': '#e07a5f' };
+
+            // Build the quote list: start with the curated notable_quotes, then add extras from narrative
+            const allQuotes = [...(data.notable_quotes || [])];
+
+            // Extract additional quotes from policy_changes and emphasis_shifts
+            const extractNarrativeQuotes = (text, year) => {
+                if (!text) return [];
+                const regex = /"([^"]{30,300})"/g;
+                const found = [];
+                let m;
+                while ((m = regex.exec(text)) !== null) {
+                    const q = m[1].replace(/\u0000/g, 'ti').trim();
+                    // Skip if already in allQuotes
+                    if (!allQuotes.some(existing => existing.quote.includes(q.slice(0, 30)))) {
+                        found.push({ year, quote: q, significance: null });
+                    }
+                    if (found.length >= 2) break;
+                }
+                return found;
+            };
+
+            // Try to extract 1-2 extra quotes per year from the policy_changes narrative
+            const pc = data.narrative_comparison.policy_changes || '';
+            const es = data.narrative_comparison.emphasis_shifts || '';
+            const ar = data.narrative_comparison.agency_response_evolution || '';
+
+            for (const yr of ['FY2024', 'FY2025', 'FY2026']) {
+                // Find the segment of each narrative text that discusses this year
+                const lo = (pc + ' ' + es).toLowerCase();
+                const idx = lo.indexOf(yr.toLowerCase());
+                const seg = idx >= 0 ? (pc + ' ' + es).substring(idx, idx + 800) : '';
+                const extras = extractNarrativeQuotes(seg, yr);
+                allQuotes.push(...extras);
+            }
+
+            // Also extract from agency response
+            const arExtras = extractNarrativeQuotes(ar, 'FY2026');
+            allQuotes.push(...arExtras.slice(0, 1));
+
+            let html = '<div style="display: grid; gap: 1.25rem;">';
+            allQuotes.forEach(quote => {
+                const color = yearColor[quote.year] || '#2d2d2d';
+                html += `
+                    <div style="border-left: 5px solid ${color}; background: var(--warm-tan); padding: 1.25rem 1.5rem; border-radius: 10px;">
+                        <div style="margin-bottom: 0.75rem;">
+                            <span style="background: ${color}; color: white; padding: 0.3rem 0.85rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+                                ${quote.year}
+                            </span>
+                        </div>
+                        <blockquote style="margin: 0 0 ${quote.significance ? '0.75rem' : '0'} 0; font-size: 1.05rem; font-style: italic; color: var(--primary); line-height: 1.65;">
+                            "${quote.quote}"
+                        </blockquote>
+                        ${quote.significance ? `<p style="margin: 0; color: var(--secondary); font-size: 0.9rem;"><strong>Significance:</strong> ${quote.significance}</p>` : ''}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', () => { updateNACBDropdown(); });
+    </script>
+</body>
+</html>

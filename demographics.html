@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demographics Report — NYC Community Boards</title>
+    <link rel="icon" type="image/png" href="media/cb-pigeons.png">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fredoka:wght@300;400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <style>
+        :root {
+            --primary: #2d2d2d;
+            --secondary: #5a5a5a;
+            --accent: #e07a5f;
+            --accent-soft: #f4a261;
+            --bg: #f5e6d3;
+            --text: #2d2d2d;
+            --text-light: #6b6b6b;
+            --border: #d4b59e;
+            --card-bg: #faf8f5;
+            --success: #81b29a;
+            --warning: #f4a261;
+            --danger: #e07a5f;
+            --pigeon-purple: #9d8aa3;
+            --pigeon-blue: #6b8e9d;
+            --pigeon-gray: #a8a8a8;
+            --warm-tan: #e8d5c4;
+            --grid: #efe8df;
+            --sky-blue: #a8c5d6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--primary) 100%);
+            background-attachment: fixed;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--sky-blue) 0%, #d4e5ed 100%);
+            color: var(--primary);
+            padding: 2.5rem 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 4px solid var(--accent);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--accent),
+                var(--accent) 10px,
+                var(--accent-soft) 10px,
+                var(--accent-soft) 20px
+            );
+        }
+
+        /* Pigeon decorations */
+        .pigeon-left {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite;
+        }
+
+        .pigeon-right {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) scaleX(-1);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes bobble {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            25% { transform: translateY(-55%) rotate(-2deg); }
+            75% { transform: translateY(-45%) rotate(2deg); }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: 'Amatic SC', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+        }
+
+        .header-subtitle {
+            font-family: 'Amatic SC', cursive;
+            font-size: 1.5rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.03em;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.6);
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-soft);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+            transform: translate(-2px, -2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px dashed var(--border);
+        }
+
+        .card-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+        }
+
+        .card-badge {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.7rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid var(--primary);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--pigeon-blue) 0%, var(--sky-blue) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 25px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            border: 3px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) rotate(-1deg);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Staggered animation delays */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Footer note */
+        .research-note {
+            background: linear-gradient(135deg, #fff9e6, #fef3c7);
+            border-left: 6px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            border: 3px solid var(--primary);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+
+        .research-note strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <svg class="pigeon-left" width="60" height="60" viewBox="0 0 100 100" style="display: none;">
+                <ellipse cx="50" cy="65" rx="20" ry="12" fill="#6b8e9d"/>
+                <ellipse cx="50" cy="40" rx="18" ry="22" fill="#a8a8a8"/>
+                <ellipse cx="50" cy="28" rx="14" ry="14" fill="#a8a8a8"/>
+                <circle cx="56" cy="26" r="6" fill="white"/>
+                <circle cx="58" cy="26" r="3" fill="#2d2d2d"/>
+                <path d="M 50 35 L 48 38 L 52 38 Z" fill="#2d2d2d"/>
+                <ellipse cx="50" cy="52" rx="8" ry="4" fill="#9d8aa3" opacity="0.8"/>
+            </svg>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <img src="media/cb-pigeons-transparent.png" alt="CB Pigeons" style="width: 80px; height: 80px; object-fit: contain;">
+                <h1 style="margin-bottom: 0;">NYC Community Boards Dashboard</h1>
+                <img src="media/pigeons-dashboard.png" alt="Pigeon Building Dashboard" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <nav class="nav-tabs">
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">About</a>
+                <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
+                <a href="demographics.html" class="nav-tab active" style="text-decoration:none;">Demographics Report</a>
+                <a href="needs_assessment.html" class="nav-tab" style="text-decoration:none;">Needs Assessment</a>
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Borough Selector -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">📊 Community Board Demographics Analysis (2022-2025)</div>
+            </div>
+            <div class="card-content">
+                <div style="margin-bottom: 1rem;">
+                    <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
+                    <select id="demographicsBoroughSelect" onchange="updateDemographicsReport()" style="padding: 0.5rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                        <option value="brooklyn">Brooklyn (Current Data)</option>
+                        <option value="manhattan">Manhattan (Coming Soon)</option>
+                        <option value="queens">Queens (Coming Soon)</option>
+                        <option value="bronx">Bronx (Coming Soon)</option>
+                        <option value="staten-island">Staten Island (Coming Soon)</option>
+                    </select>
+                </div>
+                <p style="color: var(--text-light); font-size: 0.95rem;">
+                    Analysis of demographic trends across Brooklyn Community Board appointees from 2022 to 2025.
+                    Data sourced from Brooklyn Borough President's annual demographic reports.
+                </p>
+            </div>
+        </div>
+
+        <!-- Key Metrics Summary -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">📈 Key Trends (2022 → 2025)</div>
+            </div>
+            <div class="card-content">
+                <div id="demographicsKeyMetrics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Gender Balance Chart -->
+        <div class="grid grid-2" style="margin-bottom: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">⚖️ Gender Balance Over Time</div>
+                </div>
+                <div class="card-content">
+                    <canvas id="genderBalanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Race/Ethnicity Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🌍 Race/Ethnicity Distribution</div>
+                </div>
+                <div class="card-content">
+                    <canvas id="raceEthnicityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Age Distribution Chart -->
+        <div class="grid grid-2" style="margin-bottom: 2rem;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">👥 Age Distribution Trends</div>
+                </div>
+                <div class="card-content">
+                    <canvas id="ageDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- First-Time vs Returning -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🆕 First-Time vs Returning Appointees</div>
+                </div>
+                <div class="card-content">
+                    <canvas id="firstTimeReturningChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Year-to-Year Changes -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">📅 Year-to-Year Changes</div>
+            </div>
+            <div class="card-content">
+                <div id="yearToYearChanges" style="display: grid; gap: 1.5rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Board Highlights -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">🏘️ Community Board Highlights</div>
+            </div>
+            <div class="card-content">
+                <div id="communityBoardChanges" style="display: grid; gap: 1rem;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Summary -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">💡 Overall Trends &amp; Insights</div>
+            </div>
+            <div class="card-content">
+                <div id="overallTrendsSummary">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
+        <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
+            📊 This dashboard is open source under the MIT license and available on GitHub
+        </p>
+        <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
+            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+        </a>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
+            Created by Tina Zeng | NYC Community Board Dashboard
+        </p>
+    </footer>
+
+    <script>
+        let demographicsData = null;
+        let demographicsCharts = {};
+
+        async function loadDemographicsData() {
+            if (demographicsData) return demographicsData;
+
+            try {
+                const response = await fetch('api_outputs/demographics/brooklyn_demographics_analysis.json');
+                demographicsData = await response.json();
+                return demographicsData;
+            } catch (error) {
+                console.error('Failed to load demographics data:', error);
+                return null;
+            }
+        }
+
+        function updateDemographicsReport() {
+            const select = document.getElementById('demographicsBoroughSelect');
+            const borough = select.value;
+
+            if (borough !== 'brooklyn') {
+                const boroughName = select.options[select.selectedIndex].text;
+                alert('Data for ' + boroughName + ' is coming soon! Currently only Brooklyn demographic data (2022-2025) is available.');
+                select.value = 'brooklyn'; // Reset to Brooklyn
+            }
+        }
+
+        async function renderDemographics() {
+            const data = await loadDemographicsData();
+            if (!data) {
+                document.getElementById('demographicsKeyMetrics').innerHTML = '<p style="color: var(--danger);">Failed to load demographics data.</p>';
+                return;
+            }
+
+            renderKeyMetrics(data);
+            renderGenderBalanceChart(data);
+            renderRaceEthnicityChart(data);
+            renderAgeDistributionChart(data);
+            renderFirstTimeReturningChart(data);
+            renderYearToYearChanges(data);
+            renderCommunityBoardChanges(data);
+            renderOverallTrendsSummary(data);
+        }
+
+        function renderKeyMetrics(data) {
+            const container = document.getElementById('demographicsKeyMetrics');
+            const metrics = data.overall_2022_2025_trends.major_increases.slice(0, 4);
+
+            let html = '';
+            metrics.forEach(metric => {
+                html += `
+                    <div style="background: var(--accent-soft); padding: 1.5rem; border-radius: 12px; border: 3px solid var(--primary); text-align: center;">
+                        <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">
+                            ${metric.category}
+                        </div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
+                            ${metric.change}
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--secondary);">
+                            ${metric.significance}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderGenderBalanceChart(data) {
+            const ctx = document.getElementById('genderBalanceChart');
+            if (demographicsCharts.gender) demographicsCharts.gender.destroy();
+
+            const years = Object.keys(data.gender_balance.year_values);
+            const femaleData = years.map(year => parseFloat(data.gender_balance.year_values[year].Female));
+            const maleData = years.map(year => parseFloat(data.gender_balance.year_values[year].Male));
+
+            demographicsCharts.gender = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Female',
+                        data: femaleData,
+                        borderColor: '#e07a5f',
+                        backgroundColor: 'rgba(224, 122, 95, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Male',
+                        data: maleData,
+                        borderColor: '#6b8e9d',
+                        backgroundColor: 'rgba(107, 142, 157, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 40,
+                            max: 60,
+                            ticks: { callback: value => value + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderRaceEthnicityChart(data) {
+            const ctx = document.getElementById('raceEthnicityChart');
+            if (demographicsCharts.race) demographicsCharts.race.destroy();
+
+            const years = Object.keys(data.race_ethnicity_breakdown.year_values);
+            const categories = ['Black', 'Hispanic', 'Asian'];
+            const colors = ['#81b29a', '#f4a261', '#6b8e9d'];
+
+            const datasets = categories.map((category, index) => ({
+                label: category,
+                data: years.map(year => parseFloat(data.race_ethnicity_breakdown.year_values[year][category])),
+                backgroundColor: colors[index],
+                borderColor: colors[index],
+                borderWidth: 2
+            }));
+
+            demographicsCharts.race = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: { stacked: false },
+                        y: {
+                            beginAtZero: true,
+                            max: 50,
+                            ticks: { callback: value => value + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderAgeDistributionChart(data) {
+            const ctx = document.getElementById('ageDistributionChart');
+            if (demographicsCharts.age) demographicsCharts.age.destroy();
+
+            const years = Object.keys(data.age_distribution.year_values);
+            const ageGroups = ['18-29', '30-44', '45-64', '65+'];
+            const colors = ['#81b29a', '#f4a261', '#e07a5f', '#9d8aa3'];
+
+            const datasets = ageGroups.map((group, index) => ({
+                label: group,
+                data: years.map(year => parseFloat(data.age_distribution.year_values[year][group])),
+                backgroundColor: colors[index]
+            }));
+
+            demographicsCharts.age = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: value => value + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderFirstTimeReturningChart(data) {
+            const ctx = document.getElementById('firstTimeReturningChart');
+            if (demographicsCharts.firstTime) demographicsCharts.firstTime.destroy();
+
+            const years = Object.keys(data.first_time_vs_returning.year_values);
+            const firstTimeData = years.map(year => parseFloat(data.first_time_vs_returning.year_values[year]['First-Time']));
+            const returningData = years.map(year => parseFloat(data.first_time_vs_returning.year_values[year]['Returning']));
+
+            demographicsCharts.firstTime = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'First-Time',
+                        data: firstTimeData,
+                        backgroundColor: '#81b29a'
+                    }, {
+                        label: 'Returning',
+                        data: returningData,
+                        backgroundColor: '#6b8e9d'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: value => value + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderYearToYearChanges(data) {
+            const container = document.getElementById('yearToYearChanges');
+            const trends = data.year_to_year_trends;
+
+            let html = '';
+            Object.keys(trends).forEach(period => {
+                const periodData = trends[period];
+                const yearRange = period.replace('_', '-');
+
+                html += `
+                    <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 3px solid var(--primary);">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary);">
+                            ${yearRange}
+                        </h3>
+                        <p style="margin-bottom: 1rem; line-height: 1.6;">
+                            ${periodData.summary}
+                        </p>
+                        <div style="display: grid; gap: 0.75rem; font-size: 0.9rem;">
+                            ${Object.entries(periodData.changes).map(([category, change]) => {
+                                if (typeof change === 'object') {
+                                    return `<div style="padding: 0.5rem; background: white; border-radius: 8px;">
+                                        <strong>${category}:</strong>
+                                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                            ${Object.entries(change).filter(([k, v]) => k !== 'trend' && k !== 'White').map(([k, v]) =>
+                                                `<li>${k}: ${v}</li>`
+                                            ).join('')}
+                                        </ul>
+                                    </div>`;
+                                }
+                                return `<div style="padding: 0.5rem; background: white; border-radius: 8px;">
+                                    <strong>${category}:</strong> ${change}
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderCommunityBoardChanges(data) {
+            const container = document.getElementById('communityBoardChanges');
+            const boards = data.community_board_changes.boards_with_biggest_changes;
+
+            let html = boards.map(board => `
+                <div style="background: var(--warm-tan); padding: 1.25rem; border-radius: 12px; border: 3px solid var(--primary);">
+                    <div style="font-weight: 700; font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem;">
+                        ${board.board}
+                    </div>
+                    <div style="font-weight: 600; color: var(--accent); margin-bottom: 0.5rem;">
+                        ${board.change_type}
+                    </div>
+                    <div style="line-height: 1.6;">
+                        ${board.details}
+                    </div>
+                </div>
+            `).join('');
+
+            if (data.community_board_changes.notes) {
+                html += `
+                    <div style="background: var(--accent-soft); padding: 1.25rem; border-radius: 12px; border: 3px solid var(--primary); margin-top: 1rem;">
+                        <strong>Notes:</strong> ${data.community_board_changes.notes}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderOverallTrendsSummary(data) {
+            const container = document.getElementById('overallTrendsSummary');
+            const overall = data.overall_2022_2025_trends;
+
+            let html = `
+                <div style="line-height: 1.8; margin-bottom: 2rem;">
+                    <p style="font-size: 1.05rem;">${overall.summary}</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div style="background: var(--success); color: white; padding: 1.5rem; border-radius: 12px;">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;">📈 Major Increases</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${overall.major_increases.map(item =>
+                                `<li style="margin-bottom: 1rem;">
+                                    <strong>${item.category}</strong><br>
+                                    ${item.change}<br>
+                                    <small>${item.significance}</small>
+                                </li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--danger); color: white; padding: 1.5rem; border-radius: 12px;">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;">📉 Major Decreases</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${overall.major_decreases.map(item =>
+                                `<li style="margin-bottom: 1rem;">
+                                    <strong>${item.category}</strong><br>
+                                    ${item.change}<br>
+                                    <small>${item.significance}</small>
+                                </li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: var(--grid); padding: 1.25rem; border-radius: 12px; border: 2px solid var(--border); font-size: 0.9rem; color: var(--text-light);">
+                    <strong>Data Quality Notes:</strong> ${data.data_quality_notes}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            renderDemographics();
+        });
+    </script>
+</body>
+</html>
