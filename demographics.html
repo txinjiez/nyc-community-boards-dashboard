@@ -619,6 +619,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- Source PDFs -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"> Source Demographic Report PDFs</div>
+                <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Original reports published by the borough president's office</div>
+            </div>
+            <div class="card-content">
+                <div id="demographicsPdfLinks">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -637,6 +650,35 @@
         let demographicsCache = {};
         let demographicsCharts = {};
         let _currentDemBorough = 'brooklyn';
+
+        const DEMOGRAPHICS_PDFS = {
+            brooklyn: {
+                '2022': { label: '2022 Report', path: 'brooklyn_demographics/brooklyn_demographics_2022.pdf' },
+                '2023': { label: '2023 Report', path: 'brooklyn_demographics/2023-Brooklyn-Demographics.pdf' },
+                '2024': { label: '2024 Report', path: 'brooklyn_demographics/2024-Brooklyn-Demographics.pdf' },
+                '2025': { label: '2025 Report', path: 'brooklyn_demographics/2025-Brooklyn-Demographics.pdf' }
+            },
+            manhattan: {
+                '2022_2023': { label: '2022–2023 Combined Report', path: 'manhattan_demographics/MBPO_CB_Demographics_Report_2022_and_2023.pdf' },
+                '2024': { label: '2024 Report', path: 'manhattan_demographics/Manhattan-CB-Demographics-Report-2024.pdf' },
+                '2025': { label: '2025 Report', path: 'manhattan_demographics/Manhattan-CB-Demographics-Report-2025-Final.pdf' }
+            }
+        };
+
+        function renderDemographicsPdfLinks(borough) {
+            const container = document.getElementById('demographicsPdfLinks');
+            const pdfs = DEMOGRAPHICS_PDFS[borough];
+            if (!pdfs) {
+                container.innerHTML = '<p style="color:var(--text-light);">No source PDFs available for this borough yet.</p>';
+                return;
+            }
+            const links = Object.values(pdfs).map(({ label, path }) => `
+                <a href="${path}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;border:2px solid var(--primary);border-radius:12px;text-decoration:none;color:var(--primary);background:white;font-weight:600;">
+                    <span></span>${label}
+                </a>
+            `).join('');
+            container.innerHTML = `<div style="display:flex;gap:0.75rem;flex-wrap:wrap;">${links}</div>`;
+        }
 
         const DEM_JSON = {
             brooklyn: 'api_outputs/demographics/brooklyn_demographics_analysis.json',
@@ -692,6 +734,7 @@
                 document.getElementById('yearToYearChanges').innerHTML = '';
                 document.getElementById('communityBoardChanges').innerHTML = '';
                 document.getElementById('overallTrendsSummary').innerHTML = '';
+                renderDemographicsPdfLinks(borough);
                 return;
             }
 
@@ -703,6 +746,7 @@
             renderYearToYearChanges(data);
             renderCommunityBoardChanges(data);
             renderOverallTrendsSummary(data);
+            renderDemographicsPdfLinks(borough);
         }
 
         function renderKeyMetrics(data, borough) {
