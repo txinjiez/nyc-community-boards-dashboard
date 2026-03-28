@@ -51,7 +51,7 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--sky-blue) 0%, #d4e5ed 100%);
+            background: var(--sky-blue);
             color: var(--primary);
             padding: 2.5rem 2rem 1.5rem;
             position: sticky;
@@ -274,121 +274,93 @@
                 <div class="card-title"> Dashboard Creation Process</div>
             </div>
             <div class="card-content">
-                <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
+                <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">This dashboard was built to surface trends in NYC Community Board transparency, demographics, and policy priorities — using public documents that are rarely analyzed together. There are three separate data pipelines, each targeting a different aspect of community board activity.
                 </p>
 
-                <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Collection Pipeline</h3>
-                <ol style="margin-bottom: 2rem; line-height: 2; padding-left: 1.5rem;">
-                    <li><strong>PDF Scraping:</strong> Automated collection of Department of City Planning (DCP) needs statements for Brooklyn Community Boards (FY2024-2026)</li>
-                    <li><strong>Text Extraction:</strong> Using <code>pdfplumber</code> to extract text from 52 Brooklyn PDF documents</li>
-                    <li><strong>Database Storage:</strong> SQLite database (<code>dns_data.db</code>) storing extracted text with metadata</li>
-                    <li><strong>Year-Over-Year Comparison:</strong> GPT-4 analysis comparing how priorities evolved across 3 fiscal years</li>
-                    <li><strong>Theme Extraction:</strong> Secondary LLM pipeline to automatically identify 4-6 major themes per community board</li>
-                </ol>
-
-                <h3 style="margin-bottom: 1rem; color: var(--accent);">LLM Analysis System Prompts</h3>
-                <p style="margin-bottom: 1rem;">The AI-powered analysis uses carefully designed prompts to ensure accurate theme extraction and comparison:</p>
-
+                <!-- === DIGITAL RECORDS === -->
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Digital Records Scorecard</h3>
                 <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--accent);">
-                    <h4 style="margin-bottom: 0.5rem;">Year-Over-Year Comparison Prompt</h4>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
-                    </p>
-                    <ul style="padding-left: 1.5rem; line-height: 1.8;">
-                        <li>Policy Changes: What priorities appeared, disappeared, or shifted</li>
-                        <li>Agency Response Evolution: How city agency tone/engagement changed</li>
-                        <li>Emphasis Shifts: Which themes grew stronger or faded</li>
-                        <li>Structural Changes: Document format and organization differences</li>
+                    <p style="margin-bottom: 1rem; line-height: 1.8;">Each of the 59 community boards across all 5 boroughs was manually audited for the presence of key digital resources on their official websites. The goal was to assess baseline transparency and online accessibility.</p>
+                    <h4 style="margin-bottom: 0.75rem;">What was checked (14 categories):</h4>
+                    <ul style="padding-left: 1.5rem; line-height: 2;">
+                        <li><strong>Meeting records:</strong> Calendar, Minutes, Agendas, Resolutions</li>
+                        <li><strong>Contact information:</strong> Staff directory or contact form</li>
+                        <li><strong>Social media:</strong> Instagram, X (Twitter), Facebook, YouTube</li>
+                        <li><strong>Community communications:</strong> Newsletters, News/Events</li>
+                        <li><strong>Governance docs:</strong> By-Laws</li>
+                        <li><strong>Civic processes:</strong> Permits &amp; Licenses (cannabis, liquor, landmarks, block parties, etc.)</li>
                     </ul>
-                    <details style="margin-top: 1rem;">
-                        <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">View Full Prompt →</summary>
-                        <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-CRITICAL INSTRUCTIONS: You MUST compare THREE different years of documents.
-DO NOT extract or summarize a single document. You are doing COMPARATIVE ANALYSIS ONLY.
-
-Brooklyn Community Board {cb_number} - YEAR-OVER-YEAR COMPARISON
-
-YOU HAVE THREE DOCUMENTS BELOW:
-- Document 1: FY2024 needs statement
-- Document 2: FY2025 needs statement
-- Document 3: FY2026 needs statement
-
-YOUR JOB: Compare how things CHANGED from 2024 → 2025 → 2026.
-
-[Full prompt includes detailed JSON output structure requirements]
-                        </pre>
-                    </details>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-light);">Each category was rated: present on site / exists but not linked / not found. Social media accounts found via search but not linked from the CB's own site are marked as partial credit.</p>
                 </div>
 
+                <!-- === NEEDS ASSESSMENT === -->
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Needs Assessment Analysis</h3>
                 <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--success);">
-                    <h4 style="margin-bottom: 0.5rem;">Theme Extraction Prompt</h4>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
-                    </p>
-                    <ul style="padding-left: 1.5rem; line-height: 1.8;">
+                    <p style="margin-bottom: 1rem; line-height: 1.8;">Community boards submit annual needs statements to the Department of City Planning as part of the capital and expense budget process. This pipeline collects, extracts, and compares those statements across three fiscal years (FY2024, FY2025, FY2026) for all 18 Brooklyn community boards.</p>
+                    <ol style="padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                        <li><strong>PDF Collection:</strong> Needs statement PDFs were scraped from the NYC DCP website</li>
+                        <li><strong>Text Extraction:</strong> <code>pdfplumber</code> extracted full text from each PDF into a SQLite database</li>
+                        <li><strong>Year-Over-Year Comparison:</strong> GPT-4o compared each board's three documents, identifying what appeared, disappeared, or shifted in emphasis</li>
+                        <li><strong>Theme Extraction:</strong> A second LLM pass identified 4–6 recurring policy themes per board and scored their depth (0–5) in each fiscal year</li>
+                    </ol>
+                    <h4 style="margin-bottom: 0.5rem;">Theme depth scoring (0–5):</h4>
+                    <ul style="padding-left: 1.5rem; line-height: 1.8; font-size: 0.95rem;">
                         <li>0 = Not mentioned</li>
-                        <li>1 = Basic mention only</li>
+                        <li>1 = Brief mention only</li>
                         <li>2 = Mentioned with examples</li>
-                        <li>3 = Policy asks or commitments requested</li>
-                        <li>4 = Data/evidence cited</li>
+                        <li>3 = Policy asks or commitments requested from city agencies</li>
+                        <li>4 = Data or evidence cited</li>
                         <li>5 = Structured recommendations or frameworks proposed</li>
                     </ul>
-                    <details style="margin-top: 1rem;">
-                        <summary style="cursor: pointer; font-weight: 600; color: var(--success);">View Full Prompt →</summary>
-                        <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-Analyze this 3-year community board needs comparison and extract the KEY THEMES.
-
-INSTRUCTIONS:
-1. Identify 4-6 major policy themes that appear across FY2024, FY2025, and FY2026
-2. For each theme, assign a "depth score" (0-5) for each fiscal year
-3. Provide a SHORT label for each theme (2-4 words max)
-
-IMPORTANT RULES:
-- Extract themes from actual narrative text, NOT generic categories
-- Score based on depth of discussion in policy_changes and emphasis_shifts
-- Look for themes that EVOLVED across years
-
-OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
-                        </pre>
-                    </details>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-light);">CB6 and CB12 are missing FY2025 needs statements from the DCP website; their 3-year analysis covers FY2024 and FY2026 only.</p>
                 </div>
 
+                <!-- === DEMOGRAPHICS === -->
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Demographics Report</h3>
+                <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--pigeon-blue);">
+                    <p style="margin-bottom: 1rem; line-height: 1.8;">The Brooklyn Borough President publishes annual demographic reports on all community board appointees (2022–2025). Each report is a PDF combining narrative text and visual charts. Because the charts cannot be read by standard text extraction tools, a hybrid pipeline was used.</p>
+                    <ol style="padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                        <li><strong>Text extraction:</strong> <code>pdfplumber</code> extracted narrative pages; 2024/2025 PDFs had doubled-character rendering artifacts that were normalized programmatically</li>
+                        <li><strong>Vision extraction:</strong> Pages with charts were converted to PNG images and passed to GPT-4o with a strict no-hallucination instruction — if a number was not clearly visible, it was marked as unavailable rather than estimated</li>
+                        <li><strong>Structured compilation:</strong> A final GPT-4o pass synthesized only the verified data points into the structured JSON powering the demographics page</li>
+                    </ol>
+                    <p style="font-size: 0.95rem; color: var(--text-light);"><strong>Data caveat:</strong> Race/ethnicity breakdowns for 2022, 2024, and 2025 exist only as bar charts in the source PDFs and could not be reliably extracted. The 2023 data (37% Black, 15% Caribbean, 12% Hispanic, 10% Asian) comes from text in that year's report. Gender and first-time appointee figures for all four years were successfully extracted from narrative text.</p>
+                </div>
+
+                <!-- === TECH STACK === -->
                 <h3 style="margin-bottom: 1rem; color: var(--accent);">Technology Stack</h3>
                 <div class="grid grid-2" style="margin-bottom: 2rem;">
                     <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
-                        <h4 style="margin-bottom: 0.75rem;">Backend</h4>
+                        <h4 style="margin-bottom: 0.75rem;">Data Pipeline</h4>
                         <ul style="padding-left: 1.5rem; line-height: 2;">
-                            <li>Python 3.10</li>
-                            <li>OpenAI GPT-4 API</li>
-                            <li>PDFPlumber for text extraction</li>
-                            <li>SQLite database</li>
-                            <li>Requests library</li>
+                            <li>Python 3 — scraping, extraction, orchestration</li>
+                            <li>pdfplumber — PDF text extraction</li>
+                            <li>pdf2image — PDF page to PNG conversion</li>
+                            <li>OpenAI GPT-4o — LLM analysis and vision</li>
+                            <li>SQLite — needs statement storage</li>
+                            <li>requests — web scraping</li>
                         </ul>
                     </div>
                     <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
                         <h4 style="margin-bottom: 0.75rem;">Frontend</h4>
                         <ul style="padding-left: 1.5rem; line-height: 2;">
-                            <li>Vanilla JavaScript</li>
-                            <li>D3.js for visualizations</li>
-                            <li>Chart.js for charts</li>
-                            <li>D3-Sankey for flow diagrams</li>
-                            <li>Custom CSS with playful design</li>
+                            <li>Vanilla HTML, CSS, JavaScript — no framework</li>
+                            <li>Chart.js — bar, line, and radar charts</li>
+                            <li>D3.js + d3-sankey — Sankey flow diagrams</li>
+                            <li>Static JSON files — all analysis pre-computed</li>
+                            <li>GitHub Pages — hosting</li>
                         </ul>
                     </div>
                 </div>
 
-                <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Scope</h3>
-                <div style="background: var(--grid); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Sources</h3>
+                <div style="background: var(--grid); padding: 1.5rem; border-radius: 10px;">
                     <ul style="padding-left: 1.5rem; line-height: 2;">
-                        <li><strong>Borough:</strong> Brooklyn (18 Community Boards)</li>
-                        <li><strong>Fiscal Years:</strong> 2024, 2025, 2026</li>
-                        <li><strong>CBs with complete 3-year data:</strong> 16 of 18 boards (CB6 and CB12 missing FY2025)</li>
-                        <li><strong>Total PDFs analyzed:</strong> 175 documents across all boroughs</li>
-                        <li><strong>Themes extracted:</strong> 4-6 per community board, dynamically identified</li>
+                        <li><a href="https://www.nyc.gov/site/planning/community/community-portal.page" target="_blank" rel="noopener" style="color: var(--accent);">NYC Department of City Planning</a> — community board needs statements (FY2024–FY2026)</li>
+                        <li><a href="https://www.brooklynbp.nyc.gov" target="_blank" rel="noopener" style="color: var(--accent);">Brooklyn Borough President</a> — annual demographic reports on CB appointees (2022–2025)</li>
+                        <li>Individual community board websites — all 59 boards across 5 boroughs (manually audited)</li>
                     </ul>
                 </div>
-
-                <h3 style="margin-bottom: 1rem; color: var(--accent);">Future Development</h3>
-                <p style="line-height: 1.8;">Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
-                </p>
             </div>
         </div>
     </main>

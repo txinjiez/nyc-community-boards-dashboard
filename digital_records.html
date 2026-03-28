@@ -54,7 +54,7 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--sky-blue) 0%, #d4e5ed 100%);
+            background: var(--sky-blue);
             color: var(--primary);
             padding: 2.5rem 2rem 1.5rem;
             position: sticky;
@@ -283,6 +283,38 @@
             opacity: 0.95;
             letter-spacing: 0.02em;
             font-weight: 500;
+        }
+
+        /* Borough map buttons */
+        .borough-map-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--card-bg);
+            border: 3px solid var(--border);
+            border-radius: 14px;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            width: 90px;
+            height: 110px;
+            transition: all 0.2s ease;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+        }
+        .borough-map-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+        .borough-map-btn.active {
+            border-color: var(--accent);
+            background: var(--warm-tan);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(1px);
         }
 
         /* Heatmap */
@@ -845,18 +877,30 @@
 
         <!-- Digital Records Scorecard -->
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">Digital Records Scorecard
-                </div>
-                <div style="margin-top: 1rem;">
-                    <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
-                    <select id="boroughSelect" onchange="updateTransparencyScorecard()" style="padding: 0.5rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
-                        <option value="brooklyn">Brooklyn</option>
-                        <option value="manhattan">Manhattan</option>
-                        <option value="queens">Queens</option>
-                        <option value="bronx">Bronx</option>
-                        <option value="staten_island">Staten Island</option>
-                    </select>
+            <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 1.25rem;">
+                <div class="card-title">Digital Records Scorecard</div>
+                <!-- Borough map buttons -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; width: 100%;">
+                    <button onclick="selectBorough('brooklyn')" id="mapBtn-brooklyn" class="borough-map-btn active" title="Brooklyn">
+                        <img src="media/Brooklyn-Community- Boards-Map.png" alt="Brooklyn" style="width: 100%; height: 100%; object-fit: contain;">
+                        <span>Brooklyn</span>
+                    </button>
+                    <button onclick="selectBorough('manhattan')" id="mapBtn-manhattan" class="borough-map-btn" title="Manhattan">
+                        <img src="media/Manhattan-Community-Boards-Map.png" alt="Manhattan" style="width: 100%; height: 100%; object-fit: contain;">
+                        <span>Manhattan</span>
+                    </button>
+                    <button onclick="selectBorough('queens')" id="mapBtn-queens" class="borough-map-btn" title="Queens">
+                        <img src="media/Queens-Community-Boards-Map.png" alt="Queens" style="width: 100%; height: 100%; object-fit: contain;">
+                        <span>Queens</span>
+                    </button>
+                    <button onclick="selectBorough('bronx')" id="mapBtn-bronx" class="borough-map-btn" title="Bronx">
+                        <img src="media/Bronx-Community-Boards-Map.png" alt="Bronx" style="width: 100%; height: 100%; object-fit: contain;">
+                        <span>Bronx</span>
+                    </button>
+                    <button onclick="selectBorough('staten_island')" id="mapBtn-staten_island" class="borough-map-btn" title="Staten Island">
+                        <img src="media/StatenIsland-Community-Boards-Map.png" alt="Staten Island" style="width: 100%; height: 100%; object-fit: contain;">
+                        <span>Staten Island</span>
+                    </button>
                 </div>
             </div>
             <div class="heatmap">
@@ -935,10 +979,18 @@
             { key: 'Permits and Licenses', label: 'Permits & Licenses' }
         ];
 
-        function updateTransparencyScorecard() {
-            const select = document.getElementById('boroughSelect');
-            const borough = select.value;
+        var _currentBorough = 'brooklyn';
+
+        function selectBorough(borough) {
+            _currentBorough = borough;
+            document.querySelectorAll('.borough-map-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('mapBtn-' + borough);
+            if (activeBtn) activeBtn.classList.add('active');
             loadTransparencyData(borough);
+        }
+
+        function updateTransparencyScorecard() {
+            loadTransparencyData(_currentBorough);
         }
 
         function renderTransparencyGrid(results, boroughDisplay) {
