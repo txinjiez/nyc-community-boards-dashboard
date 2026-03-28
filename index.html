@@ -38,8 +38,7 @@
         }
 
         html {
-            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--primary) 100%);
-            background-attachment: fixed;
+            background: var(--primary);
         }
 
         body {
@@ -48,6 +47,9 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Header */
@@ -170,6 +172,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            flex: 1;
         }
 
         .page {
@@ -819,7 +822,7 @@
                 <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
                 <a href="demographics.html" class="nav-tab" style="text-decoration:none;">Demographics Report</a>
                 <a href="needs_assessment.html" class="nav-tab" style="text-decoration:none;">Needs Assessment</a>
-                <button class="nav-tab" onclick="showPage('process')">Process & Methodology</button>
+                <a href="process.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
             </nav>
         </div>
     </header>
@@ -943,137 +946,8 @@
 
         </div>
 
-        <!-- Page 3: Process & Methodology -->
-        <div id="process" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🔬 Dashboard Creation Process</div>
-                </div>
-                <div class="card-content">
-                    <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">
-                        This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
-                    </p>
 
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Collection Pipeline</h3>
-                    <ol style="margin-bottom: 2rem; line-height: 2; padding-left: 1.5rem;">
-                        <li><strong>PDF Scraping:</strong> Automated collection of Department of City Planning (DCP) needs statements for Brooklyn Community Boards (FY2024-2026)</li>
-                        <li><strong>Text Extraction:</strong> Using <code>pdfplumber</code> to extract text from 52 Brooklyn PDF documents</li>
-                        <li><strong>Database Storage:</strong> SQLite database (<code>dns_data.db</code>) storing extracted text with metadata</li>
-                        <li><strong>Year-Over-Year Comparison:</strong> GPT-4 analysis comparing how priorities evolved across 3 fiscal years</li>
-                        <li><strong>Theme Extraction:</strong> Secondary LLM pipeline to automatically identify 4-6 major themes per community board</li>
-                    </ol>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">LLM Analysis System Prompts</h3>
-                    <p style="margin-bottom: 1rem;">The AI-powered analysis uses carefully designed prompts to ensure accurate theme extraction and comparison:</p>
-
-                    <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--accent);">
-                        <h4 style="margin-bottom: 0.5rem;">Year-Over-Year Comparison Prompt</h4>
-                        <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                            Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
-                        </p>
-                        <ul style="padding-left: 1.5rem; line-height: 1.8;">
-                            <li>Policy Changes: What priorities appeared, disappeared, or shifted</li>
-                            <li>Agency Response Evolution: How city agency tone/engagement changed</li>
-                            <li>Emphasis Shifts: Which themes grew stronger or faded</li>
-                            <li>Structural Changes: Document format and organization differences</li>
-                        </ul>
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">View Full Prompt →</summary>
-                            <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-CRITICAL INSTRUCTIONS: You MUST compare THREE different years of documents.
-DO NOT extract or summarize a single document. You are doing COMPARATIVE ANALYSIS ONLY.
-
-Brooklyn Community Board {cb_number} - YEAR-OVER-YEAR COMPARISON
-
-YOU HAVE THREE DOCUMENTS BELOW:
-- Document 1: FY2024 needs statement
-- Document 2: FY2025 needs statement
-- Document 3: FY2026 needs statement
-
-YOUR JOB: Compare how things CHANGED from 2024 → 2025 → 2026.
-
-[Full prompt includes detailed JSON output structure requirements]
-                            </pre>
-                        </details>
-                    </div>
-
-                    <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--success);">
-                        <h4 style="margin-bottom: 0.5rem;">Theme Extraction Prompt</h4>
-                        <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                            Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
-                        </p>
-                        <ul style="padding-left: 1.5rem; line-height: 1.8;">
-                            <li>0 = Not mentioned</li>
-                            <li>1 = Basic mention only</li>
-                            <li>2 = Mentioned with examples</li>
-                            <li>3 = Policy asks or commitments requested</li>
-                            <li>4 = Data/evidence cited</li>
-                            <li>5 = Structured recommendations or frameworks proposed</li>
-                        </ul>
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; font-weight: 600; color: var(--success);">View Full Prompt →</summary>
-                            <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
-Analyze this 3-year community board needs comparison and extract the KEY THEMES.
-
-INSTRUCTIONS:
-1. Identify 4-6 major policy themes that appear across FY2024, FY2025, and FY2026
-2. For each theme, assign a "depth score" (0-5) for each fiscal year
-3. Provide a SHORT label for each theme (2-4 words max)
-
-IMPORTANT RULES:
-- Extract themes from actual narrative text, NOT generic categories
-- Score based on depth of discussion in policy_changes and emphasis_shifts
-- Look for themes that EVOLVED across years
-
-OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
-                            </pre>
-                        </details>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Technology Stack</h3>
-                    <div class="grid grid-2" style="margin-bottom: 2rem;">
-                        <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
-                            <h4 style="margin-bottom: 0.75rem;">Backend</h4>
-                            <ul style="padding-left: 1.5rem; line-height: 2;">
-                                <li>Python 3.10</li>
-                                <li>OpenAI GPT-4 API</li>
-                                <li>PDFPlumber for text extraction</li>
-                                <li>SQLite database</li>
-                                <li>Requests library</li>
-                            </ul>
-                        </div>
-                        <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
-                            <h4 style="margin-bottom: 0.75rem;">Frontend</h4>
-                            <ul style="padding-left: 1.5rem; line-height: 2;">
-                                <li>Vanilla JavaScript</li>
-                                <li>D3.js for visualizations</li>
-                                <li>Chart.js for charts</li>
-                                <li>D3-Sankey for flow diagrams</li>
-                                <li>Custom CSS with playful design</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Scope</h3>
-                    <div style="background: var(--grid); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
-                        <ul style="padding-left: 1.5rem; line-height: 2;">
-                            <li><strong>Borough:</strong> Brooklyn (18 Community Boards)</li>
-                            <li><strong>Fiscal Years:</strong> 2024, 2025, 2026</li>
-                            <li><strong>CBs with complete 3-year data:</strong> CB1, CB2, CB3, CB4, CB5 (5 boards)</li>
-                            <li><strong>Total PDFs analyzed:</strong> 52 documents</li>
-                            <li><strong>Themes extracted:</strong> 4-6 per community board, dynamically identified</li>
-                        </ul>
-                    </div>
-
-                    <h3 style="margin-bottom: 1rem; color: var(--accent);">Future Development</h3>
-                    <p style="line-height: 1.8;">
-                        Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page 5: About -->
+        <!-- About -->
         <div id="about" class="page">
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">

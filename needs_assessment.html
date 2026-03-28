@@ -38,8 +38,7 @@
         }
 
         html {
-            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--primary) 100%);
-            background-attachment: fixed;
+            background: var(--primary);
         }
 
         body {
@@ -48,6 +47,9 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Header */
@@ -170,6 +172,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            flex: 1;
         }
 
         .page {
@@ -425,7 +428,7 @@
                 <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
                 <a href="demographics.html" class="nav-tab" style="text-decoration:none;">Demographics Report</a>
                 <a href="needs_assessment.html" class="nav-tab active" style="text-decoration:none;">Needs Assessment</a>
-                <a href="index.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
+                <a href="process.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
             </nav>
         </div>
     </header>
@@ -434,13 +437,13 @@
         <!-- CB Selector -->
         <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header">
-                <div class="card-title">Select Community Board for Year-Over-Year Analysis</div>
+                <div class="card-title">📄 Select a Community Board</div>
             </div>
             <div class="card-content">
-                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: end;">
                     <div>
-                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Borough:</label>
-                        <select id="boroughNASelect" onchange="updateNACBDropdown()" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                        <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Borough</label>
+                        <select id="boroughNASelect" onchange="updateNACBDropdown()" style="width: 100%; padding: 1.1rem 1.3rem; font-size: 1.15rem; border: 3px solid var(--primary); border-radius: 16px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer; box-shadow: 3px 3px 0px rgba(0,0,0,0.08);">
                             <option value="brooklyn">Brooklyn</option>
                             <option value="manhattan" disabled>Manhattan (Coming Soon)</option>
                             <option value="queens" disabled>Queens (Coming Soon)</option>
@@ -449,9 +452,9 @@
                         </select>
                     </div>
                     <div>
-                        <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Community Board:</label>
-                        <select id="yearComparisonCBSelect" onchange="loadYearComparison()" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
-                            <option value="">-- Select a Community Board --</option>
+                        <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Community Board</label>
+                        <select id="yearComparisonCBSelect" onchange="loadYearComparison()" style="width: 100%; padding: 1.1rem 1.3rem; font-size: 1.15rem; border: 3px solid var(--primary); border-radius: 16px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer; box-shadow: 3px 3px 0px rgba(0,0,0,0.08);">
+                            <option value="">— Select a Community Board —</option>
                         </select>
                     </div>
                 </div>

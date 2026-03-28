@@ -38,8 +38,7 @@
         }
 
         html {
-            background: linear-gradient(180deg, var(--sky-blue) 0%, var(--primary) 100%);
-            background-attachment: fixed;
+            background: var(--primary);
         }
 
         body {
@@ -48,6 +47,9 @@
             color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* Header */
@@ -170,6 +172,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            flex: 1;
         }
 
         .page {
@@ -425,7 +428,7 @@
                 <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
                 <a href="demographics.html" class="nav-tab active" style="text-decoration:none;">Demographics Report</a>
                 <a href="needs_assessment.html" class="nav-tab" style="text-decoration:none;">Needs Assessment</a>
-                <a href="index.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
+                <a href="process.html" class="nav-tab" style="text-decoration:none;">Process &amp; Methodology</a>
             </nav>
         </div>
     </header>

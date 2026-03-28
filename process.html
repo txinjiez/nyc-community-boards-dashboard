@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process & Methodology — NYC Community Boards</title>
+    <link rel="icon" type="image/png" href="media/cb-pigeons.png">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Fredoka:wght@300;400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2d2d2d;
+            --secondary: #5a5a5a;
+            --accent: #e07a5f;
+            --accent-soft: #f4a261;
+            --bg: #f5e6d3;
+            --text: #2d2d2d;
+            --text-light: #6b6b6b;
+            --border: #d4b59e;
+            --card-bg: #faf8f5;
+            --success: #81b29a;
+            --warning: #f4a261;
+            --danger: #e07a5f;
+            --pigeon-purple: #9d8aa3;
+            --pigeon-blue: #6b8e9d;
+            --pigeon-gray: #a8a8a8;
+            --warm-tan: #e8d5c4;
+            --grid: #efe8df;
+            --sky-blue: #a8c5d6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--primary);
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--sky-blue) 0%, #d4e5ed 100%);
+            color: var(--primary);
+            padding: 2.5rem 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 4px solid var(--accent);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--accent),
+                var(--accent) 10px,
+                var(--accent-soft) 10px,
+                var(--accent-soft) 20px
+            );
+        }
+
+        /* Pigeon decorations */
+        .pigeon-left {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite;
+        }
+
+        .pigeon-right {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) scaleX(-1);
+            opacity: 0.9;
+            animation: bobble 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes bobble {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            25% { transform: translateY(-55%) rotate(-2deg); }
+            75% { transform: translateY(-45%) rotate(2deg); }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: 'Amatic SC', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+        }
+
+        .header-subtitle {
+            font-family: 'Amatic SC', cursive;
+            font-size: 1.5rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.03em;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.6);
+            border: 3px solid var(--primary);
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-soft);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px dashed var(--border);
+        }
+
+        .card-title {
+            font-family: 'Amatic SC', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <img src="media/cb-pigeons-transparent.png" alt="CB Pigeons" style="width: 80px; height: 80px; object-fit: contain;">
+                <h1 style="margin-bottom: 0;">NYC Community Boards Dashboard</h1>
+                <img src="media/pigeons-dashboard.png" alt="Pigeon Building Dashboard" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <nav class="nav-tabs">
+                <a href="index.html" class="nav-tab" style="text-decoration:none;">About</a>
+                <a href="digital_records.html" class="nav-tab" style="text-decoration:none;">Digital Records</a>
+                <a href="demographics.html" class="nav-tab" style="text-decoration:none;">Demographics Report</a>
+                <a href="needs_assessment.html" class="nav-tab" style="text-decoration:none;">Needs Assessment</a>
+                <a href="process.html" class="nav-tab active" style="text-decoration:none;">Process &amp; Methodology</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Canva Presentation -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-title">🎨 Presentation</div>
+            </div>
+            <div style="position: relative; width: 100%; height: 0; padding-top: 56.25%; overflow: hidden; border-radius: 12px; will-change: transform;">
+                <iframe loading="lazy"
+                    style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0; margin: 0;"
+                    src="https://www.canva.com/design/DAG_KN9zc_U/JO8zIqqj3iBRT9U_Lk24Yg/view?embed"
+                    allowfullscreen allow="fullscreen">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Dashboard Creation Process -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">🔬 Dashboard Creation Process</div>
+            </div>
+            <div class="card-content">
+                <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">
+                    This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
+                </p>
+
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Collection Pipeline</h3>
+                <ol style="margin-bottom: 2rem; line-height: 2; padding-left: 1.5rem;">
+                    <li><strong>PDF Scraping:</strong> Automated collection of Department of City Planning (DCP) needs statements for Brooklyn Community Boards (FY2024-2026)</li>
+                    <li><strong>Text Extraction:</strong> Using <code>pdfplumber</code> to extract text from 52 Brooklyn PDF documents</li>
+                    <li><strong>Database Storage:</strong> SQLite database (<code>dns_data.db</code>) storing extracted text with metadata</li>
+                    <li><strong>Year-Over-Year Comparison:</strong> GPT-4 analysis comparing how priorities evolved across 3 fiscal years</li>
+                    <li><strong>Theme Extraction:</strong> Secondary LLM pipeline to automatically identify 4-6 major themes per community board</li>
+                </ol>
+
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">LLM Analysis System Prompts</h3>
+                <p style="margin-bottom: 1rem;">The AI-powered analysis uses carefully designed prompts to ensure accurate theme extraction and comparison:</p>
+
+                <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--accent);">
+                    <h4 style="margin-bottom: 0.5rem;">Year-Over-Year Comparison Prompt</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
+                        Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
+                    </p>
+                    <ul style="padding-left: 1.5rem; line-height: 1.8;">
+                        <li>Policy Changes: What priorities appeared, disappeared, or shifted</li>
+                        <li>Agency Response Evolution: How city agency tone/engagement changed</li>
+                        <li>Emphasis Shifts: Which themes grew stronger or faded</li>
+                        <li>Structural Changes: Document format and organization differences</li>
+                    </ul>
+                    <details style="margin-top: 1rem;">
+                        <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">View Full Prompt →</summary>
+                        <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
+CRITICAL INSTRUCTIONS: You MUST compare THREE different years of documents.
+DO NOT extract or summarize a single document. You are doing COMPARATIVE ANALYSIS ONLY.
+
+Brooklyn Community Board {cb_number} - YEAR-OVER-YEAR COMPARISON
+
+YOU HAVE THREE DOCUMENTS BELOW:
+- Document 1: FY2024 needs statement
+- Document 2: FY2025 needs statement
+- Document 3: FY2026 needs statement
+
+YOUR JOB: Compare how things CHANGED from 2024 → 2025 → 2026.
+
+[Full prompt includes detailed JSON output structure requirements]
+                        </pre>
+                    </details>
+                </div>
+
+                <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--success);">
+                    <h4 style="margin-bottom: 0.5rem;">Theme Extraction Prompt</h4>
+                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
+                        Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
+                    </p>
+                    <ul style="padding-left: 1.5rem; line-height: 1.8;">
+                        <li>0 = Not mentioned</li>
+                        <li>1 = Basic mention only</li>
+                        <li>2 = Mentioned with examples</li>
+                        <li>3 = Policy asks or commitments requested</li>
+                        <li>4 = Data/evidence cited</li>
+                        <li>5 = Structured recommendations or frameworks proposed</li>
+                    </ul>
+                    <details style="margin-top: 1rem;">
+                        <summary style="cursor: pointer; font-weight: 600; color: var(--success);">View Full Prompt →</summary>
+                        <pre style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;">
+Analyze this 3-year community board needs comparison and extract the KEY THEMES.
+
+INSTRUCTIONS:
+1. Identify 4-6 major policy themes that appear across FY2024, FY2025, and FY2026
+2. For each theme, assign a "depth score" (0-5) for each fiscal year
+3. Provide a SHORT label for each theme (2-4 words max)
+
+IMPORTANT RULES:
+- Extract themes from actual narrative text, NOT generic categories
+- Score based on depth of discussion in policy_changes and emphasis_shifts
+- Look for themes that EVOLVED across years
+
+OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
+                        </pre>
+                    </details>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Technology Stack</h3>
+                <div class="grid grid-2" style="margin-bottom: 2rem;">
+                    <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
+                        <h4 style="margin-bottom: 0.75rem;">Backend</h4>
+                        <ul style="padding-left: 1.5rem; line-height: 2;">
+                            <li>Python 3.10</li>
+                            <li>OpenAI GPT-4 API</li>
+                            <li>PDFPlumber for text extraction</li>
+                            <li>SQLite database</li>
+                            <li>Requests library</li>
+                        </ul>
+                    </div>
+                    <div style="background: white; padding: 1.5rem; border: 3px solid var(--primary); border-radius: 12px;">
+                        <h4 style="margin-bottom: 0.75rem;">Frontend</h4>
+                        <ul style="padding-left: 1.5rem; line-height: 2;">
+                            <li>Vanilla JavaScript</li>
+                            <li>D3.js for visualizations</li>
+                            <li>Chart.js for charts</li>
+                            <li>D3-Sankey for flow diagrams</li>
+                            <li>Custom CSS with playful design</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Scope</h3>
+                <div style="background: var(--grid); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <ul style="padding-left: 1.5rem; line-height: 2;">
+                        <li><strong>Borough:</strong> Brooklyn (18 Community Boards)</li>
+                        <li><strong>Fiscal Years:</strong> 2024, 2025, 2026</li>
+                        <li><strong>CBs with complete 3-year data:</strong> 16 of 18 boards (CB6 and CB12 missing FY2025)</li>
+                        <li><strong>Total PDFs analyzed:</strong> 175 documents across all boroughs</li>
+                        <li><strong>Themes extracted:</strong> 4-6 per community board, dynamically identified</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: var(--accent);">Future Development</h3>
+                <p style="line-height: 1.8;">
+                    Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
+        <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
+            📊 This dashboard is open source under the MIT license and available on GitHub
+        </p>
+        <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
+            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+        </a>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
+            Created by Tina Zeng | NYC Community Board Dashboard
+        </p>
+    </footer>
+</body>
+</html>
