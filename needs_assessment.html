@@ -357,6 +357,68 @@
             margin-top: 1rem;
         }
 
+        /* Borough map buttons (Needs Assessment) */
+        .na-borough-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 3px solid var(--border);
+            border-radius: 14px;
+            padding: 0.75rem 0.5rem 0.6rem;
+            width: 115px;
+            height: 135px;
+            transition: all 0.2s ease;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+            text-align: center;
+            line-height: 1.2;
+            cursor: pointer;
+            position: relative;
+        }
+        .na-borough-btn:hover:not(.disabled) {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+        .na-borough-btn.active {
+            border-color: var(--accent);
+            background: var(--warm-tan);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(1px);
+        }
+        .na-borough-btn.disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            filter: grayscale(60%);
+        }
+        .na-borough-btn.disabled::after {
+            content: 'Coming Soon';
+            position: absolute;
+            bottom: -2.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+        .na-borough-btn.disabled:hover::after {
+            opacity: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header h1 {
@@ -440,23 +502,37 @@
                 <div class="card-title"> Select a Community Board</div>
             </div>
             <div class="card-content">
-                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: end;">
-                    <div>
-                        <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Borough</label>
-                        <select id="boroughNASelect" onchange="updateNACBDropdown()" style="width: 100%; padding: 1.1rem 1.3rem; font-size: 1.15rem; border: 3px solid var(--primary); border-radius: 16px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer; box-shadow: 3px 3px 0px rgba(0,0,0,0.08);">
-                            <option value="brooklyn">Brooklyn</option>
-                            <option value="manhattan" disabled>Manhattan (Coming Soon)</option>
-                            <option value="queens" disabled>Queens (Coming Soon)</option>
-                            <option value="bronx" disabled>Bronx (Coming Soon)</option>
-                            <option value="staten_island" disabled>Staten Island (Coming Soon)</option>
-                        </select>
+                <!-- Borough map buttons -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.8rem; color: var(--primary);">Borough</label>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button onclick="selectNABorough('brooklyn')" id="naBoroughBtn-brooklyn" class="na-borough-btn active" title="Brooklyn">
+                            <img src="media/Brooklyn-Community- Boards-Map.png" alt="Brooklyn" style="width: 70px; height: 70px; object-fit: contain;">
+                            <span>Brooklyn</span>
+                        </button>
+                        <button class="na-borough-btn disabled" title="Manhattan — Coming Soon" disabled>
+                            <img src="media/Manhattan-Community-Boards-Map.png" alt="Manhattan" style="width: 70px; height: 70px; object-fit: contain;">
+                            <span>Manhattan</span>
+                        </button>
+                        <button class="na-borough-btn disabled" title="Queens — Coming Soon" disabled>
+                            <img src="media/Queens-Community-Boards-Map.png" alt="Queens" style="width: 70px; height: 70px; object-fit: contain;">
+                            <span>Queens</span>
+                        </button>
+                        <button class="na-borough-btn disabled" title="Bronx — Coming Soon" disabled>
+                            <img src="media/Bronx-Community-Boards-Map.png" alt="Bronx" style="width: 70px; height: 70px; object-fit: contain;">
+                            <span>Bronx</span>
+                        </button>
+                        <button class="na-borough-btn disabled" title="Staten Island — Coming Soon" disabled>
+                            <img src="media/StatenIsland-Community-Boards-Map.png" alt="Staten Island" style="width: 70px; height: 70px; object-fit: contain;">
+                            <span>Staten Island</span>
+                        </button>
                     </div>
-                    <div>
-                        <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Community Board</label>
-                        <select id="yearComparisonCBSelect" onchange="loadYearComparison()" style="width: 100%; padding: 1.1rem 1.3rem; font-size: 1.15rem; border: 3px solid var(--primary); border-radius: 16px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer; box-shadow: 3px 3px 0px rgba(0,0,0,0.08);">
-                            <option value="">— Select a Community Board —</option>
-                        </select>
-                    </div>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Community Board</label>
+                    <select id="yearComparisonCBSelect" onchange="loadYearComparison()" style="width: 100%; max-width: 480px; padding: 1.1rem 1.3rem; font-size: 1.15rem; border: 3px solid var(--primary); border-radius: 16px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer; box-shadow: 3px 3px 0px rgba(0,0,0,0.08);">
+                        <option value="">— Select a Community Board —</option>
+                    </select>
                 </div>
                 <p style="color: var(--text-light); font-size: 0.95rem;">Needs Assessments are retrieved from
                     <a href="https://github.com/NYCPlanning/labs-cd-needs-statements/tree/master" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">NYCPlanning/labs-cd-needs-statements
@@ -617,8 +693,18 @@
 
         const BOROUGH_CODE = { 'brooklyn': 'BK', 'manhattan': 'MN', 'queens': 'QN', 'bronx': 'BX', 'staten_island': 'SI' };
 
+        var _currentNABorough = 'brooklyn';
+
+        function selectNABorough(borough) {
+            _currentNABorough = borough;
+            document.querySelectorAll('.na-borough-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('naBoroughBtn-' + borough);
+            if (activeBtn) activeBtn.classList.add('active');
+            updateNACBDropdown();
+        }
+
         function updateNACBDropdown() {
-            const borough = document.getElementById('boroughNASelect').value;
+            const borough = _currentNABorough;
             const cbSelect = document.getElementById('yearComparisonCBSelect');
             const options = BOROUGH_CB_OPTIONS[borough] || [];
             cbSelect.innerHTML = '<option value="">-- Select a Community Board --</option>' +
@@ -642,13 +728,13 @@
             try {
                 // Load both comparison data and themes data
                 const [comparisonResponse, themes] = await Promise.all([
-                    fetch(`api_outputs/openai/needs_comparison_${BOROUGH_CODE[document.getElementById('boroughNASelect')?.value || 'brooklyn']}_CB${cbNumber}.json`),
+                    fetch(`api_outputs/openai/needs_comparison_${BOROUGH_CODE[_currentNABorough]}_CB${cbNumber}.json`),
                     loadThemesData()
                 ]);
 
                 const data = await comparisonResponse.json();
                 currentYearComparisonData = data;
-                const boroughKey = document.getElementById('boroughNASelect')?.value || 'brooklyn';
+                const boroughKey = _currentNABorough;
                 currentYearComparisonData.extractedThemes = (boroughKey === 'brooklyn' && themes) ? themes[`CB${cbNumber}`]?.themes : null;
 
                 // Render all visualizations
