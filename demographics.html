@@ -504,7 +504,7 @@
             <!-- First-Time vs Returning -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">🆕 First-Time vs Returning Appointees</div>
+                    <div class="card-title"> First-Time vs Returning Appointees</div>
                 </div>
                 <div class="card-content">
                     <canvas id="firstTimeReturningChart"></canvas>
@@ -608,20 +608,26 @@
 
         function renderKeyMetrics(data) {
             const container = document.getElementById('demographicsKeyMetrics');
-            const metrics = data.overall_2022_2025_trends.major_increases.slice(0, 4);
+            // Build key metrics from verified data points
+            const metrics = [
+                { label: 'Total Appointed (2025)', value: '488', sub: '184 first-time (37.7%)' },
+                { label: 'Gender — Female (2024)', value: '58%', sub: 'highest female rep 2022–2025' },
+                { label: 'First-Time Peak (2024)', value: '45.9%', sub: '238 of 519 appointees' },
+                { label: 'Gender — Female (2025)', value: '50.2%', sub: '47.2% Male, <1% non-binary' }
+            ];
 
             let html = '';
-            metrics.forEach(metric => {
+            metrics.forEach(m => {
                 html += `
                     <div style="background: var(--accent-soft); padding: 1.5rem; border-radius: 12px; border: 3px solid var(--primary); text-align: center;">
                         <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">
-                            ${metric.category}
+                            ${m.label}
                         </div>
                         <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
-                            ${metric.change}
+                            ${m.value}
                         </div>
                         <div style="font-size: 0.85rem; color: var(--secondary);">
-                            ${metric.significance}
+                            ${m.sub}
                         </div>
                     </div>
                 `;
@@ -681,33 +687,45 @@
             const ctx = document.getElementById('raceEthnicityChart');
             if (demographicsCharts.race) demographicsCharts.race.destroy();
 
-            const years = Object.keys(data.race_ethnicity_breakdown.year_values);
-            const categories = ['Black', 'Hispanic', 'Asian'];
-            const colors = ['#81b29a', '#f4a261', '#6b8e9d'];
-
-            const datasets = categories.map((category, index) => ({
-                label: category,
-                data: years.map(year => parseFloat(data.race_ethnicity_breakdown.year_values[year][category])),
-                backgroundColor: colors[index],
-                borderColor: colors[index],
-                borderWidth: 2
-            }));
+            // Only 2023 has full race/ethnicity percentages from text; other years are chart-only.
+            // Show 2023 all-members breakdown as a horizontal bar chart with a note.
+            const year2023 = data.race_ethnicity_breakdown.year_values['2023'];
+            const categories = ['Black', 'Caribbean', 'Hispanic', 'Asian'];
+            const colors = ['#81b29a', '#9d8aa3', '#f4a261', '#6b8e9d'];
+            const values = [
+                parseFloat(year2023['Black']) || 0,
+                parseFloat(year2023['Caribbean']) || 0,
+                parseFloat(year2023['Hispanic']) || 0,
+                parseFloat(year2023['Asian']) || 0
+            ];
 
             demographicsCharts.race = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: years,
-                    datasets: datasets
+                    labels: categories,
+                    datasets: [{
+                        label: '2023 All Members (%)',
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: colors.map(c => c),
+                        borderWidth: 2
+                    }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: '2023 Race/Ethnicity — All Members (2022/2024/2025 data is chart-only in source PDFs)',
+                            font: { size: 11 },
+                            color: '#5a5a5a'
+                        }
                     },
                     scales: {
-                        x: { stacked: false },
-                        y: {
+                        x: {
                             beginAtZero: true,
                             max: 50,
                             ticks: { callback: value => value + '%' }
@@ -721,32 +739,56 @@
             const ctx = document.getElementById('ageDistributionChart');
             if (demographicsCharts.age) demographicsCharts.age.destroy();
 
-            const years = Object.keys(data.age_distribution.year_values);
-            const ageGroups = ['18-29', '30-44', '45-64', '65+'];
-            const colors = ['#81b29a', '#f4a261', '#e07a5f', '#9d8aa3'];
-
-            const datasets = ageGroups.map((group, index) => ({
-                label: group,
-                data: years.map(year => parseFloat(data.age_distribution.year_values[year][group])),
-                backgroundColor: colors[index]
-            }));
+            // 10-year age brackets are chart-only in source PDFs.
+            // Use under-40 and 60+ data available from text across all years (all members).
+            const ageYears = ['2022', '2023', '2024', '2025'];
+            const av = data.age_distribution.year_values;
+            const under40 = [
+                parseFloat(av['2022']['Under_40']) || null,
+                parseFloat(av['2023']['all_members_under_40']) || null,
+                parseFloat(av['2024']['all_members_under_40']) || null,
+                parseFloat(av['2025']['all_members_under_40']) || null
+            ];
+            const sixtyPlus = [
+                null,
+                null,
+                parseFloat(av['2024']['all_members_60_plus']) || null,
+                parseFloat(av['2025']['all_members_60_plus']) || null
+            ];
 
             demographicsCharts.age = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: years,
-                    datasets: datasets
+                    labels: ageYears,
+                    datasets: [{
+                        label: 'Under 40 — All Members (%)',
+                        data: under40,
+                        backgroundColor: '#81b29a',
+                        borderColor: '#81b29a',
+                        borderWidth: 2
+                    }, {
+                        label: '60+ — All Members (%)',
+                        data: sixtyPlus,
+                        backgroundColor: '#9d8aa3',
+                        borderColor: '#9d8aa3',
+                        borderWidth: 2
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: { position: 'top' },
+                        title: {
+                            display: true,
+                            text: 'Age Distribution — Selected Breakpoints (10-yr brackets are chart-only in source PDFs)',
+                            font: { size: 11 },
+                            color: '#5a5a5a'
+                        }
                     },
                     scales: {
-                        x: { stacked: true },
+                        x: { stacked: false },
                         y: {
-                            stacked: true,
                             beginAtZero: true,
                             max: 100,
                             ticks: { callback: value => value + '%' }
@@ -878,28 +920,34 @@
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
                     <div style="background: var(--success); color: white; padding: 1.5rem; border-radius: 12px;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;"> Major Increases</h4>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;">Major Increases</h4>
                         <ul style="list-style: none; padding: 0;">
-                            ${overall.major_increases.map(item =>
-                                `<li style="margin-bottom: 1rem;">
+                            ${overall.major_increases.map(item => {
+                                if (typeof item === 'string') {
+                                    return `<li style="margin-bottom: 0.75rem;">${item}</li>`;
+                                }
+                                return `<li style="margin-bottom: 1rem;">
                                     <strong>${item.category}</strong><br>
                                     ${item.change}<br>
                                     <small>${item.significance}</small>
-                                </li>`
-                            ).join('')}
+                                </li>`;
+                            }).join('')}
                         </ul>
                     </div>
 
                     <div style="background: var(--danger); color: white; padding: 1.5rem; border-radius: 12px;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;"> Major Decreases</h4>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 1rem;">Major Decreases</h4>
                         <ul style="list-style: none; padding: 0;">
-                            ${overall.major_decreases.map(item =>
-                                `<li style="margin-bottom: 1rem;">
+                            ${overall.major_decreases.map(item => {
+                                if (typeof item === 'string') {
+                                    return `<li style="margin-bottom: 0.75rem;">${item}</li>`;
+                                }
+                                return `<li style="margin-bottom: 1rem;">
                                     <strong>${item.category}</strong><br>
                                     ${item.change}<br>
                                     <small>${item.significance}</small>
-                                </li>`
-                            ).join('')}
+                                </li>`;
+                            }).join('')}
                         </ul>
                     </div>
                 </div>
