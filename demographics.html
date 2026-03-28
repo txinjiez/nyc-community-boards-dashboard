@@ -812,113 +812,97 @@
             const ctx = document.getElementById('raceEthnicityChart');
             if (demographicsCharts.race) demographicsCharts.race.destroy();
 
-            // Only 2023 has full race/ethnicity percentages from text; other years are chart-only.
-            // Show 2023 all-members breakdown as a horizontal bar chart with a note.
-            const year2023 = data.race_ethnicity_breakdown.year_values['2023'];
-            const categories = ['Black', 'Caribbean', 'Hispanic', 'Asian'];
-            const colors = ['#81b29a', '#9d8aa3', '#f4a261', '#6b8e9d'];
-            const values = [
-                parseFloat(year2023['Black']) || 0,
-                parseFloat(year2023['Caribbean']) || 0,
-                parseFloat(year2023['Hispanic']) || 0,
-                parseFloat(year2023['Asian']) || 0
-            ];
+            const yearValues = data.race_ethnicity_breakdown?.year_values || {};
 
-            demographicsCharts.race = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: categories,
-                    datasets: [{
-                        label: '2023 All Members (%)',
-                        data: values,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c),
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: { display: false },
-                        title: {
-                            display: true,
-                            text: '2023 Race/Ethnicity — All Members (2022/2024/2025 data is chart-only in source PDFs)',
-                            font: { size: 11 },
-                            color: '#5a5a5a'
-                        }
+            // Try Brooklyn-style 2023 data first (Black/Hispanic/Asian/Caribbean)
+            const y2023 = yearValues['2023'] || {};
+            const bkCategories = ['Black', 'Caribbean', 'Hispanic', 'Asian'];
+            const bkValues = bkCategories.map(k => parseFloat(y2023[k])).filter(v => !isNaN(v));
+
+            if (bkValues.length > 0) {
+                const colors = ['#81b29a', '#9d8aa3', '#f4a261', '#6b8e9d'];
+                demographicsCharts.race = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: bkCategories,
+                        datasets: [{ label: '2023 All Members (%)', data: bkValues, backgroundColor: colors, borderWidth: 2 }]
                     },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: 50,
-                            ticks: { callback: value => value + '%' }
-                        }
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+                        plugins: { legend: { display: false }, title: { display: true, text: '2023 Race/Ethnicity — All Members (other years chart-only in source PDFs)', font: { size: 11 }, color: '#5a5a5a' } },
+                        scales: { x: { beginAtZero: true, max: 50, ticks: { callback: v => v + '%' } } }
                     }
-                }
-            });
+                });
+                return;
+            }
+
+            // Try Manhattan-style 2025 data (Latino_Hispanic, non_white)
+            const y2025 = yearValues['2025'] || {};
+            const mnCategories = [], mnValues = [], mnColors = [];
+            if (!isNaN(parseFloat(y2025['Latino_Hispanic']))) { mnCategories.push('Latino/Hispanic'); mnValues.push(parseFloat(y2025['Latino_Hispanic'])); mnColors.push('#f4a261'); }
+            if (!isNaN(parseFloat(y2025['non_white'])))       { mnCategories.push('Non-White'); mnValues.push(parseFloat(y2025['non_white'])); mnColors.push('#81b29a'); }
+
+            if (mnValues.length > 0) {
+                demographicsCharts.race = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: mnCategories,
+                        datasets: [{ label: '2025 New Appointees (%)', data: mnValues, backgroundColor: mnColors, borderWidth: 2 }]
+                    },
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+                        plugins: { legend: { display: false }, title: { display: true, text: '2025 Race/Ethnicity — New Appointees (only year with text-extractable data)', font: { size: 11 }, color: '#5a5a5a' } },
+                        scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+                    }
+                });
+                return;
+            }
+
+            // No numeric data available
+            const parent = ctx.parentElement;
+            parent.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:2rem;">Race/ethnicity data is chart-only in source PDFs — not available as text</p>';
         }
 
         function renderAgeDistributionChart(data) {
             const ctx = document.getElementById('ageDistributionChart');
             if (demographicsCharts.age) demographicsCharts.age.destroy();
 
-            // 10-year age brackets are chart-only in source PDFs.
-            // Use under-40 and 60+ data available from text across all years (all members).
+            const av = data.age_distribution?.year_values || {};
             const ageYears = ['2022', '2023', '2024', '2025'];
-            const av = data.age_distribution.year_values;
-            const under40 = [
-                parseFloat(av['2022']['Under_40']) || null,
-                parseFloat(av['2023']['all_members_under_40']) || null,
-                parseFloat(av['2024']['all_members_under_40']) || null,
-                parseFloat(av['2025']['all_members_under_40']) || null
-            ];
-            const sixtyPlus = [
-                null,
-                null,
-                parseFloat(av['2024']['all_members_60_plus']) || null,
-                parseFloat(av['2025']['all_members_60_plus']) || null
-            ];
+
+            // Try to extract any numeric age breakpoints
+            const under40 = ageYears.map(yr => {
+                const v = av[yr] || {};
+                return parseFloat(v['Under_40'] ?? v['all_members_under_40']) || null;
+            });
+            const sixtyPlus = ageYears.map(yr => {
+                const v = av[yr] || {};
+                return parseFloat(v['all_members_60_plus']) || null;
+            });
+
+            const hasAnyUnder40 = under40.some(v => v !== null);
+            const hasAnySixtyPlus = sixtyPlus.some(v => v !== null);
+
+            if (!hasAnyUnder40 && !hasAnySixtyPlus) {
+                const parent = ctx.parentElement;
+                parent.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:2rem;">Age distribution data is chart-only in source PDFs — not available as text</p>';
+                return;
+            }
+
+            const datasets = [];
+            if (hasAnyUnder40) datasets.push({ label: 'Under 40 — All Members (%)', data: under40, backgroundColor: '#81b29a', borderColor: '#81b29a', borderWidth: 2 });
+            if (hasAnySixtyPlus) datasets.push({ label: '60+ — All Members (%)', data: sixtyPlus, backgroundColor: '#9d8aa3', borderColor: '#9d8aa3', borderWidth: 2 });
 
             demographicsCharts.age = new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: ageYears,
-                    datasets: [{
-                        label: 'Under 40 — All Members (%)',
-                        data: under40,
-                        backgroundColor: '#81b29a',
-                        borderColor: '#81b29a',
-                        borderWidth: 2
-                    }, {
-                        label: '60+ — All Members (%)',
-                        data: sixtyPlus,
-                        backgroundColor: '#9d8aa3',
-                        borderColor: '#9d8aa3',
-                        borderWidth: 2
-                    }]
-                },
+                data: { labels: ageYears, datasets },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
+                    responsive: true, maintainAspectRatio: true,
                     plugins: {
                         legend: { position: 'top' },
-                        title: {
-                            display: true,
-                            text: 'Age Distribution — Selected Breakpoints (10-yr brackets are chart-only in source PDFs)',
-                            font: { size: 11 },
-                            color: '#5a5a5a'
-                        }
+                        title: { display: true, text: 'Age Distribution — Selected Breakpoints (10-yr brackets chart-only in source PDFs)', font: { size: 11 }, color: '#5a5a5a' }
                     },
-                    scales: {
-                        x: { stacked: false },
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: { callback: value => value + '%' }
-                        }
-                    }
+                    scales: { x: { stacked: false }, y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
                 }
             });
         }
@@ -927,9 +911,31 @@
             const ctx = document.getElementById('firstTimeReturningChart');
             if (demographicsCharts.firstTime) demographicsCharts.firstTime.destroy();
 
-            const years = Object.keys(data.first_time_vs_returning.year_values);
-            const firstTimeData = years.map(year => parseFloat(data.first_time_vs_returning.year_values[year]['First-Time']));
-            const returningData = years.map(year => parseFloat(data.first_time_vs_returning.year_values[year]['Returning']));
+            const ftVals = data.first_time_vs_returning?.year_values || {};
+            const years = Object.keys(ftVals);
+            const firstTimeData = years.map(yr => parseFloat(ftVals[yr]['First-Time']));
+            const returningData = years.map(yr => parseFloat(ftVals[yr]['Returning']));
+
+            if (firstTimeData.every(v => isNaN(v))) {
+                // Check if applications data is available instead
+                const appVals = data.applications?.year_values;
+                if (appVals) {
+                    const appYears = Object.keys(appVals);
+                    const appData = appYears.map(yr => appVals[yr].total_applications);
+                    demographicsCharts.firstTime = new Chart(ctx, {
+                        type: 'bar',
+                        data: { labels: appYears, datasets: [{ label: 'Total Applications', data: appData, backgroundColor: '#81b29a', borderColor: '#81b29a', borderWidth: 2 }] },
+                        options: {
+                            responsive: true, maintainAspectRatio: true,
+                            plugins: { legend: { position: 'top' }, title: { display: true, text: 'Applications Received by Year (first-time/returning split not available in source PDFs)', font: { size: 11 }, color: '#5a5a5a' } },
+                            scales: { y: { beginAtZero: true, ticks: { callback: v => v } } }
+                        }
+                    });
+                } else {
+                    ctx.parentElement.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:2rem;">First-time vs returning data not available in source PDFs</p>';
+                }
+                return;
+            }
 
             demographicsCharts.firstTime = new Chart(ctx, {
                 type: 'bar',

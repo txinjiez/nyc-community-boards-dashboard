@@ -1,0 +1,156 @@
+{
+  "borough": "Manhattan",
+  "num_community_boards": 12,
+  "categories_detected": [
+    "gender",
+    "race_ethnicity",
+    "age",
+    "housing",
+    "additional_demographics"
+  ],
+  "gender_balance": {
+    "year_values": {
+      "2022": {
+        "Female": "50%",
+        "Male": "50%",
+        "Other/Non-conforming": "0%",
+        "note": "Data available for all members."
+      },
+      "2023": {
+        "Female": "48%",
+        "Male": "50%",
+        "Other/Non-conforming": "2%",
+        "note": "Data available for all members."
+      },
+      "2024": {
+        "Female": "48%",
+        "Male": "50%",
+        "Other/Non-conforming": "2%",
+        "note": "Data available for all members."
+      },
+      "2025": {
+        "Female": "48%",
+        "Male": "50%",
+        "Other/Non-conforming": "2%",
+        "note": "Data available for all members."
+      }
+    },
+    "trend_summary": "Gender balance remained relatively stable with slight variations in non-conforming representation."
+  },
+  "race_ethnicity_breakdown": {
+    "year_values": {
+      "2022": {
+        "note": "Detailed breakdown by community board available."
+      },
+      "2023": {
+        "note": "Detailed breakdown by community board available."
+      },
+      "2024": {
+        "note": "Detailed breakdown by community board available."
+      },
+      "2025": {
+        "Latino_Hispanic": "23%",
+        "non_white": "70%",
+        "note": "Significant representation of non-white members."
+      }
+    },
+    "trend_summary": "Increasing diversity with a notable rise in Latino/Hispanic and non-white representation."
+  },
+  "age_distribution": {
+    "year_values": {
+      "2022": {
+        "note": "Age distribution available for all members."
+      },
+      "2023": {
+        "note": "Age distribution available for all members."
+      },
+      "2024": {
+        "note": "Age distribution available for all members."
+      },
+      "2025": {
+        "note": "Age distribution available for all members."
+      }
+    },
+    "trend_summary": "Age distribution data consistently available, showing a mix of age groups."
+  },
+  "first_time_vs_returning": {
+    "year_values": {
+      "2022": {
+        "First-Time": null,
+        "Returning": null,
+        "first_time_count": null,
+        "returning_count": null,
+        "total_appointed": null
+      },
+      "2023": {
+        "First-Time": null,
+        "Returning": null,
+        "first_time_count": null,
+        "returning_count": null,
+        "total_appointed": null
+      },
+      "2024": {
+        "First-Time": null,
+        "Returning": null,
+        "first_time_count": null,
+        "returning_count": null,
+        "total_appointed": null
+      },
+      "2025": {
+        "First-Time": null,
+        "Returning": null,
+        "first_time_count": null,
+        "returning_count": null,
+        "total_appointed": null
+      }
+    },
+    "trend_summary": "No specific data on first-time vs returning members."
+  },
+  "applications": {
+    "year_values": {
+      "2022": {
+        "total_applications": 889
+      },
+      "2023": {
+        "total_applications": 955
+      },
+      "2024": {
+        "total_applications": 838
+      },
+      "2025": {
+        "total_applications": 951
+      }
+    }
+  },
+  "year_to_year_trends": {
+    "2022_2023": {
+      "summary": "Increase in applications.",
+      "changes": {
+        "total_applications": "+66"
+      }
+    },
+    "2023_2024": {
+      "summary": "Decrease in applications.",
+      "changes": {
+        "total_applications": "-117"
+      }
+    },
+    "2024_2025": {
+      "summary": "Increase in applications.",
+      "changes": {
+        "total_applications": "+113"
+      }
+    }
+  },
+  "overall_2022_2025_trends": {
+    "summary": "Over the four years, there was a general increase in applications with fluctuations in diversity and representation.",
+    "major_increases": [
+      "Applications in 2025",
+      "Non-white representation"
+    ],
+    "major_decreases": [
+      "Applications in 2024"
+    ]
+  },
+  "data_quality_notes": "Some demographic categories lack specific data for first-time vs returning members."
+}
