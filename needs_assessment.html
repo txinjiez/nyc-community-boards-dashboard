@@ -502,8 +502,8 @@
                 <div class="card-title"> Select a Community Board</div>
             </div>
             <div class="card-content">
-                <!-- Borough map buttons -->
-                <div style="margin-bottom: 1.5rem;">
+                <!-- Borough map buttons (shown before a CB is selected) -->
+                <div id="naBoroughButtonsSection" style="margin-bottom: 1.5rem;">
                     <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.8rem; color: var(--primary);">Borough</label>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <button onclick="selectNABorough('brooklyn')" id="naBoroughBtn-brooklyn" class="na-borough-btn active" title="Brooklyn">
@@ -527,6 +527,17 @@
                             <span>Staten Island</span>
                         </button>
                     </div>
+                </div>
+                <!-- Compact borough dropdown (shown after a CB is selected) -->
+                <div id="naBoroughDropdownSection" style="display: none; margin-bottom: 1rem;">
+                    <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Borough</label>
+                    <select id="boroughNACompact" onchange="selectNABorough(this.value); switchBoroughToButtons();" style="padding: 0.6rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
+                        <option value="brooklyn">Brooklyn</option>
+                        <option value="manhattan" disabled>Manhattan (Coming Soon)</option>
+                        <option value="queens" disabled>Queens (Coming Soon)</option>
+                        <option value="bronx" disabled>Bronx (Coming Soon)</option>
+                        <option value="staten_island" disabled>Staten Island (Coming Soon)</option>
+                    </select>
                 </div>
                 <div style="margin-bottom: 1.5rem;">
                     <label style="font-family: 'Amatic SC', cursive; font-size: 1.6rem; font-weight: 700; display: block; margin-bottom: 0.6rem; color: var(--primary);">Community Board</label>
@@ -700,7 +711,20 @@
             document.querySelectorAll('.na-borough-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById('naBoroughBtn-' + borough);
             if (activeBtn) activeBtn.classList.add('active');
+            const compact = document.getElementById('boroughNACompact');
+            if (compact) compact.value = borough;
             updateNACBDropdown();
+        }
+
+        function switchBoroughToDropdown() {
+            document.getElementById('naBoroughButtonsSection').style.display = 'none';
+            document.getElementById('naBoroughDropdownSection').style.display = 'block';
+        }
+
+        function switchBoroughToButtons() {
+            document.getElementById('naBoroughButtonsSection').style.display = 'block';
+            document.getElementById('naBoroughDropdownSection').style.display = 'none';
+            document.getElementById('yearComparisonContainer').innerHTML = '';
         }
 
         function updateNACBDropdown() {
@@ -738,6 +762,7 @@
                 currentYearComparisonData.extractedThemes = (boroughKey === 'brooklyn' && themes) ? themes[`CB${cbNumber}`]?.themes : null;
 
                 // Render all visualizations
+                switchBoroughToDropdown();
                 renderYearComparisonPage(data, cbNumber, cbLabel);
             } catch (error) {
                 container.innerHTML = `
