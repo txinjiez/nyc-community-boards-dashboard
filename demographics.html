@@ -357,6 +357,68 @@
             margin-top: 1rem;
         }
 
+        /* Borough map buttons (Demographics) */
+        .dem-borough-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 3px solid var(--border);
+            border-radius: 14px;
+            padding: 0.75rem 0.5rem 0.6rem;
+            cursor: pointer;
+            width: 115px;
+            height: 135px;
+            transition: all 0.2s ease;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+            text-align: center;
+            line-height: 1.2;
+            position: relative;
+        }
+        .dem-borough-btn:hover:not(.disabled) {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+        }
+        .dem-borough-btn.active {
+            border-color: var(--accent);
+            background: var(--warm-tan);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(1px);
+        }
+        .dem-borough-btn.disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            filter: grayscale(60%);
+        }
+        .dem-borough-btn.disabled::after {
+            content: 'Coming Soon';
+            position: absolute;
+            bottom: -2.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+        .dem-borough-btn.disabled:hover::after {
+            opacity: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header h1 {
@@ -440,19 +502,29 @@
                 <div class="card-title"> Community Board Demographics Analysis (2022-2025)</div>
             </div>
             <div class="card-content">
-                <div style="margin-bottom: 1rem;">
-                    <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
-                    <select id="demographicsBoroughSelect" onchange="updateDemographicsReport()" style="padding: 0.5rem 1rem; font-size: 1rem; border: 3px solid var(--primary); border-radius: 12px; font-family: 'Fredoka', sans-serif; background: white; cursor: pointer;">
-                        <option value="brooklyn">Brooklyn (Current Data)</option>
-                        <option value="manhattan">Manhattan (Coming Soon)</option>
-                        <option value="queens">Queens (Coming Soon)</option>
-                        <option value="bronx">Bronx (Coming Soon)</option>
-                        <option value="staten-island">Staten Island (Coming Soon)</option>
-                    </select>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+                    <button onclick="selectDemographicsBorough('brooklyn')" id="demBtn-brooklyn" class="dem-borough-btn active" title="Brooklyn">
+                        <img src="media/Brooklyn-Community- Boards-Map.png" alt="Brooklyn" style="width: 70px; height: 70px; object-fit: contain;">
+                        <span>Brooklyn</span>
+                    </button>
+                    <button onclick="selectDemographicsBorough('manhattan')" id="demBtn-manhattan" class="dem-borough-btn" title="Manhattan">
+                        <img src="media/Manhattan-Community-Boards-Map.png" alt="Manhattan" style="width: 70px; height: 70px; object-fit: contain;">
+                        <span>Manhattan</span>
+                    </button>
+                    <button class="dem-borough-btn disabled" title="Queens — Coming Soon" disabled>
+                        <img src="media/Queens-Community-Boards-Map.png" alt="Queens" style="width: 70px; height: 70px; object-fit: contain;">
+                        <span>Queens</span>
+                    </button>
+                    <button class="dem-borough-btn disabled" title="Bronx — Coming Soon" disabled>
+                        <img src="media/Bronx-Community-Boards-Map.png" alt="Bronx" style="width: 70px; height: 70px; object-fit: contain;">
+                        <span>Bronx</span>
+                    </button>
+                    <button class="dem-borough-btn disabled" title="Staten Island — Coming Soon" disabled>
+                        <img src="media/StatenIsland-Community-Boards-Map.png" alt="Staten Island" style="width: 70px; height: 70px; object-fit: contain;">
+                        <span>Staten Island</span>
+                    </button>
                 </div>
-                <p style="color: var(--text-light); font-size: 0.95rem;">Analysis of demographic trends across Brooklyn Community Board appointees from 2022 to 2025.
-                    Data sourced from Brooklyn Borough President's annual demographic reports.
-                </p>
+                <p id="demBoroughSubtitle" style="color: var(--text-light); font-size: 0.95rem;">Analysis of demographic trends across Brooklyn Community Board appointees from 2022 to 2025. Data sourced from Brooklyn Borough President's annual demographic reports.</p>
             </div>
         </div>
 
@@ -562,41 +634,68 @@
     </footer>
 
     <script>
-        let demographicsData = null;
+        let demographicsCache = {};
         let demographicsCharts = {};
+        let _currentDemBorough = 'brooklyn';
 
-        async function loadDemographicsData() {
-            if (demographicsData) return demographicsData;
+        const DEM_JSON = {
+            brooklyn: 'api_outputs/demographics/brooklyn_demographics_analysis.json',
+            manhattan: 'api_outputs/demographics/manhattan_demographics_analysis.json',
+        };
+        const DEM_SUBTITLES = {
+            brooklyn: 'Analysis of demographic trends across Brooklyn Community Board appointees from 2022 to 2025. Data sourced from Brooklyn Borough President\'s annual demographic reports.',
+            manhattan: 'Analysis of demographic trends across Manhattan Community Board appointees from 2022 to 2025. Data sourced from Manhattan Borough President\'s annual demographic reports.',
+        };
 
+        async function loadDemographicsData(borough) {
+            borough = borough || _currentDemBorough;
+            if (demographicsCache[borough]) return demographicsCache[borough];
             try {
-                const response = await fetch('api_outputs/demographics/brooklyn_demographics_analysis.json');
-                demographicsData = await response.json();
-                return demographicsData;
+                const response = await fetch(DEM_JSON[borough]);
+                if (!response.ok) throw new Error('not found');
+                demographicsCache[borough] = await response.json();
+                return demographicsCache[borough];
             } catch (error) {
-                console.error('Failed to load demographics data:', error);
+                console.error('Failed to load demographics data for', borough, error);
                 return null;
             }
         }
 
-        function updateDemographicsReport() {
-            const select = document.getElementById('demographicsBoroughSelect');
-            const borough = select.value;
-
-            if (borough !== 'brooklyn') {
-                const boroughName = select.options[select.selectedIndex].text;
-                alert('Data for ' + boroughName + ' is coming soon! Currently only Brooklyn demographic data (2022-2025) is available.');
-                select.value = 'brooklyn'; // Reset to Brooklyn
-            }
+        function selectDemographicsBorough(borough) {
+            _currentDemBorough = borough;
+            document.querySelectorAll('.dem-borough-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('demBtn-' + borough);
+            if (btn) btn.classList.add('active');
+            const sub = document.getElementById('demBoroughSubtitle');
+            if (sub) sub.textContent = DEM_SUBTITLES[borough] || '';
+            renderDemographics(borough);
         }
 
-        async function renderDemographics() {
-            const data = await loadDemographicsData();
+        async function renderDemographics(borough) {
+            borough = borough || _currentDemBorough;
+            // Destroy old charts before re-rendering
+            Object.values(demographicsCharts).forEach(c => { try { c.destroy(); } catch(e) {} });
+            demographicsCharts = {};
+
+            const data = await loadDemographicsData(borough);
             if (!data) {
-                document.getElementById('demographicsKeyMetrics').innerHTML = '<p style="color: var(--danger);">Failed to load demographics data.</p>';
+                const boroughLabel = borough.charAt(0).toUpperCase() + borough.slice(1);
+                document.getElementById('demographicsKeyMetrics').innerHTML = `
+                    <div style="grid-column: 1/-1; background: var(--warm-tan); padding: 2rem; border-radius: 12px; border: 3px solid var(--primary); text-align: center;">
+                        <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">Analysis in progress</div>
+                        <p style="color: var(--text-light);">${boroughLabel} demographic data extraction is underway. Run <code>extract_demographics_${borough}.py</code> to generate the analysis.</p>
+                    </div>`;
+                ['genderBalanceChart','raceEthnicityChart','ageDistributionChart','firstTimeReturningChart'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { const p = el.parentElement; p.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:2rem;">Data pending extraction</p>'; }
+                });
+                document.getElementById('yearToYearChanges').innerHTML = '';
+                document.getElementById('communityBoardChanges').innerHTML = '';
+                document.getElementById('overallTrendsSummary').innerHTML = '';
                 return;
             }
 
-            renderKeyMetrics(data);
+            renderKeyMetrics(data, borough);
             renderGenderBalanceChart(data);
             renderRaceEthnicityChart(data);
             renderAgeDistributionChart(data);
@@ -606,15 +705,41 @@
             renderOverallTrendsSummary(data);
         }
 
-        function renderKeyMetrics(data) {
+        function renderKeyMetrics(data, borough) {
             const container = document.getElementById('demographicsKeyMetrics');
-            // Build key metrics from verified data points
-            const metrics = [
-                { label: 'Total Appointed (2025)', value: '488', sub: '184 first-time (37.7%)' },
-                { label: 'Gender — Female (2024)', value: '58%', sub: 'highest female rep 2022–2025' },
-                { label: 'First-Time Peak (2024)', value: '45.9%', sub: '238 of 519 appointees' },
-                { label: 'Gender — Female (2025)', value: '50.2%', sub: '47.2% Male, <1% non-binary' }
-            ];
+            // Build key metrics from the JSON data
+            let metrics = [];
+
+            // Gender 2025
+            const g25 = data.gender_balance?.year_values?.['2025'];
+            if (g25?.Female) metrics.push({ label: 'Gender — Female (2025)', value: g25.Female, sub: g25.Male ? g25.Male + ' Male' : '' });
+
+            // Gender peak year
+            const gvals = data.gender_balance?.year_values || {};
+            let peakYear = null, peakVal = 0;
+            Object.entries(gvals).forEach(([yr, v]) => {
+                const f = parseFloat(v?.Female);
+                if (f > peakVal) { peakVal = f; peakYear = yr; }
+            });
+            if (peakYear && peakYear !== '2025') metrics.push({ label: `Gender — Female (${peakYear})`, value: peakVal + '%', sub: 'highest female rep in range' });
+
+            // First-time 2025
+            const ft25 = data.first_time_vs_returning?.year_values?.['2025'];
+            if (ft25) metrics.push({ label: 'First-Time Appointees (2025)', value: ft25['First-Time'] || '—', sub: ft25.first_time_count ? ft25.first_time_count + ' of ' + ft25.total_appointed : '' });
+
+            // First-time peak
+            const ftvals = data.first_time_vs_returning?.year_values || {};
+            let ftPeakYr = null, ftPeakVal = 0;
+            Object.entries(ftvals).forEach(([yr, v]) => {
+                const f = parseFloat(v?.['First-Time']);
+                if (f > ftPeakVal) { ftPeakVal = f; ftPeakYr = yr; }
+            });
+            if (ftPeakYr && ftPeakYr !== '2025') metrics.push({ label: `First-Time Peak (${ftPeakYr})`, value: ftPeakVal + '%', sub: ftvals[ftPeakYr]?.first_time_count ? ftvals[ftPeakYr].first_time_count + ' of ' + ftvals[ftPeakYr].total_appointed : '' });
+
+            if (metrics.length === 0) {
+                // fallback
+                metrics = [{ label: 'Data loaded', value: (data.borough || borough || 'Borough'), sub: data.data_quality_notes?.slice(0,60) || '' }];
+            }
 
             let html = '';
             metrics.forEach(m => {
