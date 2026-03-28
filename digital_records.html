@@ -38,7 +38,7 @@
         }
 
         html {
-            background: var(--primary);
+            background: #a8c5d6;
         }
 
         body {
@@ -846,8 +846,7 @@
         <!-- Digital Records Scorecard -->
         <div class="card">
             <div class="card-header">
-                <div class="card-title">
-                    Digital Records Scorecard
+                <div class="card-title">Digital Records Scorecard
                 </div>
                 <div style="margin-top: 1rem;">
                     <label style="font-weight: 600; margin-right: 0.5rem;">Borough:</label>
@@ -876,8 +875,7 @@
                     <div class="heatmap-cell heatmap-header">Newsletters</div>
                     <div class="heatmap-cell heatmap-header">By-Laws</div>
                     <div class="heatmap-cell heatmap-header">News/Events</div>
-                    <div class="heatmap-cell heatmap-header">
-                        Permits &amp; Licenses
+                    <div class="heatmap-cell heatmap-header">Permits &amp; Licenses
                         <span class="tooltip-icon">?
                             <span class="tooltip-text">For Cannabis, Liquor, Special Permit, Landmark, Street Co Naming, Block Parties</span>
                         </span>
@@ -887,7 +885,7 @@
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color" style="background: var(--success);"></div>
-                    <span>✓ Present on site</span>
+                    <span> Present on site</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color" style="background: var(--warning);"></div>
@@ -898,7 +896,7 @@
                     <span>— Not found</span>
                 </div>
                 <div class="legend-item" style="margin-left: 1.5rem; opacity: 0.8;">
-                    <span style="font-size: 0.85rem; color: var(--text-light);">★ on green/orange = confirmed active in past year</span>
+                    <span style="font-size: 0.85rem; color: var(--text-light);"> on green/orange = confirmed active in past year</span>
                 </div>
             </div>
         </div>
@@ -907,14 +905,12 @@
     <!-- Footer -->
     <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
         <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
-        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
-            📊 This dashboard is open source under the MIT license and available on GitHub
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">This dashboard is open source under the MIT license and available on GitHub
         </p>
         <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
-            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+             github.com/txinjiez/nyc-community-boards-dashboard
         </a>
-        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
-            Created by Tina Zeng | NYC Community Board Dashboard
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">Created by Tina Zeng | NYC Community Board Dashboard
         </p>
     </footer>
 
@@ -969,7 +965,7 @@
                             <a href="${row.url}" target="_blank" rel="noopener" title="Click to open ${cbLabel} website" style="color: inherit; text-decoration: underline;">
                                 ${cbLabel}
                             </a>
-                            ${row.status !== 'ok' ? ' ⚠️' : ''}
+                            ${row.status !== 'ok' ? ' ' : ''}
                         </div>
                     `;
 
@@ -985,10 +981,10 @@
                             if (!social || !social.url) {
                                 return `<div class="heatmap-cell score-none" title="No ${col.label} found for ${cbLabel}">—</div>`;
                             }
-                            const activeMarker = social.active === true ? ' ★' : '';
+                            const activeMarker = social.active === true ? ' ' : '';
                             if (social.on_site) {
                                 const tip = `Click to open ${cbLabel} ${col.label}${social.active === true ? ' (active in past year)' : ''}`;
-                                return `<div class="heatmap-cell score-high" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓${activeMarker}</a></div>`;
+                                return `<div class="heatmap-cell score-high" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">${activeMarker}</a></div>`;
                             } else {
                                 const tip = `Click to open ${cbLabel} ${col.label} — exists but not linked on their website${social.active === true ? ' (active in past year)' : ''}`;
                                 return `<div class="heatmap-cell score-medium" title="${tip}"><a href="${social.url}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">~${activeMarker}</a></div>`;
@@ -1004,9 +1000,9 @@
                         }
                         if (pageUrl) {
                             const tip = `Click to view ${col.label} for ${cbLabel}`;
-                            return `<div class="heatmap-cell score-high" title="${tip}"><a href="${pageUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">✓</a></div>`;
+                            return `<div class="heatmap-cell score-high" title="${tip}"><a href="${pageUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;"></a></div>`;
                         }
-                        return `<div class="heatmap-cell score-high" title="${col.label}">✓</div>`;
+                        return `<div class="heatmap-cell score-high" title="${col.label}"></div>`;
                     });
 
                     return rowLabel + cells.join('');
@@ -1046,6 +1042,21 @@
         window.addEventListener('DOMContentLoaded', function() {
             loadTransparencyData('brooklyn');
         });
+    </script>
+
+    <script>
+        (function() {
+            var html = document.documentElement;
+            function syncBounceColor() {
+                var scrollTop = window.scrollY || window.pageYOffset;
+                var maxScroll = html.scrollHeight - window.innerHeight;
+                html.style.background = (maxScroll > 10 && scrollTop > maxScroll - 30)
+                    ? '#2d2d2d'
+                    : '#a8c5d6';
+            }
+            window.addEventListener('scroll', syncBounceColor, { passive: true });
+            syncBounceColor();
+        })();
     </script>
 </body>
 </html>

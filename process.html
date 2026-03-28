@@ -35,7 +35,7 @@
         }
 
         html {
-            background: var(--primary);
+            background: #a8c5d6;
         }
 
         body {
@@ -257,7 +257,7 @@
         <!-- Canva Presentation -->
         <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header">
-                <div class="card-title">🎨 Presentation</div>
+                <div class="card-title"> Presentation</div>
             </div>
             <div style="position: relative; width: 100%; height: 0; padding-top: 56.25%; overflow: hidden; border-radius: 12px; will-change: transform;">
                 <iframe loading="lazy"
@@ -271,11 +271,10 @@
         <!-- Dashboard Creation Process -->
         <div class="card">
             <div class="card-header">
-                <div class="card-title">🔬 Dashboard Creation Process</div>
+                <div class="card-title"> Dashboard Creation Process</div>
             </div>
             <div class="card-content">
-                <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">
-                    This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
+                <p style="margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8;">This dashboard was created to analyze and visualize NYC Community Board needs statements across multiple fiscal years. The process combines web scraping, PDF text extraction, and AI-powered analysis to identify policy trends and priorities.
                 </p>
 
                 <h3 style="margin-bottom: 1rem; color: var(--accent);">Data Collection Pipeline</h3>
@@ -292,8 +291,7 @@
 
                 <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--accent);">
                     <h4 style="margin-bottom: 0.5rem;">Year-Over-Year Comparison Prompt</h4>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                        Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
+                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">Instructs GPT-4 to compare THREE fiscal years of needs statements, focusing on:
                     </p>
                     <ul style="padding-left: 1.5rem; line-height: 1.8;">
                         <li>Policy Changes: What priorities appeared, disappeared, or shifted</li>
@@ -323,8 +321,7 @@ YOUR JOB: Compare how things CHANGED from 2024 → 2025 → 2026.
 
                 <div style="background: var(--warm-tan); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid var(--success);">
                     <h4 style="margin-bottom: 0.5rem;">Theme Extraction Prompt</h4>
-                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">
-                        Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
+                    <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem;">Analyzes comparison data to automatically extract and score themes (0-5 depth scale):
                     </p>
                     <ul style="padding-left: 1.5rem; line-height: 1.8;">
                         <li>0 = Not mentioned</li>
@@ -390,8 +387,7 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
                 </div>
 
                 <h3 style="margin-bottom: 1rem; color: var(--accent);">Future Development</h3>
-                <p style="line-height: 1.8;">
-                    Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
+                <p style="line-height: 1.8;">Planned expansions include extending coverage to all NYC boroughs, adding real-time PDF monitoring, implementing topic modeling for cross-board comparison, and building public API access for researchers and journalists.
                 </p>
             </div>
         </div>
@@ -400,15 +396,28 @@ OUTPUT: Valid JSON with themes array including name, scores, and evolution_note
     <!-- Footer -->
     <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
         <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
-        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
-            📊 This dashboard is open source under the MIT license and available on GitHub
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">This dashboard is open source under the MIT license and available on GitHub
         </p>
         <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
-            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+             github.com/txinjiez/nyc-community-boards-dashboard
         </a>
-        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
-            Created by Tina Zeng | NYC Community Board Dashboard
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">Created by Tina Zeng | NYC Community Board Dashboard
         </p>
     </footer>
+
+    <script>
+        (function() {
+            var html = document.documentElement;
+            function syncBounceColor() {
+                var scrollTop = window.scrollY || window.pageYOffset;
+                var maxScroll = html.scrollHeight - window.innerHeight;
+                html.style.background = (maxScroll > 10 && scrollTop > maxScroll - 30)
+                    ? '#2d2d2d'
+                    : '#a8c5d6';
+            }
+            window.addEventListener('scroll', syncBounceColor, { passive: true });
+            syncBounceColor();
+        })();
+    </script>
 </body>
 </html>

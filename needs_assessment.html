@@ -38,7 +38,7 @@
         }
 
         html {
-            background: var(--primary);
+            background: #a8c5d6;
         }
 
         body {
@@ -437,7 +437,7 @@
         <!-- CB Selector -->
         <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header">
-                <div class="card-title">📄 Select a Community Board</div>
+                <div class="card-title"> Select a Community Board</div>
             </div>
             <div class="card-content">
                 <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: end;">
@@ -458,10 +458,8 @@
                         </select>
                     </div>
                 </div>
-                <p style="color: var(--text-light); font-size: 0.95rem;">
-                    Needs Assessments are retrieved from
-                    <a href="https://github.com/NYCPlanning/labs-cd-needs-statements/tree/master" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">
-                        NYCPlanning/labs-cd-needs-statements
+                <p style="color: var(--text-light); font-size: 0.95rem;">Needs Assessments are retrieved from
+                    <a href="https://github.com/NYCPlanning/labs-cd-needs-statements/tree/master" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 600;">NYCPlanning/labs-cd-needs-statements
                     </a>.
                 </p>
             </div>
@@ -474,14 +472,12 @@
     <!-- Footer -->
     <footer style="background: var(--primary); color: white; padding: 2rem; text-align: center; margin-top: 3rem; border-top: 5px solid var(--accent); position: relative; overflow: hidden;">
         <img src="media/pigeon-logo.PNG" alt="Pigeon Logo" style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); width: clamp(100px, 25%, 190px); aspect-ratio: 1 / 1; height: auto; opacity: 0.92; pointer-events: none; object-fit: contain; border-radius: 12px;">
-        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
-            📊 This dashboard is open source under the MIT license and available on GitHub
+        <p style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">This dashboard is open source under the MIT license and available on GitHub
         </p>
         <a href="https://github.com/txinjiez/nyc-community-boards-dashboard" target="_blank" rel="noopener noreferrer" style="color: var(--accent-soft); text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s;">
-            🔗 github.com/txinjiez/nyc-community-boards-dashboard
+             github.com/txinjiez/nyc-community-boards-dashboard
         </a>
-        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">
-            Created by Tina Zeng | NYC Community Board Dashboard
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">Created by Tina Zeng | NYC Community Board Dashboard
         </p>
     </footer>
 
@@ -679,7 +675,7 @@
                 <div class="card" style="background: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent) 100%); color: white; margin-bottom: 2rem; border-color: var(--accent);">
                     <div class="card-content">
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <span style="font-size: 2.5rem;">📊</span>
+                            <span style="font-size: 2.5rem;"></span>
                             <h2 style="margin: 0; font-family: 'Amatic SC', cursive; font-size: 2.5rem;">The Big Story</h2>
                         </div>
                         <p style="font-size: 1.15rem; line-height: 1.8; margin: 0;">
@@ -691,7 +687,7 @@
                 <!-- Visualization 1: Timeline Evolution Card -->
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <div class="card-title">📅 Timeline Evolution: FY2024 → FY2026</div>
+                        <div class="card-title"> Timeline Evolution: FY2024 → FY2026</div>
                     </div>
                     <div class="card-content">
                         <div id="timelineEvolution"></div>
@@ -701,7 +697,7 @@
                 <!-- Visualization 2: Theme Matrix -->
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <div class="card-title">🎯 Theme Persistence &amp; Evolution Matrix</div>
+                        <div class="card-title"> Theme Persistence &amp; Evolution Matrix</div>
                     </div>
                     <div class="card-content">
                         <div id="themeMatrix"></div>
@@ -711,9 +707,8 @@
                 <!-- Visualization 3: Theme Evolution Pipeline -->
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <div class="card-title">🔁 How Each Theme Evolved</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
-                            Depth scores (0–5) per fiscal year for each extracted theme
+                        <div class="card-title"> How Each Theme Evolved</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Depth scores (0–5) per fiscal year for each extracted theme
                         </div>
                     </div>
                     <div class="card-content">
@@ -724,9 +719,8 @@
                 <!-- Visualization 4: Agency Response Pipeline -->
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <div class="card-title">🏛️ Agency Response: Year by Year</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
-                            How the board's tone and demands toward city agencies shifted across fiscal years
+                        <div class="card-title"> Agency Response: Year by Year</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">How the board's tone and demands toward city agencies shifted across fiscal years
                         </div>
                     </div>
                     <div class="card-content">
@@ -737,7 +731,7 @@
                 <!-- Notable Quotes -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">💭 Notable Quotes Across Years</div>
+                        <div class="card-title"> Notable Quotes Across Years</div>
                     </div>
                     <div class="card-content">
                         <div id="notableQuotes"></div>
@@ -760,7 +754,7 @@
                 return `
                     <div class="card" style="margin-bottom: 2rem;">
                         <div class="card-header">
-                            <div class="card-title">📄 Original Needs Assessment PDFs</div>
+                            <div class="card-title"> Original Needs Assessment PDFs</div>
                         </div>
                         <div class="card-content">
                             <p style="margin: 0;">We don't have PDF links yet for ${cbLabel || 'this community board'}.</p>
@@ -771,16 +765,15 @@
 
             const links = Object.entries(pdfs).map(([year, path]) => `
                 <a href="${path}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; border: 2px solid var(--primary); border-radius: 12px; text-decoration: none; color: var(--primary); background: white; font-weight: 600;">
-                    <span>📎</span>${year} PDF
+                    <span></span>${year} PDF
                 </a>
             `).join('');
 
             return `
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <div class="card-title">📄 Original Needs Assessment PDFs</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
-                            View the source documents referenced in this analysis for ${cbLabel}.
+                        <div class="card-title"> Original Needs Assessment PDFs</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">View the source documents referenced in this analysis for ${cbLabel}.
                         </div>
                     </div>
                     <div class="card-content">
@@ -867,7 +860,7 @@
                     <tr style="background: ${bgColor};">
                         <td style="padding: 1rem; font-weight: 600; border: 2px solid var(--border);">
                             ${theme.name}
-                            ${evolutionNote ? '<span style="font-size: 0.8rem; color: var(--text-light); display: block; font-weight: 400; margin-top: 0.25rem;">💡 ' + evolutionNote + '</span>' : ''}
+                            ${evolutionNote ? '<span style="font-size: 0.8rem; color: var(--text-light); display: block; font-weight: 400; margin-top: 0.25rem;"> ' + evolutionNote + '</span>' : ''}
                         </td>
                         <td style="padding: 1rem; text-align: center; border: 2px solid var(--border);">
                             ${generateDepthDots(theme.fy2024)}
@@ -891,7 +884,7 @@
                 </div>
                 <div style="margin-top: 1.5rem; padding: 1rem; background: var(--warm-tan); border-radius: 10px;">
                     <div style="margin-bottom: 1rem;">
-                        <strong>💡 AI-Extracted Themes:</strong> These themes were automatically identified and scored by GPT-4 based on the depth and evolution of discussion in the needs statements.
+                        <strong> AI-Extracted Themes:</strong> These themes were automatically identified and scored by GPT-4 based on the depth and evolution of discussion in the needs statements.
                     </div>
                     <strong>Legend:</strong>
                     <div style="display: flex; gap: 2rem; margin-top: 0.5rem; flex-wrap: wrap;">
@@ -905,7 +898,7 @@
                         <span>↗ = Growing emphasis</span>
                         <span style="margin-left: 1rem;">→ = Sustained</span>
                         <span style="margin-left: 1rem;">↘ = Declining</span>
-                        <span style="margin-left: 1rem;">★ = New theme</span>
+                        <span style="margin-left: 1rem;"> = New theme</span>
                     </div>
                 </div>
             `;
@@ -980,7 +973,7 @@
         }
 
         function getTrendArrow(val1, val2, val3) {
-            if (val1 === 0 && val2 === 0 && val3 > 0) return '★';
+            if (val1 === 0 && val2 === 0 && val3 > 0) return '';
             if (val1 === 0) val1 = val2; // Handle new themes
 
             const trend = val3 - val1;
@@ -1018,7 +1011,7 @@
             };
 
             const trendIcon = (t) => {
-                if (t.fy2024 === 0 && t.fy2026 > 0) return '★ New';
+                if (t.fy2024 === 0 && t.fy2026 > 0) return ' New';
                 const delta = t.fy2026 - (t.fy2024 || t.fy2025 || 0);
                 if (delta > 1) return '<span style="color:var(--success);">↗ Growing</span>';
                 if (delta < -1) return '<span style="color:var(--danger);">↘ Declining</span>';
@@ -1047,7 +1040,7 @@
                         </div>
                         ${theme.evolution_note ? `
                         <div style="padding:0.75rem 1.25rem; background:var(--warm-tan); border-top:1px solid var(--border); font-size:0.9rem; color:var(--text-light);">
-                            💡 ${theme.evolution_note}
+                             ${theme.evolution_note}
                         </div>` : ''}
                     </div>
                 `;
@@ -1201,9 +1194,9 @@
             const seg26 = text.substring(idx26 > 0 ? idx26 : 2*text.length/3);
 
             const stages = [
-                { year: 'FY2024', color: '#6b8e9d', icon: '🤝', tone: 'Collaborative / Partnership', seg: seg24 },
-                { year: 'FY2025', color: '#f4a261', icon: '📋', tone: 'Operational / Pressing',       seg: seg25 },
-                { year: 'FY2026', color: '#e07a5f', icon: '📢', tone: 'Demanding / Accountability',   seg: seg26 },
+                { year: 'FY2024', color: '#6b8e9d', icon: '', tone: 'Collaborative / Partnership', seg: seg24 },
+                { year: 'FY2025', color: '#f4a261', icon: '', tone: 'Operational / Pressing',       seg: seg25 },
+                { year: 'FY2026', color: '#e07a5f', icon: '', tone: 'Demanding / Accountability',   seg: seg26 },
             ];
 
             let html = `
@@ -1467,6 +1460,21 @@
             container.innerHTML = html;
         }
         document.addEventListener('DOMContentLoaded', () => { updateNACBDropdown(); });
+    </script>
+
+    <script>
+        (function() {
+            var html = document.documentElement;
+            function syncBounceColor() {
+                var scrollTop = window.scrollY || window.pageYOffset;
+                var maxScroll = html.scrollHeight - window.innerHeight;
+                html.style.background = (maxScroll > 10 && scrollTop > maxScroll - 30)
+                    ? '#2d2d2d'
+                    : '#a8c5d6';
+            }
+            window.addEventListener('scroll', syncBounceColor, { passive: true });
+            syncBounceColor();
+        })();
     </script>
 </body>
 </html>
