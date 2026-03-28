@@ -815,18 +815,6 @@
                     </div>
                 </div>
 
-                <!-- Visualization 3: Theme Evolution Pipeline -->
-                <div class="card" style="margin-bottom: 2rem;">
-                    <div class="card-header">
-                        <div class="card-title"> How Each Theme Evolved</div>
-                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Depth scores (0–5) per fiscal year for each extracted theme
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <div id="themeEvolutionPipeline"></div>
-                    </div>
-                </div>
-
                 <!-- Visualization 4: Agency Response Pipeline -->
                 <div class="card" style="margin-bottom: 2rem;">
                     <div class="card-header">
@@ -853,7 +841,6 @@
             // Render each visualization
             renderTimelineEvolution(data);
             renderThemeMatrix(data);
-            renderThemeEvolutionPipeline(data);
             renderAgencyResponsePipeline(data);
             renderNotableQuotes(data);
         }
@@ -901,28 +888,55 @@
             const container = document.getElementById('timelineEvolution');
 
             const years = ['FY2024', 'FY2025', 'FY2026'];
-            const summaries = data.summary_table;
+            const summaries = data.summary_table || {};
+            const quotes = data.notable_quotes || [];
 
-            let html = '<div style="display: flex; gap: 1.5rem; align-items: center; justify-content: space-between;">';
+            // Build a lookup: year → quotes array
+            const quotesByYear = {};
+            quotes.forEach(q => {
+                const yr = q.year; // e.g. "FY2024"
+                if (!quotesByYear[yr]) quotesByYear[yr] = [];
+                quotesByYear[yr].push(q);
+            });
+
+            let html = '<div style="display: flex; gap: 1.5rem; align-items: flex-start; justify-content: space-between;">';
 
             years.forEach((year, index) => {
                 const isLast = index === years.length - 1;
+                const yearQuotes = quotesByYear[year] || [];
+                const summary = summaries[year] || '';
+
+                // Detect if this year shows a change vs previous
+                // (heuristic: presence of words like "new", "adds", "shift", "introduces", "elevating")
+                const changeWords = ['new', 'adds', 'shift', 'introduces', 'elevat', 'expand', 'explicit', 'emerges', 'first time'];
+                const hasChange = changeWords.some(w => summary.toLowerCase().includes(w));
+
+                const quotesHtml = yearQuotes.map(q => `
+                    <blockquote style="margin: 0.75rem 0 0; padding: 0.75rem 1rem; background: var(--grid); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 0.88rem; line-height: 1.6;">
+                        <span style="font-style: italic; color: var(--text);">"${q.quote}"</span>
+                        ${q.significance ? `<div style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--text-light); font-style: normal;">${q.significance}</div>` : ''}
+                    </blockquote>
+                `).join('');
 
                 html += `
-                    <div style="flex: 1; background: white; border: 3px solid var(--primary); border-radius: 15px; padding: 1.5rem; min-height: 180px; display: flex; flex-direction: column;">
+                    <div style="flex: 1; background: white; border: 3px solid var(--primary); border-radius: 15px; padding: 1.5rem; display: flex; flex-direction: column;">
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
                             <h3 style="margin: 0; color: var(--accent); font-size: 1.5rem;">${year}</h3>
-                            ${year === 'FY2026' ? '<span style="background: var(--success); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">LATEST</span>' : ''}
+                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end;">
+                                ${year === 'FY2026' ? '<span style="background: var(--success); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">LATEST</span>' : ''}
+                                ${hasChange && year !== 'FY2024' ? '<span style="background: var(--accent); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">CHANGE</span>' : ''}
+                            </div>
                         </div>
-                        <p style="margin: 0; line-height: 1.6; flex-grow: 1; color: var(--text);">
-                            ${summaries[year]}
+                        <p style="margin: 0 0 ${yearQuotes.length ? '0' : '0'}; line-height: 1.6; color: var(--text);">
+                            ${summary}
                         </p>
+                        ${quotesHtml}
                     </div>
                 `;
 
                 if (!isLast) {
                     html += `
-                        <div style="flex-shrink: 0;">
+                        <div style="flex-shrink: 0; padding-top: 3rem;">
                             <svg width="40" height="40" viewBox="0 0 40 40">
                                 <path d="M 5 20 L 30 20" stroke="var(--accent)" stroke-width="3" fill="none"/>
                                 <polygon points="28,15 35,20 28,25" fill="var(--accent)"/>
